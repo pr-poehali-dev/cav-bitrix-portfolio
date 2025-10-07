@@ -15,6 +15,13 @@ const Index = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const smoothScrollTo = (id: string) => {
+    const element = document.querySelector(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   const services = [
     {
       icon: 'Users',
@@ -65,13 +72,16 @@ const Index = () => {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#about" className="text-sm font-medium hover:text-primary transition-colors">О нас</a>
-            <a href="#services" className="text-sm font-medium hover:text-primary transition-colors">Услуги</a>
-            <a href="#portfolio" className="text-sm font-medium hover:text-primary transition-colors">Портфолио</a>
-            <a href="#contact" className="text-sm font-medium hover:text-primary transition-colors">Контакты</a>
+            <button onClick={() => smoothScrollTo('#about')} className="text-sm font-medium hover:text-primary transition-colors">О нас</button>
+            <button onClick={() => smoothScrollTo('#services')} className="text-sm font-medium hover:text-primary transition-colors">Услуги</button>
+            <button onClick={() => smoothScrollTo('#portfolio')} className="text-sm font-medium hover:text-primary transition-colors">Портфолио</button>
+            <button onClick={() => smoothScrollTo('#contact')} className="text-sm font-medium hover:text-primary transition-colors">Контакты</button>
           </div>
           <div className="flex items-center gap-4">
-            <Button className="hidden md:inline-flex bg-primary hover:bg-primary/90 text-white">
+            <Button 
+              className="hidden md:inline-flex bg-primary hover:bg-primary/90 text-white"
+              onClick={() => smoothScrollTo('#contact')}
+            >
               Связаться
             </Button>
             <Button
@@ -89,38 +99,49 @@ const Index = () => {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-lg md:hidden animate-fade-in">
           <div className="flex flex-col items-center justify-center h-full space-y-8">
-            <a
-              href="#about"
+            <button
               className="text-2xl font-semibold hover:text-primary transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                smoothScrollTo('#about');
+                setMobileMenuOpen(false);
+              }}
             >
               О нас
-            </a>
-            <a
-              href="#services"
+            </button>
+            <button
               className="text-2xl font-semibold hover:text-primary transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                smoothScrollTo('#services');
+                setMobileMenuOpen(false);
+              }}
             >
               Услуги
-            </a>
-            <a
-              href="#portfolio"
+            </button>
+            <button
               className="text-2xl font-semibold hover:text-primary transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                smoothScrollTo('#portfolio');
+                setMobileMenuOpen(false);
+              }}
             >
               Портфолио
-            </a>
-            <a
-              href="#contact"
+            </button>
+            <button
               className="text-2xl font-semibold hover:text-primary transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                smoothScrollTo('#contact');
+                setMobileMenuOpen(false);
+              }}
             >
               Контакты
-            </a>
+            </button>
             <Button
               size="lg"
               className="bg-primary hover:bg-primary/90 text-white mt-8"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                smoothScrollTo('#contact');
+                setMobileMenuOpen(false);
+              }}
             >
               Связаться
             </Button>
@@ -128,7 +149,7 @@ const Index = () => {
         </div>
       )}
 
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden">
+      <section id="about" className="pt-32 pb-20 px-6 relative overflow-hidden">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-fade-in">
@@ -149,7 +170,7 @@ const Index = () => {
                   <Icon name="Rocket" className="mr-2" size={20} />
                   Начать проект
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" onClick={() => smoothScrollTo('#portfolio')}>
                   Портфолио
                 </Button>
               </div>
