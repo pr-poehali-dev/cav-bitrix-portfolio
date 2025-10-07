@@ -7,6 +7,7 @@ import Icon from '@/components/ui/icon';
 
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -69,11 +70,63 @@ const Index = () => {
             <a href="#portfolio" className="text-sm font-medium hover:text-primary transition-colors">Портфолио</a>
             <a href="#contact" className="text-sm font-medium hover:text-primary transition-colors">Контакты</a>
           </div>
-          <Button className="bg-primary hover:bg-primary/90 text-white">
-            Связаться
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button className="hidden md:inline-flex bg-primary hover:bg-primary/90 text-white">
+              Связаться
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <Icon name={mobileMenuOpen ? "X" : "Menu"} size={24} />
+            </Button>
+          </div>
         </div>
       </nav>
+
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-lg md:hidden animate-fade-in">
+          <div className="flex flex-col items-center justify-center h-full space-y-8">
+            <a
+              href="#about"
+              className="text-2xl font-semibold hover:text-primary transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              О нас
+            </a>
+            <a
+              href="#services"
+              className="text-2xl font-semibold hover:text-primary transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Услуги
+            </a>
+            <a
+              href="#portfolio"
+              className="text-2xl font-semibold hover:text-primary transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Портфолио
+            </a>
+            <a
+              href="#contact"
+              className="text-2xl font-semibold hover:text-primary transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Контакты
+            </a>
+            <Button
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-white mt-8"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Связаться
+            </Button>
+          </div>
+        </div>
+      )}
 
       <section className="pt-32 pb-20 px-6 relative overflow-hidden">
         <div className="container mx-auto">
