@@ -149,46 +149,69 @@ const Index = () => {
         </div>
       )}
 
-      <section id="about" className="pt-32 pb-20 px-6 relative overflow-hidden">
-        <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 animate-fade-in">
-              <div className="inline-block px-4 py-2 bg-primary/10 rounded-full">
-                <span className="text-primary font-semibold text-sm">WEB STUDIO</span>
-              </div>
-              <h1 className="text-6xl md:text-7xl font-bold leading-tight">
-                Разработка на{' '}
-                <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient">
-                  1С-Битрикс
-                </span>
+      <section id="about" className="pt-32 pb-20 px-6 relative overflow-hidden min-h-screen flex items-center">
+        <div className="absolute top-0 right-0 w-1/2 h-full opacity-20">
+          <svg viewBox="0 0 500 500" className="w-full h-full">
+            <path
+              d="M 250 50 Q 350 100 300 200 T 250 350 Q 200 400 250 450"
+              stroke="url(#gradient)"
+              strokeWidth="80"
+              fill="none"
+              opacity="0.3"
+            />
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#a78bfa" />
+                <stop offset="100%" stopColor="#c4b5fd" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <div className="container mx-auto relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8 animate-fade-in">
+              <h1 className="text-7xl md:text-8xl lg:text-9xl font-black leading-none tracking-tight">
+                Pixel
               </h1>
-              <p className="text-xl text-muted-foreground max-w-lg">
-                Создаем современные веб-решения с передовыми инструментами и управлением от компании ЦАВ
-              </p>
-              <div className="flex gap-4">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
-                  <Icon name="Rocket" className="mr-2" size={20} />
-                  Начать проект
-                </Button>
-                <Button size="lg" variant="outline" onClick={() => smoothScrollTo('#portfolio')}>
-                  Портфолио
-                </Button>
+              <div className="space-y-2">
+                <p className="text-xl md:text-2xl font-medium">разработка сайтов</p>
+                <p className="text-xl md:text-2xl font-light text-muted-foreground">digital</p>
               </div>
             </div>
-            <div className="relative h-[500px]" style={{ transform: `translateY(${scrollY * 0.1}px)` }}>
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/20 to-primary/20 rounded-3xl blur-3xl animate-float"></div>
-              <div className="relative h-full flex items-center justify-center">
-                <div className="grid grid-cols-8 gap-2 animate-scale-in">
-                  {Array.from({ length: 64 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-sm hover:scale-110 transition-transform cursor-pointer"
-                      style={{
-                        animationDelay: `${i * 0.02}s`,
-                        opacity: Math.random() * 0.5 + 0.5
-                      }}
-                    ></div>
-                  ))}
+
+            <div className="relative h-[600px] perspective-1000" style={{ transform: `translateY(${scrollY * 0.05}px)` }}>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="relative w-full h-full" style={{ transform: 'rotateX(15deg) rotateY(-15deg)' }}>
+                  <div className="grid grid-cols-10 gap-1 absolute inset-0 animate-scale-in">
+                    {Array.from({ length: 200 }).map((_, i) => {
+                      const isBlue = Math.random() > 0.7;
+                      const height = Math.random() * 100 + 50;
+                      const depth = Math.random() * 30;
+                      return (
+                        <div
+                          key={i}
+                          className={`relative transition-all duration-500 hover:scale-110 cursor-pointer`}
+                          style={{
+                            height: `${height}px`,
+                            transform: `translateZ(${depth}px)`,
+                            animationDelay: `${i * 0.01}s`
+                          }}
+                        >
+                          <div
+                            className={`w-full h-full ${
+                              isBlue
+                                ? 'bg-gradient-to-br from-primary to-primary/80'
+                                : 'bg-gradient-to-br from-gray-200 to-gray-300'
+                            } rounded-sm shadow-lg`}
+                            style={{
+                              opacity: isBlue ? 0.9 : 0.4
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
