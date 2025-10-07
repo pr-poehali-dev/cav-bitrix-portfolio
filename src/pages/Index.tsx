@@ -180,31 +180,31 @@ const Index = () => {
               </div>
             </div>
 
-            <div className="relative h-[500px] flex items-center justify-center" style={{ transform: `translateY(${scrollY * 0.05}px)` }}>
-              <div className="relative w-[450px] h-[450px]" style={{ transform: 'rotateX(15deg) rotateY(-15deg)', transformStyle: 'preserve-3d' }}>
-                <div className="grid grid-cols-12 gap-1 animate-scale-in">
-                  {Array.from({ length: 144 }).map((_, i) => {
-                    const isBlue = Math.random() > 0.75;
-                    const height = Math.random() * 60 + 30;
-                    const depth = Math.random() * 20;
+            <div className="relative h-[400px] flex items-center justify-end lg:justify-center overflow-hidden" style={{ transform: `translateY(${scrollY * 0.05}px)` }}>
+              <div className="relative w-[350px] h-[350px]" style={{ transform: 'rotateX(10deg) rotateY(-10deg)', transformStyle: 'preserve-3d' }}>
+                <div className="grid grid-cols-10 gap-[2px] animate-scale-in">
+                  {Array.from({ length: 100 }).map((_, i) => {
+                    const isBlue = Math.random() > 0.8;
+                    const height = Math.random() * 40 + 20;
+                    const depth = Math.random() * 15;
                     return (
                       <div
                         key={i}
-                        className="relative transition-all duration-500 hover:scale-110 cursor-pointer"
+                        className="relative transition-all duration-300 hover:scale-105"
                         style={{
                           height: `${height}px`,
                           transform: `translateZ(${depth}px)`,
-                          animationDelay: `${i * 0.01}s`
+                          animationDelay: `${i * 0.008}s`
                         }}
                       >
                         <div
                           className={`w-full h-full ${
                             isBlue
-                              ? 'bg-gradient-to-br from-primary to-primary/80'
-                              : 'bg-gradient-to-br from-gray-200/60 to-gray-300/60'
-                          } rounded-sm shadow-md`}
+                              ? 'bg-gradient-to-br from-primary to-primary/90'
+                              : 'bg-gradient-to-br from-gray-200/50 to-gray-300/50'
+                          } rounded-[1px] shadow-sm`}
                           style={{
-                            opacity: isBlue ? 0.95 : 0.35
+                            opacity: isBlue ? 1 : 0.3
                           }}
                         />
                       </div>
