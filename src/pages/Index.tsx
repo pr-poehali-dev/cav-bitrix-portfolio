@@ -180,38 +180,36 @@ const Index = () => {
               </div>
             </div>
 
-            <div className="relative h-[600px] perspective-1000" style={{ transform: `translateY(${scrollY * 0.05}px)` }}>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-full h-full" style={{ transform: 'rotateX(15deg) rotateY(-15deg)' }}>
-                  <div className="grid grid-cols-10 gap-1 absolute inset-0 animate-scale-in">
-                    {Array.from({ length: 200 }).map((_, i) => {
-                      const isBlue = Math.random() > 0.7;
-                      const height = Math.random() * 100 + 50;
-                      const depth = Math.random() * 30;
-                      return (
+            <div className="relative h-[500px] flex items-center justify-center" style={{ transform: `translateY(${scrollY * 0.05}px)` }}>
+              <div className="relative w-[450px] h-[450px]" style={{ transform: 'rotateX(15deg) rotateY(-15deg)', transformStyle: 'preserve-3d' }}>
+                <div className="grid grid-cols-12 gap-1 animate-scale-in">
+                  {Array.from({ length: 144 }).map((_, i) => {
+                    const isBlue = Math.random() > 0.75;
+                    const height = Math.random() * 60 + 30;
+                    const depth = Math.random() * 20;
+                    return (
+                      <div
+                        key={i}
+                        className="relative transition-all duration-500 hover:scale-110 cursor-pointer"
+                        style={{
+                          height: `${height}px`,
+                          transform: `translateZ(${depth}px)`,
+                          animationDelay: `${i * 0.01}s`
+                        }}
+                      >
                         <div
-                          key={i}
-                          className={`relative transition-all duration-500 hover:scale-110 cursor-pointer`}
+                          className={`w-full h-full ${
+                            isBlue
+                              ? 'bg-gradient-to-br from-primary to-primary/80'
+                              : 'bg-gradient-to-br from-gray-200/60 to-gray-300/60'
+                          } rounded-sm shadow-md`}
                           style={{
-                            height: `${height}px`,
-                            transform: `translateZ(${depth}px)`,
-                            animationDelay: `${i * 0.01}s`
+                            opacity: isBlue ? 0.95 : 0.35
                           }}
-                        >
-                          <div
-                            className={`w-full h-full ${
-                              isBlue
-                                ? 'bg-gradient-to-br from-primary to-primary/80'
-                                : 'bg-gradient-to-br from-gray-200 to-gray-300'
-                            } rounded-sm shadow-lg`}
-                            style={{
-                              opacity: isBlue ? 0.9 : 0.4
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
