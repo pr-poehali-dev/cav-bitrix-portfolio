@@ -150,24 +150,6 @@ const Index = () => {
       )}
 
       <section id="about" className="pt-32 pb-20 px-6 relative overflow-hidden min-h-screen flex items-center">
-        <div className="absolute top-0 right-0 w-1/2 h-full opacity-20">
-          <svg viewBox="0 0 500 500" className="w-full h-full">
-            <path
-              d="M 250 50 Q 350 100 300 200 T 250 350 Q 200 400 250 450"
-              stroke="url(#gradient)"
-              strokeWidth="80"
-              fill="none"
-              opacity="0.3"
-            />
-            <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#a78bfa" />
-                <stop offset="100%" stopColor="#c4b5fd" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-
         <div className="container mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8 animate-fade-in">
