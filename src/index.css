@@ -187,9 +187,9 @@
 }
 
 .icon-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   padding: 12px 24px;
-  padding-left: 50px;
   font-size: 16px;
   font-weight: 600;
   background: linear-gradient(
@@ -199,7 +199,6 @@
   );
   border: 2px solid rgba(99, 102, 241, 0.2);
   border-radius: 30px;
-  text-align: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 35px;
   backdrop-filter: blur(10px);
