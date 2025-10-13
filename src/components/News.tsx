@@ -96,64 +96,62 @@ const News = () => {
             <p className="text-xl text-gray-600">Новостей не найдено</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
-            {filteredNews.map((item, index) => {
-              const isLarge = index === 0 || index === 4;
-              const gridClass = isLarge 
-                ? 'md:col-span-2 md:row-span-2' 
-                : index === 2 
-                  ? 'lg:row-span-2' 
-                  : '';
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filteredNews.map((item, index) => (
+              <article
+                key={`${item.link}-${index}`}
+                className="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-100 hover:border-gradient-start/30 flex flex-col"
+                onClick={() => setSelectedNews(item)}
+              >
+                <div className="relative overflow-hidden h-44">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/70 to-gradient-mid/50 z-10 opacity-40 group-hover:opacity-20 transition-opacity duration-300" />
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800';
+                    }}
+                  />
+                  
+                  <div className="absolute top-3 left-3 z-20">
+                    <span className="inline-block px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full text-xs font-bold text-gradient-start">
+                      {item.category}
+                    </span>
+                  </div>
+                </div>
 
-              return (
-                <article
-                  key={`${item.link}-${index}`}
-                  className={`group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 hover:border-gradient-start/20 ${gridClass}`}
-                  onClick={() => setSelectedNews(item)}
-                >
-                  <div className={`relative overflow-hidden ${isLarge ? 'h-80' : 'h-48'}`}>
-                    <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/80 via-gradient-mid/70 to-gradient-end/60 z-10 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800')] bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700" />
-                    
-                    <div className="absolute top-4 left-4 z-20">
-                      <span className="inline-block px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full text-xs font-bold text-gradient-start">
-                        {item.category}
-                      </span>
-                    </div>
+                <div className="p-5 space-y-3 flex flex-col flex-1">
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <a 
+                      href={item.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 hover:text-gradient-start transition-colors font-semibold"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Icon name="ExternalLink" size={12} />
+                      <span>{item.source}</span>
+                    </a>
+                    <span className="text-gray-300">•</span>
+                    <span>{item.date}</span>
                   </div>
 
-                  <div className="p-6 space-y-4 flex flex-col h-[calc(100%-12rem)] md:h-auto">
-                    <div className="flex items-center gap-3 text-sm text-gray-500">
-                      <a 
-                        href={item.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 hover:text-gradient-start transition-colors group/source"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Icon name="ExternalLink" size={14} className="group-hover/source:translate-x-0.5 group-hover/source:-translate-y-0.5 transition-transform" />
-                        <span className="font-semibold">{item.source}</span>
-                      </a>
-                      <span className="text-gray-300">•</span>
-                      <span>{item.date}</span>
-                    </div>
+                  <h3 className="font-bold text-gray-900 group-hover:text-gradient-start transition-colors line-clamp-2 text-lg leading-snug">
+                    {item.title}
+                  </h3>
 
-                    <h3 className={`font-bold text-gray-900 group-hover:text-gradient-start transition-colors line-clamp-2 ${isLarge ? 'text-2xl' : 'text-xl'}`}>
-                      {item.title}
-                    </h3>
+                  <p className="text-gray-600 text-sm line-clamp-2 flex-1 leading-relaxed">
+                    {cleanHtml(item.excerpt)}
+                  </p>
 
-                    <p className="text-gray-600 line-clamp-2 flex-1">
-                      {cleanHtml(item.excerpt)}
-                    </p>
-
-                    <div className="flex items-center gap-2 text-gradient-start font-semibold text-sm group-hover:gap-3 transition-all">
-                      Читать далее
-                      <Icon name="ArrowRight" size={16} className="group-hover:translate-x-1 transition-transform" />
-                    </div>
+                  <div className="flex items-center gap-1.5 text-gradient-start font-semibold text-sm pt-2 group-hover:gap-2 transition-all">
+                    Читать
+                    <Icon name="ArrowRight" size={14} className="group-hover:translate-x-1 transition-transform" />
                   </div>
-                </article>
-              );
-            })}
+                </div>
+              </article>
+            ))}
           </div>
         )}
       </div>
@@ -169,7 +167,14 @@ const News = () => {
           >
             <div className="relative h-80 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/80 via-gradient-mid/70 to-gradient-end/60 z-10 opacity-70" />
-              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200')] bg-cover bg-center" />
+              <img 
+                src={selectedNews.image} 
+                alt={selectedNews.title}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200';
+                }}
+              />
               
               <button
                 onClick={() => setSelectedNews(null)}

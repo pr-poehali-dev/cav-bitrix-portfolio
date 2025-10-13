@@ -2,6 +2,8 @@ import json
 import feedparser
 from datetime import datetime
 from typing import Dict, Any, List
+import re
+from html import unescape
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
@@ -45,31 +47,75 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     
     all_news: List[Dict[str, Any]] = []
     
+    def clean_html(text: str) -> str:
+        text = unescape(text)
+        text = re.sub(r'<[^>]+>', '', text)
+        text = re.sub(r'\s+', ' ', text)
+        return text.strip()
+    
+    def extract_image(entry) -> str:
+        if hasattr(entry, 'media_content') and entry.media_content:
+            return entry.media_content[0]['url']
+        if hasattr(entry, 'media_thumbnail') and entry.media_thumbnail:
+            return entry.media_thumbnail[0]['url']
+        if hasattr(entry, 'enclosures') and entry.enclosures:
+            for enclosure in entry.enclosures:
+                if 'image' in enclosure.get('type', ''):
+                    return enclosure.get('href', '')
+        summary = entry.summary if hasattr(entry, 'summary') else ''
+        img_match = re.search(r'<img[^>]+src=["\']([^"\'>]+)["\']', summary)
+        if img_match:
+            return img_match.group(1)
+        return 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800'
+    
+    def translate_month(date_str: str) -> str:
+        months = {
+            'January': 'января', 'February': 'февраля', 'March': 'марта',
+            'April': 'апреля', 'May': 'мая', 'June': 'июня',
+            'July': 'июля', 'August': 'августа', 'September': 'сентября',
+            'October': 'октября', 'November': 'ноября', 'December': 'декабря'
+        }
+        for eng, rus in months.items():
+            date_str = date_str.replace(eng, rus)
+        return date_str
+    
     for feed_info in feeds:
         feed = feedparser.parse(feed_info['url'])
         
         for entry in feed.entries[:5]:
-            category = 'Web Development'
+            category = 'Веб-разработка'
             if hasattr(entry, 'tags') and entry.tags:
-                category = entry.tags[0].term if entry.tags[0].term else 'Web Development'
+                cat = entry.tags[0].term if entry.tags[0].term else 'Web'
+                category_map = {
+                    'Web': 'Веб', 'Python': 'Python', 'AI': 'ИИ',
+                    'JavaScript': 'JavaScript', 'CSS': 'CSS',
+                    'React': 'React', 'Node': 'Node.js'
+                }
+                category = category_map.get(cat, cat)
             
             published = entry.published if hasattr(entry, 'published') else ''
             try:
                 date_obj = datetime.strptime(published, '%a, %d %b %Y %H:%M:%S %Z')
-                formatted_date = date_obj.strftime('%d %B %Y')
+                formatted_date = translate_month(date_obj.strftime('%d %B %Y'))
             except:
-                formatted_date = published
+                try:
+                    date_obj = datetime.strptime(published, '%a, %d %b %Y %H:%M:%S %z')
+                    formatted_date = translate_month(date_obj.strftime('%d %B %Y'))
+                except:
+                    formatted_date = published
+            
+            clean_summary = clean_html(entry.summary if hasattr(entry, 'summary') else '')
             
             news_item = {
                 'title': entry.title,
-                'excerpt': entry.summary[:150] + '...' if len(entry.summary) > 150 else entry.summary,
-                'content': entry.summary,
+                'excerpt': clean_summary[:120] + '...' if len(clean_summary) > 120 else clean_summary,
+                'content': entry.summary if hasattr(entry, 'summary') else '',
                 'source': feed_info['source'],
                 'sourceUrl': feed_info['sourceUrl'],
                 'date': formatted_date,
                 'category': category,
                 'link': entry.link,
-                'image': entry.media_content[0]['url'] if hasattr(entry, 'media_content') and entry.media_content else 'https://cdn.poehali.dev/files/5e53ea79-1c81-4c3f-847b-e8a82a5743c2.png'
+                'image': extract_image(entry)
             }
             all_news.append(news_item)
     
