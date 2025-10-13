@@ -89,7 +89,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         folder_id = os.environ.get('YANDEX_TRANSLATE_FOLDER_ID')
         
         if not api_key or not folder_id:
-            print(f'Missing credentials: api_key={bool(api_key)}, folder_id={bool(folder_id)}')
             return text
         
         try:
@@ -110,8 +109,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             response = conn.getresponse()
             data = response.read().decode('utf-8')
             
-            print(f'Translation API response: status={response.status}, data={data[:200]}')
-            
             if response.status == 200:
                 result = json.loads(data)
                 if result and 'translations' in result and len(result['translations']) > 0:
@@ -120,8 +117,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     return translated
             
             conn.close()
-        except Exception as e:
-            print(f'Translation error: {e}')
+        except:
+            pass
         
         return text
     
