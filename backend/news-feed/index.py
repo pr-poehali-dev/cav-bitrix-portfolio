@@ -4,6 +4,8 @@ from datetime import datetime
 from typing import Dict, Any, List
 import re
 from html import unescape
+import os
+import http.client
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
@@ -79,6 +81,46 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             date_str = date_str.replace(eng, rus)
         return date_str
     
+    def translate_text(text: str) -> str:
+        if not text or len(text.strip()) < 3:
+            return text
+        
+        api_key = os.environ.get('YANDEX_TRANSLATE_API_KEY')
+        folder_id = os.environ.get('YANDEX_TRANSLATE_FOLDER_ID')
+        
+        if not api_key or not folder_id:
+            return text
+        
+        try:
+            conn = http.client.HTTPSConnection('translate.api.cloud.yandex.net', timeout=3)
+            
+            payload = json.dumps({
+                'folderId': folder_id,
+                'texts': [text[:500]],
+                'targetLanguageCode': 'ru'
+            })
+            
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': f'Api-Key {api_key}'
+            }
+            
+            conn.request('POST', '/translate/v2/translate', payload, headers)
+            response = conn.getresponse()
+            data = response.read().decode('utf-8')
+            
+            if response.status == 200:
+                result = json.loads(data)
+                if result and 'translations' in result and len(result['translations']) > 0:
+                    translated = result['translations'][0]['text']
+                    conn.close()
+                    return translated
+            
+            conn.close()
+        except:
+            pass
+        
+        return text
     
     for feed_info in feeds:
         feed = feedparser.parse(feed_info['url'])
@@ -107,9 +149,15 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             
             clean_summary = clean_html(entry.summary if hasattr(entry, 'summary') else '')
             
+            title_ru = translate_text(entry.title)
+            excerpt_text = clean_summary[:120]
+            excerpt_ru = translate_text(excerpt_text)
+            if len(excerpt_text) >= 120:
+                excerpt_ru = excerpt_ru + '...'
+            
             news_item = {
-                'title': entry.title,
-                'excerpt': clean_summary[:120] + '...' if len(clean_summary) > 120 else clean_summary,
+                'title': title_ru,
+                'excerpt': excerpt_ru,
                 'content': entry.summary if hasattr(entry, 'summary') else '',
                 'source': feed_info['source'],
                 'sourceUrl': feed_info['sourceUrl'],
