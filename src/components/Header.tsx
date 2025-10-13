@@ -22,12 +22,22 @@ const Header = () => {
       <div className="h-[50px]"></div>
       
       <nav 
-        className={`navigation flex justify-end z-[9999999] transition-all duration-300 ${
+        className={`navigation flex justify-between items-center z-[9999999] transition-all duration-300 ${
           isSticky 
             ? 'fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-xl shadow-lg border-b border-gradient-start/10 py-4 px-[50px] animate-fade-in' 
             : 'relative'
         }`}
       >
+        <div className="logo group">
+          <a href="#" className="inline-block transition-transform hover:scale-105">
+            <img 
+              src="https://cdn.poehali.dev/files/5e53ea79-1c81-4c3f-847b-e8a82a5743c2.png" 
+              alt="Logo" 
+              className="w-16 h-16 object-contain drop-shadow-lg group-hover:drop-shadow-[0_0_15px_rgba(99,102,241,0.6)] transition-all duration-300"
+            />
+          </a>
+        </div>
+
         <button 
           onClick={() => setMenuOpen(!menuOpen)}
           className="lg:hidden flex items-center gap-2 text-sm font-semibold bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-6 py-3 rounded-full hover:shadow-lg transition-all"

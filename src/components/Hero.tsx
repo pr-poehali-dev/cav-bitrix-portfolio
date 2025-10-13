@@ -32,16 +32,6 @@ const Hero = () => {
       <div className="relative max-w-[1500px] w-full px-[50px] mx-auto py-8 flex-1 flex flex-col">
         <div className="grid lg:grid-cols-2 gap-[76px] items-center flex-1">
           <div className="header-left space-y-12 relative z-10 flex flex-col justify-center">
-            <div className="logo group">
-              <a href="#" className="inline-block transition-transform hover:scale-105">
-                <img 
-                  src="https://cdn.poehali.dev/files/5e53ea79-1c81-4c3f-847b-e8a82a5743c2.png" 
-                  alt="Logo" 
-                  className="w-32 h-32 object-contain drop-shadow-2xl group-hover:drop-shadow-[0_0_20px_rgba(99,102,241,0.6)] transition-all duration-300"
-                />
-              </a>
-            </div>
-            
             <div className="header-bottom space-y-8">
               <h1 className="text-[clamp(60px,12vw,140px)] font-black leading-none m-0 bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent animate-gradient-shift bg-[length:200%_auto]">
                 Pixel
