@@ -53,6 +53,16 @@ const News = () => {
     return temp.textContent || temp.innerText || '';
   };
 
+  const getCardHeight = (index: number) => {
+    const patterns = [
+      'h-[380px]', 'h-[320px]', 'h-[420px]',
+      'h-[350px]', 'h-[400px]', 'h-[340px]',
+      'h-[390px]', 'h-[360px]', 'h-[410px]',
+      'h-[330px]', 'h-[370px]', 'h-[400px]'
+    ];
+    return patterns[index % patterns.length];
+  };
+
   return (
     <section className="py-24 px-[50px] bg-gradient-to-b from-white to-gray-50/50 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gradient-start/20 to-transparent" />
@@ -96,54 +106,56 @@ const News = () => {
             <p className="text-xl text-gray-600">Новостей не найдено</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
             {filteredNews.map((item, index) => (
               <article
                 key={`${item.link}-${index}`}
-                className="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-100 hover:border-gradient-start/30 flex flex-col"
+                className={`group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 hover:border-gradient-start/30 break-inside-avoid mb-4 ${getCardHeight(index)}`}
                 onClick={() => setSelectedNews(item)}
               >
-                <div className="relative overflow-hidden h-44">
-                  <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/70 to-gradient-mid/50 z-10 opacity-40 group-hover:opacity-20 transition-opacity duration-300" />
+                <div className="relative overflow-hidden h-[45%] min-h-[160px]">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/60 to-gradient-mid/40 z-10 opacity-30 group-hover:opacity-10 transition-opacity duration-300" />
                   <img 
                     src={item.image} 
                     alt={item.title}
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800';
                     }}
                   />
                   
                   <div className="absolute top-3 left-3 z-20">
-                    <span className="inline-block px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full text-xs font-bold text-gradient-start">
+                    <span className="inline-block px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full text-xs font-bold text-gradient-start shadow-sm">
                       {item.category}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-5 space-y-3 flex flex-col flex-1">
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
-                    <a 
-                      href={item.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 hover:text-gradient-start transition-colors font-semibold"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Icon name="ExternalLink" size={12} />
-                      <span>{item.source}</span>
-                    </a>
-                    <span className="text-gray-300">•</span>
-                    <span>{item.date}</span>
+                <div className="p-5 space-y-3 flex flex-col justify-between h-[55%]">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                      <a 
+                        href={item.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 hover:text-gradient-start transition-colors font-semibold"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Icon name="ExternalLink" size={11} />
+                        <span>{item.source}</span>
+                      </a>
+                      <span className="text-gray-300">•</span>
+                      <span className="text-[11px]">{item.date}</span>
+                    </div>
+
+                    <h3 className="font-bold text-gray-900 group-hover:text-gradient-start transition-colors line-clamp-3 text-base leading-snug">
+                      {item.title}
+                    </h3>
+
+                    <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
+                      {cleanHtml(item.excerpt)}
+                    </p>
                   </div>
-
-                  <h3 className="font-bold text-gray-900 group-hover:text-gradient-start transition-colors line-clamp-2 text-lg leading-snug">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-gray-600 text-sm line-clamp-2 flex-1 leading-relaxed">
-                    {cleanHtml(item.excerpt)}
-                  </p>
 
                   <div className="flex items-center gap-1.5 text-gradient-start font-semibold text-sm pt-2 group-hover:gap-2 transition-all">
                     Читать

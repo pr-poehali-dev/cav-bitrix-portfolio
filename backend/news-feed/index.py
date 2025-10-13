@@ -82,7 +82,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     for feed_info in feeds:
         feed = feedparser.parse(feed_info['url'])
         
-        for entry in feed.entries[:5]:
+        for entry in feed.entries[:12]:
             category = 'Веб-разработка'
             if hasattr(entry, 'tags') and entry.tags:
                 cat = entry.tags[0].term if entry.tags[0].term else 'Web'
@@ -119,7 +119,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             }
             all_news.append(news_item)
     
-    all_news = sorted(all_news, key=lambda x: x['date'], reverse=True)[:5]
+    all_news = sorted(all_news, key=lambda x: x['date'], reverse=True)[:12]
     
     return {
         'statusCode': 200,
