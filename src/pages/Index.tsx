@@ -65,26 +65,25 @@ const Index = () => {
                   <div className="relative w-[350px] h-[350px]" style={{ transform: 'rotateX(10deg) rotateY(-10deg)', transformStyle: 'preserve-3d' }}>
                     <div className="grid grid-cols-10 gap-[2px]">
                       {Array.from({ length: 100 }).map((_, i) => {
-                        const isBlue = Math.random() > 0.8;
-                        const height = Math.random() * 40 + 20;
-                        const depth = Math.random() * 15;
+                        const isBlue = Math.random() > 0.75;
+                        const height = Math.random() * 50 + 25;
+                        const depth = Math.random() * 20;
                         return (
                           <div
                             key={i}
-                            className="relative transition-all duration-300 hover:scale-105"
+                            className="relative transition-all duration-300 hover:scale-110"
                             style={{
                               height: `${height}px`,
                               transform: `translateZ(${depth}px)`,
                             }}
                           >
                             <div
-                              className={`w-full h-full ${
-                                isBlue
-                                  ? 'bg-gradient-to-br from-[#1427C6] to-[#1427C6]/90'
-                                  : 'bg-gradient-to-br from-gray-200/50 to-gray-300/50'
-                              } rounded-[1px] shadow-sm`}
+                              className={`w-full h-full rounded-[1px] shadow-md`}
                               style={{
-                                opacity: isBlue ? 1 : 0.3
+                                background: isBlue 
+                                  ? 'linear-gradient(135deg, #1427C6 0%, #0d1a8f 100%)'
+                                  : 'linear-gradient(135deg, rgba(235, 238, 242, 0.6) 0%, rgba(200, 205, 215, 0.4) 100%)',
+                                opacity: isBlue ? 0.95 : 0.35
                               }}
                             />
                           </div>
