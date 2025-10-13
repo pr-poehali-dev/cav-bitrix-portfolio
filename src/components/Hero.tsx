@@ -23,6 +23,12 @@ const Hero = () => {
         }} />
       </div>
 
+      <div className="fixed top-[100px] left-0 right-0 z-50">
+        <div className="max-w-[1500px] w-full px-[50px] mx-auto">
+          <Header />
+        </div>
+      </div>
+
       <div className="relative max-w-[1500px] w-full px-[50px] mx-auto py-8 flex-1 flex flex-col">
         <div className="grid lg:grid-cols-2 gap-[76px] items-center flex-1">
           <div className="header-left space-y-12 relative z-10 flex flex-col justify-center">
@@ -54,7 +60,6 @@ const Hero = () => {
           </div>
 
           <div className="header-right space-y-8 relative z-10 flex flex-col justify-center">
-            <Header />
             
             <div className="header-img relative -translate-x-[39%] -translate-y-[9%] w-[144%] hidden lg:block">
               <div className="relative h-[400px] flex items-center justify-end overflow-hidden" style={{ transform: `translateY(${scrollY * 0.05}px)` }}>
