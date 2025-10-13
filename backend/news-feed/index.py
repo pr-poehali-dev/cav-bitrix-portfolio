@@ -4,8 +4,7 @@ from datetime import datetime
 from typing import Dict, Any, List
 import re
 from html import unescape
-import urllib.request
-import urllib.parse
+import http.client
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
@@ -85,25 +84,21 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         if not text or len(text.strip()) < 3:
             return text
         try:
-            url = 'https://translate.googleapis.com/translate_a/single'
-            params = {
-                'client': 'gtx',
-                'sl': 'en',
-                'tl': 'ru',
-                'dt': 't',
-                'q': text[:500]
-            }
-            query_string = urllib.parse.urlencode(params)
-            full_url = f'{url}?{query_string}'
+            conn = http.client.HTTPSConnection('translate.googleapis.com', timeout=2)
+            text_encoded = json.dumps(text[:400], ensure_ascii=False)
+            path = f'/translate_a/single?client=gtx&sl=en&tl=ru&dt=t&q={text_encoded}'
             
-            req = urllib.request.Request(full_url)
-            req.add_header('User-Agent', 'Mozilla/5.0')
+            conn.request('GET', path, headers={'User-Agent': 'Mozilla/5.0'})
+            response = conn.getresponse()
             
-            with urllib.request.urlopen(req, timeout=3) as response:
-                result = json.loads(response.read().decode('utf-8'))
+            if response.status == 200:
+                data = response.read().decode('utf-8')
+                result = json.loads(data)
                 if result and len(result) > 0 and result[0]:
                     translated = ''.join([item[0] for item in result[0] if item[0]])
+                    conn.close()
                     return translated
+            conn.close()
         except:
             pass
         return text
