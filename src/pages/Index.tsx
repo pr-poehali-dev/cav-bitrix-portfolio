@@ -1,8 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Icon from '@/components/ui/icon';
 
 const Index = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -19,7 +26,7 @@ const Index = () => {
               </div>
               
               <div className="header-bottom space-y-4 pt-[240px]">
-                <h1 className="text-[160px] font-black leading-none m-0"></h1>
+                <h1 className="text-[160px] font-black leading-none m-0">Pixel</h1>
                 <div className="flex gap-6 z-[10000000]">
                   <a href="#" className="nav-link-custom text-xl font-semibold border-b border-[#252525] hover:-translate-y-1 transition-transform">
                     разработка сайтов
@@ -54,7 +61,38 @@ const Index = () => {
               </nav>
               
               <div className="header-img relative -translate-x-[39%] -translate-y-[9%] w-[144%] hidden lg:block">
-                <div className="w-full h-64 bg-gradient-to-br from-[#1427C6]/10 to-[#424AE3]/5 rounded-2xl"></div>
+                <div className="relative h-[400px] flex items-center justify-end overflow-hidden" style={{ transform: `translateY(${scrollY * 0.05}px)` }}>
+                  <div className="relative w-[350px] h-[350px]" style={{ transform: 'rotateX(10deg) rotateY(-10deg)', transformStyle: 'preserve-3d' }}>
+                    <div className="grid grid-cols-10 gap-[2px]">
+                      {Array.from({ length: 100 }).map((_, i) => {
+                        const isBlue = Math.random() > 0.8;
+                        const height = Math.random() * 40 + 20;
+                        const depth = Math.random() * 15;
+                        return (
+                          <div
+                            key={i}
+                            className="relative transition-all duration-300 hover:scale-105"
+                            style={{
+                              height: `${height}px`,
+                              transform: `translateZ(${depth}px)`,
+                            }}
+                          >
+                            <div
+                              className={`w-full h-full ${
+                                isBlue
+                                  ? 'bg-gradient-to-br from-[#1427C6] to-[#1427C6]/90'
+                                  : 'bg-gradient-to-br from-gray-200/50 to-gray-300/50'
+                              } rounded-[1px] shadow-sm`}
+                              style={{
+                                opacity: isBlue ? 1 : 0.3
+                              }}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
