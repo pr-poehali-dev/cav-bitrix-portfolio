@@ -113,11 +113,12 @@ const News = () => {
                 className={`group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 hover:border-gradient-start/30 break-inside-avoid mb-4 ${getCardHeight(index)}`}
                 onClick={() => setSelectedNews(item)}
               >
-                <div className="relative overflow-hidden h-[45%] min-h-[160px]">
+                <div className="relative overflow-hidden h-[45%] min-h-[160px] bg-gray-100">
                   <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/60 to-gradient-mid/40 z-10 opacity-30 group-hover:opacity-10 transition-opacity duration-300" />
                   <img 
                     src={item.image} 
                     alt={item.title}
+                    loading="lazy"
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800';
@@ -177,11 +178,12 @@ const News = () => {
             className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative h-80 overflow-hidden">
+            <div className="relative h-80 overflow-hidden bg-gray-100">
               <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/80 via-gradient-mid/70 to-gradient-end/60 z-10 opacity-70" />
               <img 
                 src={selectedNews.image} 
                 alt={selectedNews.title}
+                loading="lazy"
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200';
