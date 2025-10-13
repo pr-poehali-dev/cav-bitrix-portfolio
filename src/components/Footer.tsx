@@ -35,6 +35,10 @@ const Footer = () => {
             Контакты
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
+          <a href="/admin/bots" className="nav-link-custom relative group text-xs opacity-50 hover:opacity-100">
+            Admin
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+          </a>
           <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-6 py-3 rounded-full text-sm font-semibold hover:shadow-xl transition-all duration-300">
             Обсудить проект
           </button>
