@@ -4,57 +4,82 @@ const BotProtection = () => {
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
     
-    const botPatterns = [
-      'bot',
-      'crawler',
-      'spider',
+    const whitelistedBots = [
+      'googlebot',
+      'bingbot',
+      'yandexbot',
+      'baiduspider',
+      'slurp',
+      'duckduckbot',
+      'applebot',
+      'facebookexternalhit',
+      'twitterbot',
+      'linkedinbot',
+      'pinterestbot',
+      'whatsapp',
+      'telegrambot',
+      'slack',
+      'discordbot',
+      'w3c_validator'
+    ];
+    
+    const maliciousBotPatterns = [
       'scraper',
       'curl',
       'wget',
-      'python',
+      'python-requests',
       'postman',
       'insomnia',
-      'http',
-      'slurp',
-      'mediapartners',
-      'adsbot',
-      'bingbot',
-      'googlebot',
-      'yandexbot',
-      'baiduspider',
-      'facebookexternalhit',
-      'twitterbot',
-      'rogerbot',
-      'linkedinbot',
-      'embedly',
-      'quora link preview',
-      'showyoubot',
-      'outbrain',
-      'pinterest',
-      'slackbot',
-      'vkShare',
-      'W3C_Validator',
-      'redditbot',
-      'applebot',
-      'whatsapp',
-      'flipboard',
-      'tumblr',
-      'bitlybot',
-      'skypeuripreview',
-      'nuzzel',
-      'discordbot',
-      'qwantify',
-      'pinterestbot',
-      'bitrix',
-      'seopowersuite',
+      'httpclient',
       'headlesschrome',
       'phantomjs',
-      'selenium'
+      'selenium',
+      'webdriver',
+      'bot', 
+      'crawler',
+      'spider',
+      'scrapy',
+      'beautifulsoup',
+      'mechanize',
+      'httparty',
+      'axios',
+      'node-fetch',
+      'okhttp',
+      'apache-httpclient',
+      'python',
+      'java/',
+      'perl',
+      'ruby',
+      'go-http-client',
+      'libwww'
     ];
 
-    const isBot = botPatterns.some(pattern => userAgent.includes(pattern));
+    const isWhitelisted = whitelistedBots.some(pattern => userAgent.includes(pattern));
     
-    if (isBot) {
+    if (isWhitelisted) {
+      fetch('https://functions.poehali.dev/c61d607d-a45d-40ee-88b9-34da6d3ca3e7', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_agent: navigator.userAgent,
+          is_blocked: false
+        })
+      }).catch(() => {});
+      return;
+    }
+
+    const isMaliciousBot = maliciousBotPatterns.some(pattern => userAgent.includes(pattern));
+    
+    if (isMaliciousBot) {
+      fetch('https://functions.poehali.dev/c61d607d-a45d-40ee-88b9-34da6d3ca3e7', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_agent: navigator.userAgent,
+          is_blocked: true
+        })
+      }).catch(() => {});
+      
       window.location.href = 'https://ya.ru';
     }
   }, []);
