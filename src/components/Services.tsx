@@ -1,6 +1,11 @@
 import Icon from '@/components/ui/icon';
 
 const Services = () => {
+  const services = [
+    { icon: "TrendingUp", title: "Таргетированная реклама", color: "from-blue-500 to-indigo-600" },
+    { icon: "BarChart3", title: "UI Оптимизация", color: "from-purple-500 to-pink-600" },
+  ];
+
   return (
     <section id="services" className="services">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
@@ -8,24 +13,26 @@ const Services = () => {
           <div className="services-left">
             <h2 className="section-title">Услуги</h2>
             <ul className="flex gap-[10px] list-none m-0 p-0">
-              <li className="card-item max-w-[282px] w-full flex flex-col justify-end">
-                <div className="mb-4">
-                  <Icon name="TrendingUp" size={64} className="text-[#1427C6]" />
-                </div>
-                <p className="text-[22px] font-semibold max-w-[190px]">Таргетированная реклама</p>
-              </li>
-              <li className="card-item max-w-[282px] w-full flex flex-col justify-end">
-                <div className="mb-4">
-                  <Icon name="BarChart3" size={64} className="text-[#1427C6]" />
-                </div>
-                <p className="text-[22px] font-semibold max-w-[190px]">UI Оптимизация</p>
-              </li>
+              {services.map((service, index) => (
+                <li 
+                  key={index}
+                  className="card-item max-w-[282px] w-full flex flex-col justify-end group cursor-pointer"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className={`mb-4 w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300`}>
+                    <Icon name={service.icon as any} size={32} className="text-white" />
+                  </div>
+                  <p className="text-[22px] font-semibold max-w-[190px]">{service.title}</p>
+                </li>
+              ))}
             </ul>
           </div>
-          <div className="services-right pt-[316px] min-h-full">
+          <div className="services-right pt-[316px] min-h-full space-y-6">
             <p className="icon-badge max-w-[295px]">мы предоставляем</p>
-            <h3 className="section-subtitle">Сделаем чтобы продукт работал на Вас, а не вы на него!</h3>
-            <button className="btn bg-[#1427C6] text-white px-[22px] py-[14px] rounded-[30px] text-sm">
+            <h3 className="section-subtitle">
+              Сделаем чтобы продукт работал на Вас, а не вы на него!
+            </h3>
+            <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300">
               Обсудить проект
             </button>
           </div>

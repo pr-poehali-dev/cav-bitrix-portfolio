@@ -24,25 +24,44 @@ const Header = () => {
       <nav 
         className={`navigation flex justify-end z-[9999999] transition-all duration-300 ${
           isSticky 
-            ? 'fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-md py-4 px-[50px]' 
+            ? 'fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-xl shadow-lg border-b border-gradient-start/10 py-4 px-[50px] animate-fade-in' 
             : 'relative'
         }`}
       >
         <button 
           onClick={() => setMenuOpen(!menuOpen)}
-          className="lg:hidden flex items-center gap-2 text-sm font-medium bg-[#424AE3] text-white px-4 py-2 rounded-[30px]"
+          className="lg:hidden flex items-center gap-2 text-sm font-semibold bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-6 py-3 rounded-full hover:shadow-lg transition-all"
         >
-          <span className="w-6 h-0.5 bg-white"></span>
+          <div className="flex flex-col gap-1">
+            <span className={`w-5 h-0.5 bg-white transition-transform ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
+            <span className={`w-5 h-0.5 bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`w-5 h-0.5 bg-white transition-transform ${menuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+          </div>
           Меню
         </button>
         
-        <div className={`${menuOpen ? 'flex' : 'hidden'} lg:flex flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-[10px] z-[999999]`}>
-          <a href="#" className="nav-link-custom">Новости</a>
-          <a href="#services" className="nav-link-custom">Услуги</a>
-          <a href="#portfolio" className="nav-link-custom">Портфолио</a>
-          <a href="#lid" className="nav-link-custom">Лидогенерация</a>
-          <a href="#contacts" className="nav-link-custom">Контакты</a>
-          <button className="btn bg-[#1427C6] text-white px-[22px] py-[14px] rounded-[30px] text-sm font-normal max-w-[181px]">
+        <div className={`${menuOpen ? 'flex' : 'hidden'} lg:flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-6 z-[999999] ${menuOpen ? 'absolute top-full right-0 bg-white/95 backdrop-blur-xl p-8 rounded-2xl shadow-2xl mt-4 border border-gradient-start/10' : ''}`}>
+          <a href="#" className="nav-link-custom relative group">
+            Новости
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+          </a>
+          <a href="#services" className="nav-link-custom relative group">
+            Услуги
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+          </a>
+          <a href="#portfolio" className="nav-link-custom relative group">
+            Портфолио
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+          </a>
+          <a href="#lid" className="nav-link-custom relative group">
+            Лидогенерация
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+          </a>
+          <a href="#contacts" className="nav-link-custom relative group">
+            Контакты
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+          </a>
+          <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-6 py-3 rounded-full text-sm font-semibold max-w-[181px] hover:shadow-xl transition-all duration-300">
             Обсудить проект
           </button>
         </div>
