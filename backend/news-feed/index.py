@@ -9,11 +9,11 @@ import http.client
 
 cache: Dict[str, Any] = {}
 cache_timestamp: Optional[datetime] = None
-CACHE_DURATION_MINUTES = 15
+CACHE_DURATION_HOURS = 24
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
-    Business: Получение последних новостей из RSS-фидов web.dev и SitePoint с кешированием на 15 минут
+    Business: Получение последних новостей из RSS-фидов web.dev и SitePoint с кешированием на 24 часа
     Args: event с httpMethod (GET/OPTIONS)
     Returns: JSON с массивом новостей
     '''
@@ -41,13 +41,13 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         }
     
     now = datetime.now()
-    if cache_timestamp and (now - cache_timestamp) < timedelta(minutes=CACHE_DURATION_MINUTES):
+    if cache_timestamp and (now - cache_timestamp) < timedelta(hours=CACHE_DURATION_HOURS):
         return {
             'statusCode': 200,
             'headers': {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Cache-Control': f'public, max-age={CACHE_DURATION_MINUTES * 60}'
+                'Cache-Control': f'public, max-age={CACHE_DURATION_HOURS * 3600}'
             },
             'isBase64Encoded': False,
             'body': json.dumps(cache)
@@ -197,7 +197,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         'headers': {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            'Cache-Control': f'public, max-age={CACHE_DURATION_MINUTES * 60}'
+            'Cache-Control': f'public, max-age={CACHE_DURATION_HOURS * 3600}'
         },
         'isBase64Encoded': False,
         'body': json.dumps(cache)
