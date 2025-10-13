@@ -1,18 +1,24 @@
 import json
 import feedparser
-from datetime import datetime
-from typing import Dict, Any, List
+from datetime import datetime, timedelta
+from typing import Dict, Any, List, Optional
 import re
 from html import unescape
 import os
 import http.client
 
+cache: Dict[str, Any] = {}
+cache_timestamp: Optional[datetime] = None
+CACHE_DURATION_MINUTES = 15
+
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
-    Business: Получение последних новостей из RSS-фидов web.dev и SitePoint
+    Business: Получение последних новостей из RSS-фидов web.dev и SitePoint с кешированием на 15 минут
     Args: event с httpMethod (GET/OPTIONS)
     Returns: JSON с массивом новостей
     '''
+    global cache, cache_timestamp
+    
     method: str = event.get('httpMethod', 'GET')
     
     if method == 'OPTIONS':
@@ -32,6 +38,19 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'statusCode': 405,
             'headers': {'Access-Control-Allow-Origin': '*'},
             'body': json.dumps({'error': 'Method not allowed'})
+        }
+    
+    now = datetime.now()
+    if cache_timestamp and (now - cache_timestamp) < timedelta(minutes=CACHE_DURATION_MINUTES):
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Cache-Control': f'public, max-age={CACHE_DURATION_MINUTES * 60}'
+            },
+            'isBase64Encoded': False,
+            'body': json.dumps(cache)
         }
     
     feeds = [
@@ -170,12 +189,16 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     
     all_news = sorted(all_news, key=lambda x: x['date'], reverse=True)[:12]
     
+    cache = {'news': all_news}
+    cache_timestamp = datetime.now()
+    
     return {
         'statusCode': 200,
         'headers': {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
+            'Cache-Control': f'public, max-age={CACHE_DURATION_MINUTES * 60}'
         },
         'isBase64Encoded': False,
-        'body': json.dumps({'news': all_news})
+        'body': json.dumps(cache)
     }
