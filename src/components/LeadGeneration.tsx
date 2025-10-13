@@ -28,7 +28,14 @@ const LeadGeneration = () => {
             </ul>
           </div>
           <div className="lid-right pt-[316px] min-h-full space-y-6">
-            <p className="icon-badge max-w-[335px]">лучшие в своем деле</p>
+            <p className="icon-badge max-w-[335px] flex items-center gap-2">
+              <img 
+                src="https://cdn.poehali.dev/files/9a3097d8-c2ab-4acb-917e-a6fb88252298.png" 
+                alt="memoji" 
+                className="w-5 h-5 object-contain animate-bounce"
+              />
+              лучшие в своем деле
+            </p>
             <h3 className="section-subtitle">Мы комплексно подходим к процессу запуска интернет продаж</h3>
             <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300">
               Обсудить проект

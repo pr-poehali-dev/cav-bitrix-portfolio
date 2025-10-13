@@ -28,7 +28,14 @@ const Services = () => {
             </ul>
           </div>
           <div className="services-right pt-[316px] min-h-full space-y-6">
-            <p className="icon-badge max-w-[295px]">мы предоставляем</p>
+            <p className="icon-badge max-w-[295px] flex items-center gap-2">
+              <img 
+                src="https://cdn.poehali.dev/files/9a3097d8-c2ab-4acb-917e-a6fb88252298.png" 
+                alt="memoji" 
+                className="w-5 h-5 object-contain animate-bounce"
+              />
+              мы предоставляем
+            </p>
             <h3 className="section-subtitle">
               Сделаем чтобы продукт работал на Вас, а не вы на него!
             </h3>
