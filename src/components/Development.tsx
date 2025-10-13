@@ -22,12 +22,17 @@ const Development = () => {
               <img 
                 src="https://cdn.poehali.dev/files/9a3097d8-c2ab-4acb-917e-a6fb88252298.png" 
                 alt="memoji" 
-                className="w-8 h-8 object-contain absolute -left-10 top-1/2 -translate-y-1/2"
+                className="w-8 h-8 object-contain absolute -left-10 top-1/2 -translate-y-1/2 animate-bounce"
               />
               <p className="icon-badge">наши услуги</p>
             </div>
             <h3 className="section-subtitle">Делаем любой сложности проекты</h3>
-            <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300">
+            <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300 flex items-center gap-2 group">
+              <img 
+                src="https://cdn.poehali.dev/files/9a3097d8-c2ab-4acb-917e-a6fb88252298.png" 
+                alt="memoji" 
+                className="w-6 h-6 object-contain group-hover:scale-125 group-hover:rotate-12 transition-all duration-300"
+              />
               Обсудить проект
             </button>
           </div>
