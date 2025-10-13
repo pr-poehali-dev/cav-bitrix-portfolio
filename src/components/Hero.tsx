@@ -11,26 +11,21 @@ const Hero = () => {
   }, []);
 
   return (
-    <header className="header relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-purple-50/40 to-cyan-50/60 pointer-events-none" />
+    <header className="header relative overflow-hidden min-h-screen flex flex-col">
+      <div className="absolute inset-0 animated-gradient-bg" />
       
-      <div className="absolute inset-0 opacity-30">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-gradient-to-r from-gradient-start to-gradient-mid rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-            }}
-          />
-        ))}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
+                           radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
+                           radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.3) 0%, transparent 50%)`,
+          animation: 'gradient-animation 20s ease infinite',
+        }} />
       </div>
 
-      <div className="relative max-w-[1500px] w-full px-[50px] mx-auto py-8">
-        <div className="grid lg:grid-cols-2 gap-[76px] items-start">
-          <div className="header-left space-y-12 relative z-10">
+      <div className="relative max-w-[1500px] w-full px-[50px] mx-auto py-8 flex-1 flex flex-col">
+        <div className="grid lg:grid-cols-2 gap-[76px] items-center flex-1">
+          <div className="header-left space-y-12 relative z-10 flex flex-col justify-center">
             <div className="logo group">
               <a href="#" className="inline-block transition-transform hover:scale-105">
                 <img 
@@ -41,8 +36,8 @@ const Hero = () => {
               </a>
             </div>
             
-            <div className="header-bottom space-y-6 pt-[240px]">
-              <h1 className="text-[clamp(80px,15vw,160px)] font-black leading-none m-0 bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent animate-gradient-shift bg-[length:200%_auto]">
+            <div className="header-bottom space-y-8">
+              <h1 className="text-[clamp(60px,12vw,140px)] font-black leading-none m-0 bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent animate-gradient-shift bg-[length:200%_auto]">
                 Pixel
               </h1>
               <div className="flex flex-wrap gap-6">
@@ -58,7 +53,7 @@ const Hero = () => {
             </div>
           </div>
 
-          <div className="header-right space-y-8 relative z-10">
+          <div className="header-right space-y-8 relative z-10 flex flex-col justify-center">
             <Header />
             
             <div className="header-img relative -translate-x-[39%] -translate-y-[9%] w-[144%] hidden lg:block">
@@ -97,6 +92,12 @@ const Hero = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-float z-10">
+        <div className="w-6 h-10 border-2 border-gradient-start/40 rounded-full flex items-start justify-center p-2">
+          <div className="w-1.5 h-3 bg-gradient-to-b from-gradient-start to-transparent rounded-full animate-pulse" />
         </div>
       </div>
     </header>
