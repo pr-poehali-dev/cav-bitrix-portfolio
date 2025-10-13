@@ -4,7 +4,6 @@ from datetime import datetime
 from typing import Dict, Any, List
 import re
 from html import unescape
-import http.client
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
@@ -80,28 +79,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             date_str = date_str.replace(eng, rus)
         return date_str
     
-    def translate_text(text: str) -> str:
-        if not text or len(text.strip()) < 3:
-            return text
-        try:
-            conn = http.client.HTTPSConnection('translate.googleapis.com', timeout=2)
-            text_encoded = json.dumps(text[:400], ensure_ascii=False)
-            path = f'/translate_a/single?client=gtx&sl=en&tl=ru&dt=t&q={text_encoded}'
-            
-            conn.request('GET', path, headers={'User-Agent': 'Mozilla/5.0'})
-            response = conn.getresponse()
-            
-            if response.status == 200:
-                data = response.read().decode('utf-8')
-                result = json.loads(data)
-                if result and len(result) > 0 and result[0]:
-                    translated = ''.join([item[0] for item in result[0] if item[0]])
-                    conn.close()
-                    return translated
-            conn.close()
-        except:
-            pass
-        return text
     
     for feed_info in feeds:
         feed = feedparser.parse(feed_info['url'])
@@ -130,16 +107,10 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             
             clean_summary = clean_html(entry.summary if hasattr(entry, 'summary') else '')
             
-            title_ru = translate_text(entry.title)
-            excerpt_ru = translate_text(clean_summary[:120])
-            if len(excerpt_ru) > 120:
-                excerpt_ru = excerpt_ru[:120] + '...'
-            content_ru = translate_text(clean_summary[:500])
-            
             news_item = {
-                'title': title_ru,
-                'excerpt': excerpt_ru,
-                'content': content_ru,
+                'title': entry.title,
+                'excerpt': clean_summary[:120] + '...' if len(clean_summary) > 120 else clean_summary,
+                'content': entry.summary if hasattr(entry, 'summary') else '',
                 'source': feed_info['source'],
                 'sourceUrl': feed_info['sourceUrl'],
                 'date': formatted_date,
