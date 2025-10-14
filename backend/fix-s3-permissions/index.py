@@ -96,9 +96,20 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 key = logo_url.split(f'{s3_bucket_name}/')[-1]
                 
                 try:
-                    s3_client.put_object_acl(
+                    # Скачиваем файл
+                    response = s3_client.get_object(
+                        Bucket=s3_bucket_name,
+                        Key=key
+                    )
+                    file_body = response['Body'].read()
+                    content_type = response.get('ContentType', 'image/jpeg')
+                    
+                    # Загружаем заново с публичным доступом
+                    s3_client.put_object(
                         Bucket=s3_bucket_name,
                         Key=key,
+                        Body=file_body,
+                        ContentType=content_type,
                         ACL='public-read'
                     )
                     fixed_count += 1
