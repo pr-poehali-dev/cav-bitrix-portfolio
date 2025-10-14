@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Check S3 files",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "bucket": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

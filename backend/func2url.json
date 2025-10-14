@@ -1,4 +1,5 @@
 {
+  "check-s3-file": "https://functions.poehali.dev/b17e3e7b-f975-45cc-be9b-11adba7cfd8c",
   "get-partner-logos-public": "https://functions.poehali.dev/e8de79a2-de02-4b57-a50d-1a5950d61a1c",
   "fix-s3-permissions": "https://functions.poehali.dev/aff07754-8999-4fc7-8efe-c58dabe45548",
   "upload-partner-logo": "https://functions.poehali.dev/1103293c-17a5-453c-b290-c1c376ead996",
