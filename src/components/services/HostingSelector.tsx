@@ -2,6 +2,7 @@ import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
 import { HostingOption, BegetTariff, VPSTariff } from './types';
+import HostingComparison from './HostingComparison';
 
 interface HostingSelectorProps {
   selectedHosting: string;
@@ -127,6 +128,8 @@ const HostingSelector = ({
           </div>
         </div>
       )}
+
+      <HostingComparison />
     </div>
   );
 };
