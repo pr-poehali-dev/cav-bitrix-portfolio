@@ -7,6 +7,8 @@ import NotFound from "./pages/NotFound";
 import BotProtection from "./components/BotProtection";
 import BotAdmin from "./pages/BotAdmin";
 import ConsentAdmin from "./pages/ConsentAdmin";
+import AdminLogin from "./pages/AdminLogin";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import TermsOfUse from "./pages/TermsOfUse";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
@@ -19,8 +21,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/admin/bots" element={<BotAdmin />} />
-          <Route path="/admin/consents" element={<ConsentAdmin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/bots" element={<AdminProtectedRoute><BotAdmin /></AdminProtectedRoute>} />
+          <Route path="/admin/consents" element={<AdminProtectedRoute><ConsentAdmin /></AdminProtectedRoute>} />
           <Route path="/terms" element={<TermsOfUse />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

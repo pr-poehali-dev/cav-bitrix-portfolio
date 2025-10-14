@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Home, Shield, FileCheck, LayoutDashboard } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Home, Shield, FileCheck, LayoutDashboard, LogOut } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -8,6 +9,7 @@ interface AdminLayoutProps {
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navItems = [
     { path: '/admin/bots', label: 'Защита от ботов', icon: Shield },
@@ -15,6 +17,12 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleLogout = () => {
+    localStorage.removeItem('admin_auth');
+    localStorage.removeItem('admin_auth_time');
+    navigate('/admin/login');
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
@@ -36,23 +44,37 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               </div>
             </div>
 
-            <div className="flex gap-1">
-              {navItems.map(({ path, label, icon: Icon }) => (
-                <Link
-                  key={path}
-                  to={path}
-                  className={`
-                    flex items-center gap-2 px-4 py-2 rounded-lg transition-all
-                    ${isActive(path)
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
-                      : 'text-gray-400 hover:text-white hover:bg-gray-800'
-                    }
-                  `}
-                >
-                  <Icon className="h-4 w-4" />
-                  <span className="font-medium">{label}</span>
-                </Link>
-              ))}
+            <div className="flex items-center gap-3">
+              <div className="flex gap-1">
+                {navItems.map(({ path, label, icon: Icon }) => (
+                  <Link
+                    key={path}
+                    to={path}
+                    className={`
+                      flex items-center gap-2 px-4 py-2 rounded-lg transition-all
+                      ${isActive(path)
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                        : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                      }
+                    `}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span className="font-medium">{label}</span>
+                  </Link>
+                ))}
+              </div>
+              
+              <div className="h-8 w-px bg-gray-700" />
+              
+              <Button
+                onClick={handleLogout}
+                variant="ghost"
+                size="sm"
+                className="text-gray-400 hover:text-white hover:bg-gray-800"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Выйти
+              </Button>
             </div>
           </div>
         </div>
