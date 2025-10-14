@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
+import PartnerForm from './PartnerForm';
+import PartnerCard from './PartnerCard';
 
 interface PartnerLogo {
   id: number;
@@ -215,7 +214,7 @@ const PartnersAdmin = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-gradient-start to-gradient-mid bg-clip-text text-transparent">
+        <h2 className="text-3xl font-bold text-black">
           Логотипы партнёров
         </h2>
         <div className="flex gap-3">
@@ -239,274 +238,34 @@ const PartnersAdmin = () => {
 
       {isAdding && (
         <div className="bg-white p-6 rounded-lg shadow-lg border-2 border-gradient-start/20 space-y-4">
-          <h3 className="text-xl font-bold">Новый партнёр</h3>
+          <h3 className="text-xl font-bold text-black">Новый партнёр</h3>
           
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="new-name" className="text-base font-semibold">Название бренда</Label>
-              <Input
-                id="new-name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="1С-Битрикс"
-                className="text-black"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="new-website" className="text-base font-semibold">Сайт партнёра</Label>
-              <Input
-                id="new-website"
-                value={formData.website_url}
-                onChange={(e) => setFormData({ ...formData, website_url: e.target.value })}
-                placeholder="https://example.com"
-                className="text-black"
-              />
-            </div>
-
-            <div className="col-span-2 space-y-3">
-              <Label className="text-base font-semibold">Логотип партнёра</Label>
-              <p className="text-sm text-gray-500">Вставьте ссылку на изображение или загрузите файл с компьютера</p>
-              
-              <div className="flex gap-3">
-                <div className="flex-1">
-                  <Input
-                    id="new-logo"
-                    value={formData.logo_url}
-                    onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
-                    placeholder="https://example.com/logo.svg"
-                    className="text-black"
-                  />
-                </div>
-                
-                <div className="relative">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileUpload(e)}
-                    className="hidden"
-                    id="upload-new-logo"
-                    disabled={isUploading}
-                  />
-                  <Button
-                    type="button"
-                    onClick={() => document.getElementById('upload-new-logo')?.click()}
-                    disabled={isUploading}
-                    className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white whitespace-nowrap"
-                  >
-                    <Icon name={isUploading ? 'Loader2' : 'Upload'} size={16} className={`mr-2 ${isUploading ? 'animate-spin' : ''}`} />
-                    {isUploading ? 'Загрузка...' : 'Загрузить файл'}
-                  </Button>
-                </div>
-              </div>
-
-              {formData.logo_url && (
-                <div className="mt-2 p-4 border-2 border-gradient-start/20 rounded-lg bg-gradient-to-br from-gray-50 to-white">
-                  <p className="text-xs text-gray-500 mb-2">Предпросмотр:</p>
-                  <img 
-                    src={formData.logo_url} 
-                    alt="Preview" 
-                    className="h-20 object-contain"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-
-            <div>
-              <Label htmlFor="new-order">Порядок отображения</Label>
-              <Input
-                id="new-order"
-                type="number"
-                value={formData.display_order}
-                onChange={(e) => setFormData({ ...formData, display_order: parseInt(e.target.value) })}
-                className="text-black"
-              />
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="new-active"
-                checked={formData.is_active}
-                onCheckedChange={(checked) => setFormData({ ...formData, is_active: checked })}
-              />
-              <Label htmlFor="new-active">Активен</Label>
-            </div>
-          </div>
-
-          <Button
-            onClick={handleAdd}
-            className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white"
-          >
-            <Icon name="Check" size={20} className="mr-2" />
-            Сохранить
-          </Button>
+          <PartnerForm
+            formData={formData}
+            isUploading={isUploading}
+            onFormDataChange={setFormData}
+            onFileUpload={(e) => handleFileUpload(e)}
+            onSubmit={handleAdd}
+            uploadInputId="upload-new-logo"
+            submitLabel="Сохранить"
+          />
         </div>
       )}
 
       <div className="grid gap-4">
         {partners.map((partner) => (
-          <div
+          <PartnerCard
             key={partner.id}
-            className="bg-white p-6 rounded-lg shadow-lg border-2 border-gray-100 hover:border-gradient-start/30 transition-all"
-          >
-            {editingId === partner.id ? (
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label>Название</Label>
-                    <Input
-                      value={partner.name}
-                      onChange={(e) => updatePartner(partner.id, 'name', e.target.value)}
-                      className="text-black"
-                    />
-                  </div>
-
-                  <div>
-                    <Label>Сайт</Label>
-                    <Input
-                      value={partner.website_url}
-                      onChange={(e) => updatePartner(partner.id, 'website_url', e.target.value)}
-                      className="text-black"
-                    />
-                  </div>
-
-                  <div className="col-span-2 space-y-3">
-                    <Label className="text-base font-semibold">Логотип партнёра</Label>
-                    <p className="text-sm text-gray-500">Вставьте ссылку на изображение или загрузите файл с компьютера</p>
-                    
-                    <div className="flex gap-3">
-                      <div className="flex-1">
-                        <Input
-                          value={partner.logo_url}
-                          onChange={(e) => updatePartner(partner.id, 'logo_url', e.target.value)}
-                          placeholder="https://example.com/logo.svg"
-                          className="text-black"
-                        />
-                      </div>
-                      
-                      <div className="relative">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleFileUpload(e, partner.id)}
-                          className="hidden"
-                          id={`upload-logo-${partner.id}`}
-                          disabled={isUploading}
-                        />
-                        <Button
-                          type="button"
-                          onClick={() => document.getElementById(`upload-logo-${partner.id}`)?.click()}
-                          disabled={isUploading}
-                          className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white whitespace-nowrap"
-                        >
-                          <Icon name={isUploading ? 'Loader2' : 'Upload'} size={16} className={`mr-2 ${isUploading ? 'animate-spin' : ''}`} />
-                          {isUploading ? 'Загрузка...' : 'Загрузить файл'}
-                        </Button>
-                      </div>
-                    </div>
-
-                    {partner.logo_url && (
-                      <div className="mt-2 p-4 border-2 border-gradient-start/20 rounded-lg bg-gradient-to-br from-gray-50 to-white">
-                        <p className="text-xs text-gray-500 mb-2">Предпросмотр:</p>
-                        <img 
-                          src={partner.logo_url} 
-                          alt="Preview" 
-                          className="h-20 object-contain"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.style.display = 'none';
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <Label>Порядок</Label>
-                    <Input
-                      type="number"
-                      value={partner.display_order}
-                      onChange={(e) => updatePartner(partner.id, 'display_order', parseInt(e.target.value))}
-                      className="text-black"
-                    />
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <Switch
-                      checked={partner.is_active}
-                      onCheckedChange={(checked) => updatePartner(partner.id, 'is_active', checked)}
-                    />
-                    <Label>Активен</Label>
-                  </div>
-                </div>
-
-                <div className="flex gap-2">
-                  <Button
-                    onClick={() => handleUpdate(partner.id)}
-                    className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white"
-                  >
-                    <Icon name="Check" size={16} className="mr-2" />
-                    Сохранить
-                  </Button>
-                  <Button
-                    onClick={() => setEditingId(null)}
-                    variant="outline"
-                  >
-                    Отмена
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-6 flex-1">
-                  <img
-                    src={partner.logo_url}
-                    alt={partner.name}
-                    className="h-16 w-32 object-contain"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                    }}
-                  />
-                  <div className="flex-1">
-                    <h3 className="font-bold text-lg">{partner.name}</h3>
-                    <a
-                      href={partner.website_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-gradient-start hover:underline"
-                    >
-                      {partner.website_url}
-                    </a>
-                    <p className="text-sm text-gray-500 mt-1">
-                      Порядок: {partner.display_order} • {partner.is_active ? 'Активен' : 'Неактивен'}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-2">
-                  <Button
-                    onClick={() => setEditingId(partner.id)}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <Icon name="Pencil" size={16} />
-                  </Button>
-                  <Button
-                    onClick={() => handleDelete(partner.id)}
-                    variant="destructive"
-                    size="sm"
-                  >
-                    <Icon name="Trash2" size={16} />
-                  </Button>
-                </div>
-              </div>
-            )}
-          </div>
+            partner={partner}
+            isEditing={editingId === partner.id}
+            isUploading={isUploading}
+            onEdit={() => setEditingId(partner.id)}
+            onUpdate={updatePartner}
+            onSave={() => handleUpdate(partner.id)}
+            onCancel={() => setEditingId(null)}
+            onDelete={() => handleDelete(partner.id)}
+            onFileUpload={(e) => handleFileUpload(e, partner.id)}
+          />
         ))}
       </div>
     </div>
