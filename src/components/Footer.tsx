@@ -19,16 +19,20 @@ const Footer = () => {
             Новости
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
+          <a href="#blok-dev" className="nav-link-custom relative group">
+            Разработка
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+          </a>
+          <a href="#blok-prom" className="nav-link-custom relative group">
+            Продвижение
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+          </a>
           <a href="#services" className="nav-link-custom relative group">
             Услуги
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
           <a href="#portfolio" className="nav-link-custom relative group">
             Портфолио
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
-          </a>
-          <a href="#lid" className="nav-link-custom relative group">
-            Лидогенерация
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
           <a href="#contacts" className="nav-link-custom relative group">
