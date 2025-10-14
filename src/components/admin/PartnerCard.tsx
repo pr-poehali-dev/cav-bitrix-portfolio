@@ -180,6 +180,7 @@ const PartnerCard = ({
               onClick={onEdit}
               variant="outline"
               size="sm"
+              className="border-gray-400 text-gray-700 hover:bg-gray-100 hover:text-gray-900"
             >
               <Icon name="Pencil" size={16} />
             </Button>
