@@ -132,6 +132,9 @@ const Development = () => {
               наши услуги
             </p>
             <h3 className="section-subtitle">Делаем любой сложности проекты</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Мы предлагаем полный спектр услуг по разработке сайтов, которые помогут вашему бизнесу расти и развиваться в интернете. Наши решения — это сочетание современного дизайна, удобства и функциональности, адаптированные под ваши потребности и бюджет.
+            </p>
             <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300">
               Обсудить проект
             </button>
