@@ -21,12 +21,29 @@ interface BitrixLicense {
   features: string[];
 }
 
+interface HostingOption {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+}
+
+interface BegetTariff {
+  id: string;
+  name: string;
+  price: number;
+  period: string;
+  features: string[];
+}
+
 const OurServices = () => {
   const [selectedDevelopment, setSelectedDevelopment] = useState<string[]>([]);
   const [selectedPromotion, setSelectedPromotion] = useState<string[]>([]);
   const [selectedAdditional, setSelectedAdditional] = useState<string[]>([]);
   const [selectedTechnology, setSelectedTechnology] = useState<string>('');
   const [selectedBitrixLicense, setSelectedBitrixLicense] = useState<string>('');
+  const [selectedHosting, setSelectedHosting] = useState<string>('');
+  const [selectedBegetTariff, setSelectedBegetTariff] = useState<string>('');
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -115,6 +132,58 @@ const OurServices = () => {
     }
   ];
 
+  const hostingOptions: HostingOption[] = [
+    {
+      id: 'own',
+      title: 'На моем хостинге',
+      description: 'Уже купил или уже есть',
+      price: 0
+    },
+    {
+      id: 'vps',
+      title: 'Предоставить VPS с ISPmanager 6',
+      description: 'До 3-х сайтов',
+      price: 4000
+    },
+    {
+      id: 'beget',
+      title: 'Приобрести хостинг партнера Beget.com',
+      description: 'Надежный виртуальный хостинг',
+      price: 0
+    }
+  ];
+
+  const begetTariffs: BegetTariff[] = [
+    {
+      id: 'start',
+      name: 'START',
+      price: 150,
+      period: 'мес',
+      features: ['10 ГБ SSD', '1 сайт', '1 база данных MySQL', '5 почтовых ящиков', 'SSL сертификат']
+    },
+    {
+      id: 'optimal',
+      name: 'OPTIMAL',
+      price: 250,
+      period: 'мес',
+      features: ['25 ГБ SSD', '5 сайтов', '10 баз данных MySQL', '50 почтовых ящиков', 'SSL сертификат', 'Резервные копии']
+    },
+    {
+      id: 'business',
+      name: 'BUSINESS',
+      price: 450,
+      period: 'мес',
+      features: ['50 ГБ SSD', '20 сайтов', '50 баз данных MySQL', 'Безлимит почтовых ящиков', 'SSL сертификат', 'Резервные копии', 'Приоритетная поддержка']
+    },
+    {
+      id: 'pro',
+      name: 'PRO',
+      price: 750,
+      period: 'мес',
+      features: ['100 ГБ SSD', 'Безлимит сайтов', 'Безлимит баз данных', 'Безлимит почтовых ящиков', 'SSL сертификат', 'Резервные копии', 'Приоритетная поддержка', 'PHP 8.x']
+    }
+  ];
+
   const bitrixLicenses: BitrixLicense[] = [
     {
       id: 'start',
@@ -197,6 +266,20 @@ const OurServices = () => {
       const license = bitrixLicenses.find(l => l.id === selectedBitrixLicense);
       if (license) {
         total += license.price;
+      }
+    }
+
+    if (selectedHosting) {
+      const hosting = hostingOptions.find(h => h.id === selectedHosting);
+      if (hosting) {
+        total += hosting.price;
+      }
+    }
+
+    if (selectedHosting === 'beget' && selectedBegetTariff) {
+      const tariff = begetTariffs.find(t => t.id === selectedBegetTariff);
+      if (tariff) {
+        total += tariff.price * 12;
       }
     }
     
@@ -357,6 +440,67 @@ const OurServices = () => {
                       </div>
                       <ul className="space-y-2">
                         {license.features.map((feature, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm">
+                            <Icon name="Check" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-12">
+            <h3 className="text-2xl font-bold mb-6">Хостинг</h3>
+            <div className="grid md:grid-cols-3 gap-4 mb-6">
+              {hostingOptions.map(option => (
+                <Card
+                  key={option.id}
+                  className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
+                    selectedHosting === option.id ? 'border-primary border-2 bg-primary/5' : ''
+                  }`}
+                  onClick={() => {
+                    setSelectedHosting(selectedHosting === option.id ? '' : option.id);
+                    setSelectedBegetTariff('');
+                  }}
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <Checkbox checked={selectedHosting === option.id} />
+                    <div>
+                      <h4 className="font-semibold text-lg">{option.title}</h4>
+                      <p className="text-sm text-muted-foreground">{option.description}</p>
+                    </div>
+                  </div>
+                  <p className="text-primary font-bold text-xl">
+                    {option.price === 0 ? 'Бесплатно' : `${formatPrice(option.price)} ₽/год`}
+                  </p>
+                </Card>
+              ))}
+            </div>
+
+            {selectedHosting === 'beget' && (
+              <div className="animate-in slide-in-from-top-4 duration-300">
+                <h4 className="text-xl font-bold mb-4">Выберите тариф Beget</h4>
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {begetTariffs.map(tariff => (
+                    <Card
+                      key={tariff.id}
+                      className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
+                        selectedBegetTariff === tariff.id ? 'border-primary border-2 bg-primary/5' : ''
+                      }`}
+                      onClick={() => setSelectedBegetTariff(tariff.id === selectedBegetTariff ? '' : tariff.id)}
+                    >
+                      <div className="mb-4">
+                        <Checkbox checked={selectedBegetTariff === tariff.id} className="mb-3" />
+                        <h5 className="font-bold text-lg mb-1">{tariff.name}</h5>
+                        <p className="text-primary font-bold text-xl mb-1">{formatPrice(tariff.price)} ₽/{tariff.period}</p>
+                        <p className="text-sm text-muted-foreground">{formatPrice(tariff.price * 12)} ₽/год</p>
+                      </div>
+                      <ul className="space-y-2">
+                        {tariff.features.map((feature, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-sm">
                             <Icon name="Check" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
                             <span>{feature}</span>
