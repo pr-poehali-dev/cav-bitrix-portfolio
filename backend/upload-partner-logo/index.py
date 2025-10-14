@@ -9,7 +9,7 @@ from botocore.exceptions import ClientError
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
-    Business: Upload partner logo to S3 storage and return public URL
+    Business: Upload partner logo to S3 and return public URL
     Args: event with httpMethod, body containing base64 image
     Returns: JSON with image URL
     '''
