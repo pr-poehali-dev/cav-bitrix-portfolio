@@ -1,12 +1,13 @@
 '''
-Business: Convert Yandex.Disk public URL to direct download URL
+Business: Convert Yandex.Disk public URL to Data URI (base64 encoded image)
 Args: event with public_url in query params or body
-Returns: JSON with direct download URL
+Returns: JSON with data URI
 '''
 
 import json
 import urllib.parse
 import urllib.request
+import base64
 from typing import Dict, Any
 
 
@@ -50,22 +51,30 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         api_url = f'https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key={urllib.parse.quote(public_url)}'
         
         req = urllib.request.Request(api_url)
-        with urllib.request.urlopen(req) as response:
+        with urllib.request.urlopen(req, timeout=30) as response:
             data = json.loads(response.read().decode())
             direct_url = data.get('href')
             
             if not direct_url:
                 raise Exception('No download URL in response')
             
-            return {
-                'statusCode': 200,
-                'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                'body': json.dumps({'direct_url': direct_url}),
-                'isBase64Encoded': False
-            }
+            download_req = urllib.request.Request(direct_url)
+            with urllib.request.urlopen(download_req, timeout=30) as img_response:
+                image_data = img_response.read()
+                content_type = img_response.headers.get('Content-Type', 'image/png')
+                
+                base64_image = base64.b64encode(image_data).decode('utf-8')
+                data_uri = f'data:{content_type};base64,{base64_image}'
+                
+                return {
+                    'statusCode': 200,
+                    'headers': {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    'body': json.dumps({'data_uri': data_uri}),
+                    'isBase64Encoded': False
+                }
     
     except Exception as e:
         return {

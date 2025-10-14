@@ -63,10 +63,15 @@ const PartnersAdmin = () => {
         const response = await fetch(`https://functions.poehali.dev/8dd5a9cf-1430-457d-a682-7114624f923a?url=${encodeURIComponent(url)}`);
         if (response.ok) {
           const data = await response.json();
-          return data.direct_url;
+          return data.data_uri;
         }
       } catch (error) {
         console.error('Failed to convert Yandex.Disk URL:', error);
+        toast({
+          title: 'Ошибка',
+          description: 'Не удалось загрузить изображение с Яндекс.Диска',
+          variant: 'destructive'
+        });
       }
     }
     return url;

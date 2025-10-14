@@ -1,0 +1,1 @@
+ALTER TABLE partner_logos ALTER COLUMN logo_url TYPE TEXT;
