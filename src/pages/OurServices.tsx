@@ -2,39 +2,20 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
 import Footer from '@/components/Footer';
-
-interface Service {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-}
-
-interface BitrixLicense {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  features: string[];
-}
-
-interface HostingOption {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-}
-
-interface BegetTariff {
-  id: string;
-  name: string;
-  price: number;
-  period: string;
-  features: string[];
-}
+import ServiceSection from '@/components/services/ServiceSection';
+import ServiceCard from '@/components/services/ServiceCard';
+import TechnologySelector from '@/components/services/TechnologySelector';
+import HostingSelector from '@/components/services/HostingSelector';
+import {
+  developmentServices,
+  promotionServices,
+  additionalServices,
+  bitrixLicenses,
+  hostingOptions,
+  begetTariffs
+} from '@/components/services/servicesData';
 
 const OurServices = () => {
   const [selectedDevelopment, setSelectedDevelopment] = useState<string[]>([]);
@@ -57,171 +38,6 @@ const OurServices = () => {
     }
   }, []);
 
-  const developmentServices: Service[] = [
-    {
-      id: 'corporate',
-      title: 'Корпоративный сайт',
-      description: 'Профессиональная платформа для презентации вашей компании и привлечения клиентов',
-      price: 50000
-    },
-    {
-      id: 'shop',
-      title: 'Интернет-магазин',
-      description: 'Удобное и надежное решение для онлайн-продаж с каталогом и корзиной',
-      price: 80000
-    },
-    {
-      id: 'landing',
-      title: 'Лендинг',
-      description: 'Эффективный одностраничный сайт для продвижения товаров и услуг',
-      price: 25000
-    },
-    {
-      id: 'business-card',
-      title: 'Сайт-визитка',
-      description: 'Быстрый и недорогой способ представить бизнес в сети',
-      price: 15000
-    },
-    {
-      id: 'adaptive',
-      title: 'Адаптивная верстка',
-      description: 'Сайт отлично выглядит и работает на всех устройствах',
-      price: 10000
-    }
-  ];
-
-  const promotionServices: Service[] = [
-    {
-      id: 'seo',
-      title: 'SEO-оптимизация',
-      description: 'Продвижение сайта в поисковых системах',
-      price: 30000
-    },
-    {
-      id: 'context',
-      title: 'Контекстная реклама',
-      description: 'Настройка и ведение рекламных кампаний',
-      price: 25000
-    },
-    {
-      id: 'smm',
-      title: 'SMM-продвижение',
-      description: 'Продвижение в социальных сетях',
-      price: 20000
-    }
-  ];
-
-  const additionalServices: Service[] = [
-    {
-      id: 'content',
-      title: 'Контент-менеджмент',
-      description: 'Регулярное обновление и наполнение сайта',
-      price: 15000
-    },
-    {
-      id: 'support',
-      title: 'Техническая поддержка',
-      description: 'Обслуживание и исправление ошибок',
-      price: 10000
-    },
-    {
-      id: 'analytics',
-      title: 'Веб-аналитика',
-      description: 'Настройка систем аналитики и отчеты',
-      price: 12000
-    }
-  ];
-
-  const hostingOptions: HostingOption[] = [
-    {
-      id: 'own',
-      title: 'На моем хостинге',
-      description: 'Уже купил или уже есть',
-      price: 0
-    },
-    {
-      id: 'vps',
-      title: 'Предоставить VPS с ISPmanager 6',
-      description: 'До 3-х сайтов',
-      price: 4000
-    },
-    {
-      id: 'beget',
-      title: 'Приобрести хостинг партнера Beget.com',
-      description: 'Надежный виртуальный хостинг',
-      price: 0
-    }
-  ];
-
-  const begetTariffs: BegetTariff[] = [
-    {
-      id: 'start',
-      name: 'START',
-      price: 150,
-      period: 'мес',
-      features: ['10 ГБ SSD', '1 сайт', '1 база данных MySQL', '5 почтовых ящиков', 'SSL сертификат']
-    },
-    {
-      id: 'optimal',
-      name: 'OPTIMAL',
-      price: 250,
-      period: 'мес',
-      features: ['25 ГБ SSD', '5 сайтов', '10 баз данных MySQL', '50 почтовых ящиков', 'SSL сертификат', 'Резервные копии']
-    },
-    {
-      id: 'business',
-      name: 'BUSINESS',
-      price: 450,
-      period: 'мес',
-      features: ['50 ГБ SSD', '20 сайтов', '50 баз данных MySQL', 'Безлимит почтовых ящиков', 'SSL сертификат', 'Резервные копии', 'Приоритетная поддержка']
-    },
-    {
-      id: 'pro',
-      name: 'PRO',
-      price: 750,
-      period: 'мес',
-      features: ['100 ГБ SSD', 'Безлимит сайтов', 'Безлимит баз данных', 'Безлимит почтовых ящиков', 'SSL сертификат', 'Резервные копии', 'Приоритетная поддержка', 'PHP 8.x']
-    }
-  ];
-
-  const bitrixLicenses: BitrixLicense[] = [
-    {
-      id: 'start',
-      title: 'Старт',
-      description: 'Для небольших проектов и стартапов',
-      price: 6200,
-      features: ['1 сайт', 'Базовые модули', 'Поддержка 3 месяца', 'Обновления 1 год']
-    },
-    {
-      id: 'standard',
-      title: 'Стандарт',
-      description: 'Оптимальное решение для среднего бизнеса',
-      price: 17900,
-      features: ['3 сайта', 'Расширенные модули', 'Интернет-магазин', 'Поддержка 1 год']
-    },
-    {
-      id: 'small-business',
-      title: 'Малый бизнес',
-      description: 'Для растущих компаний',
-      price: 40900,
-      features: ['5 сайтов', 'Все модули', 'CRM-интеграция', 'Поддержка 1 год', 'Маркетплейс']
-    },
-    {
-      id: 'business',
-      title: 'Бизнес',
-      description: 'Для крупного бизнеса',
-      price: 83900,
-      features: ['Безлимит сайтов', 'Полный функционал', 'Кластеризация', 'Приоритетная поддержка']
-    },
-    {
-      id: 'enterprise',
-      title: 'Энтерпрайз',
-      description: 'Максимальные возможности для корпораций',
-      price: 1699000,
-      features: ['Все возможности Бизнес', 'Высоконагруженные проекты', 'Персональная поддержка', 'SLA 99.9%']
-    }
-  ];
-
   const toggleService = (
     id: string,
     category: 'development' | 'promotion' | 'additional'
@@ -239,6 +55,24 @@ const OurServices = () => {
         prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]
       );
     }
+  };
+
+  const handleTechnologyChange = (tech: string) => {
+    setSelectedTechnology(selectedTechnology === tech ? '' : tech);
+    setSelectedBitrixLicense('');
+  };
+
+  const handleBitrixLicenseChange = (licenseId: string) => {
+    setSelectedBitrixLicense(licenseId === selectedBitrixLicense ? '' : licenseId);
+  };
+
+  const handleHostingChange = (hostingId: string) => {
+    setSelectedHosting(selectedHosting === hostingId ? '' : hostingId);
+    setSelectedBegetTariff('');
+  };
+
+  const handleBegetTariffChange = (tariffId: string) => {
+    setSelectedBegetTariff(tariffId === selectedBegetTariff ? '' : tariffId);
   };
 
   const calculateTotal = () => {
@@ -290,36 +124,6 @@ const OurServices = () => {
     return new Intl.NumberFormat('ru-RU').format(price);
   };
 
-  const ServiceCard = ({
-    service,
-    isSelected,
-    onToggle
-  }: {
-    service: Service;
-    isSelected: boolean;
-    onToggle: () => void;
-  }) => (
-    <Card
-      className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
-        isSelected ? 'border-primary border-2 bg-primary/5' : ''
-      }`}
-      onClick={onToggle}
-    >
-      <div className="flex items-start gap-4">
-        <Checkbox
-          checked={isSelected}
-          onCheckedChange={onToggle}
-          className="mt-1"
-        />
-        <div className="flex-1">
-          <h3 className="font-semibold text-lg mb-2">{service.title}</h3>
-          <p className="text-muted-foreground text-sm mb-3">{service.description}</p>
-          <p className="text-primary font-bold">от {formatPrice(service.price)} ₽</p>
-        </div>
-      </div>
-    </Card>
-  );
-
   const totalPrice = calculateTotal();
 
   return (
@@ -362,202 +166,43 @@ const OurServices = () => {
             ))}
           </div>
 
-          <div className="mt-8">
-            <h3 className="text-2xl font-bold mb-6">На чем собираем сайт</h3>
-            <div className="grid md:grid-cols-3 gap-4 mb-6">
-              <Card
-                className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
-                  selectedTechnology === 'bitrix' ? 'border-primary border-2 bg-primary/5' : ''
-                }`}
-                onClick={() => {
-                  setSelectedTechnology(selectedTechnology === 'bitrix' ? '' : 'bitrix');
-                  setSelectedBitrixLicense('');
-                }}
-              >
-                <div className="flex items-center gap-3">
-                  <Checkbox checked={selectedTechnology === 'bitrix'} />
-                  <div>
-                    <h4 className="font-semibold text-lg">CMS 1С-Битрикс</h4>
-                    <p className="text-sm text-muted-foreground">Управление Сайтом</p>
-                  </div>
-                </div>
-              </Card>
+          <TechnologySelector
+            selectedTechnology={selectedTechnology}
+            selectedBitrixLicense={selectedBitrixLicense}
+            bitrixLicenses={bitrixLicenses}
+            onTechnologyChange={handleTechnologyChange}
+            onBitrixLicenseChange={handleBitrixLicenseChange}
+          />
 
-              <Card
-                className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
-                  selectedTechnology === 'react' ? 'border-primary border-2 bg-primary/5' : ''
-                }`}
-                onClick={() => {
-                  setSelectedTechnology(selectedTechnology === 'react' ? '' : 'react');
-                  setSelectedBitrixLicense('');
-                }}
-              >
-                <div className="flex items-center gap-3">
-                  <Checkbox checked={selectedTechnology === 'react'} />
-                  <div>
-                    <h4 className="font-semibold text-lg">React</h4>
-                    <p className="text-sm text-muted-foreground">Современный фреймворк</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card
-                className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
-                  selectedTechnology === 'html' ? 'border-primary border-2 bg-primary/5' : ''
-                }`}
-                onClick={() => {
-                  setSelectedTechnology(selectedTechnology === 'html' ? '' : 'html');
-                  setSelectedBitrixLicense('');
-                }}
-              >
-                <div className="flex items-center gap-3">
-                  <Checkbox checked={selectedTechnology === 'html'} />
-                  <div>
-                    <h4 className="font-semibold text-lg">HTML-статика</h4>
-                    <p className="text-sm text-muted-foreground">Простое решение</p>
-                  </div>
-                </div>
-              </Card>
-            </div>
-
-            {selectedTechnology === 'bitrix' && (
-              <div className="animate-in slide-in-from-top-4 duration-300">
-                <h4 className="text-xl font-bold mb-4">Выберите лицензию 1С-Битрикс</h4>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {bitrixLicenses.map(license => (
-                    <Card
-                      key={license.id}
-                      className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
-                        selectedBitrixLicense === license.id ? 'border-primary border-2 bg-primary/5' : ''
-                      }`}
-                      onClick={() => setSelectedBitrixLicense(license.id === selectedBitrixLicense ? '' : license.id)}
-                    >
-                      <div className="mb-4">
-                        <Checkbox checked={selectedBitrixLicense === license.id} className="mb-3" />
-                        <h5 className="font-bold text-lg mb-1">{license.title}</h5>
-                        <p className="text-sm text-muted-foreground mb-3">{license.description}</p>
-                        <p className="text-primary font-bold text-xl">{formatPrice(license.price)} ₽</p>
-                      </div>
-                      <ul className="space-y-2">
-                        {license.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm">
-                            <Icon name="Check" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="mt-12">
-            <h3 className="text-2xl font-bold mb-6">Хостинг</h3>
-            <div className="grid md:grid-cols-3 gap-4 mb-6">
-              {hostingOptions.map(option => (
-                <Card
-                  key={option.id}
-                  className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
-                    selectedHosting === option.id ? 'border-primary border-2 bg-primary/5' : ''
-                  }`}
-                  onClick={() => {
-                    setSelectedHosting(selectedHosting === option.id ? '' : option.id);
-                    setSelectedBegetTariff('');
-                  }}
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <Checkbox checked={selectedHosting === option.id} />
-                    <div>
-                      <h4 className="font-semibold text-lg">{option.title}</h4>
-                      <p className="text-sm text-muted-foreground">{option.description}</p>
-                    </div>
-                  </div>
-                  <p className="text-primary font-bold text-xl">
-                    {option.price === 0 ? 'Бесплатно' : `${formatPrice(option.price)} ₽/год`}
-                  </p>
-                </Card>
-              ))}
-            </div>
-
-            {selectedHosting === 'beget' && (
-              <div className="animate-in slide-in-from-top-4 duration-300">
-                <h4 className="text-xl font-bold mb-4">Выберите тариф Beget</h4>
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {begetTariffs.map(tariff => (
-                    <Card
-                      key={tariff.id}
-                      className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
-                        selectedBegetTariff === tariff.id ? 'border-primary border-2 bg-primary/5' : ''
-                      }`}
-                      onClick={() => setSelectedBegetTariff(tariff.id === selectedBegetTariff ? '' : tariff.id)}
-                    >
-                      <div className="mb-4">
-                        <Checkbox checked={selectedBegetTariff === tariff.id} className="mb-3" />
-                        <h5 className="font-bold text-lg mb-1">{tariff.name}</h5>
-                        <p className="text-primary font-bold text-xl mb-1">{formatPrice(tariff.price)} ₽/{tariff.period}</p>
-                        <p className="text-sm text-muted-foreground">{formatPrice(tariff.price * 12)} ₽/год</p>
-                      </div>
-                      <ul className="space-y-2">
-                        {tariff.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm">
-                            <Icon name="Check" size={16} className="text-green-600 mt-0.5 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+          <HostingSelector
+            selectedHosting={selectedHosting}
+            selectedBegetTariff={selectedBegetTariff}
+            hostingOptions={hostingOptions}
+            begetTariffs={begetTariffs}
+            onHostingChange={handleHostingChange}
+            onBegetTariffChange={handleBegetTariffChange}
+          />
         </section>
 
-        <section id="promotion" className="mb-16 scroll-mt-24">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-              <Icon name="TrendingUp" className="text-primary" size={24} />
-            </div>
-            <div>
-              <h2 className="text-3xl font-bold">Продвижение</h2>
-              <p className="text-muted-foreground">Привлечение клиентов и рост продаж</p>
-            </div>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {promotionServices.map(service => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                isSelected={selectedPromotion.includes(service.id)}
-                onToggle={() => toggleService(service.id, 'promotion')}
-              />
-            ))}
-          </div>
-        </section>
+        <ServiceSection
+          id="promotion"
+          title="Продвижение"
+          description="Привлечение клиентов и рост продаж"
+          icon="TrendingUp"
+          services={promotionServices}
+          selectedServices={selectedPromotion}
+          onToggle={(id) => toggleService(id, 'promotion')}
+        />
 
-        <section id="additional" className="mb-16 scroll-mt-24">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-              <Icon name="Plus" className="text-primary" size={24} />
-            </div>
-            <div>
-              <h2 className="text-3xl font-bold">Дополнительные услуги</h2>
-              <p className="text-muted-foreground">Поддержка и развитие проекта</p>
-            </div>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {additionalServices.map(service => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                isSelected={selectedAdditional.includes(service.id)}
-                onToggle={() => toggleService(service.id, 'additional')}
-              />
-            ))}
-          </div>
-        </section>
+        <ServiceSection
+          id="additional"
+          title="Дополнительные услуги"
+          description="Поддержка и развитие проекта"
+          icon="Plus"
+          services={additionalServices}
+          selectedServices={selectedAdditional}
+          onToggle={(id) => toggleService(id, 'additional')}
+        />
 
         {totalPrice > 0 && (
           <Card className="sticky bottom-6 p-8 bg-white shadow-xl border-2">
