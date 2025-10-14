@@ -331,7 +331,6 @@ export default function Partners() {
           </form>
         </DialogContent>
       </Dialog>
-      </div>
     </AdminLayout>
   );
 }
