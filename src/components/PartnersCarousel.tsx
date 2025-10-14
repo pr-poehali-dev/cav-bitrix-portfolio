@@ -16,7 +16,7 @@ const PartnersCarousel = () => {
   useEffect(() => {
     const fetchPartners = async () => {
       try {
-        const response = await fetch('https://functions.poehali.dev/fe17b9e2-0169-4e42-97d7-2dac3cbb057c');
+        const response = await fetch('https://functions.poehali.dev/c7b03587-cdba-48a4-ac48-9aa2775ff9a0');
         if (response.ok) {
           const data = await response.json();
           setPartners(data);
