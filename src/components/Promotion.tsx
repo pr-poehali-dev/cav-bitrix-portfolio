@@ -17,14 +17,14 @@ const Promotion = () => {
             </div>
           </div>
           <div className="promotion-right pt-[316px] min-h-full space-y-6">
-            <p className="icon-badge max-w-[195px] flex items-center gap-2 group/badge cursor-pointer">
+            <a href="/services#promotion" className="icon-badge max-w-[195px] flex items-center gap-2 group/badge cursor-pointer">
               <img 
                 src="https://cdn.poehali.dev/files/9a3097d8-c2ab-4acb-917e-a6fb88252298.png" 
                 alt="memoji" 
                 className="w-5 h-5 object-contain animate-bounce group-hover/badge:scale-125 group-hover/badge:rotate-12 transition-all duration-300"
               />
               взлетаем
-            </p>
+            </a>
             <h3 className="section-subtitle">Сможем продвинуть любой ваш продукт или идею от А до Я</h3>
             <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300">
               Обсудить проект

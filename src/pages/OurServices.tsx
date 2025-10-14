@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,18 @@ const OurServices = () => {
   const [selectedDevelopment, setSelectedDevelopment] = useState<string[]>([]);
   const [selectedPromotion, setSelectedPromotion] = useState<string[]>([]);
   const [selectedAdditional, setSelectedAdditional] = useState<string[]>([]);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, []);
 
   const developmentServices: Service[] = [
     {
@@ -191,7 +203,7 @@ const OurServices = () => {
           </p>
         </div>
 
-        <section className="mb-16">
+        <section id="development" className="mb-16 scroll-mt-24">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
               <Icon name="Code" className="text-primary" size={24} />
@@ -213,7 +225,7 @@ const OurServices = () => {
           </div>
         </section>
 
-        <section className="mb-16">
+        <section id="promotion" className="mb-16 scroll-mt-24">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
               <Icon name="TrendingUp" className="text-primary" size={24} />
@@ -235,7 +247,7 @@ const OurServices = () => {
           </div>
         </section>
 
-        <section className="mb-16">
+        <section id="additional" className="mb-16 scroll-mt-24">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
               <Icon name="Plus" className="text-primary" size={24} />
