@@ -34,15 +34,22 @@ const HostingSelector = ({
   return (
     <div className="mt-12">
       <h3 className="text-2xl font-bold mb-6">Хостинг</h3>
-      <div className="grid md:grid-cols-3 gap-4 mb-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {hostingOptions.map(option => (
           <Card
             key={option.id}
             className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
               selectedHosting === option.id ? 'border-primary border-2 bg-primary/5' : ''
-            }`}
+            } ${option.id === 'poehali' ? 'relative overflow-hidden' : ''}`}
             onClick={() => onHostingChange(option.id)}
           >
+            {option.id === 'poehali' && (
+              <div className="absolute top-2 right-2">
+                <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+                  ⭐ Рекомендуем
+                </span>
+              </div>
+            )}
             <div className="flex items-center gap-3 mb-3">
               <Checkbox checked={selectedHosting === option.id} />
               <div>
@@ -53,6 +60,22 @@ const HostingSelector = ({
             <p className="text-primary font-bold text-xl">
               {option.price === 0 ? 'Бесплатно' : `${formatPrice(option.price)} ₽/год`}
             </p>
+            {option.id === 'poehali' && (
+              <div className="mt-3 space-y-1">
+                <div className="flex items-center gap-2 text-sm text-green-600">
+                  <Icon name="Check" size={14} />
+                  <span>Публикация за 1 клик</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-green-600">
+                  <Icon name="Check" size={14} />
+                  <span>Автоматические SSL</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-green-600">
+                  <Icon name="Check" size={14} />
+                  <span>Бесплатный поддомен</span>
+                </div>
+              </div>
+            )}
           </Card>
         ))}
       </div>

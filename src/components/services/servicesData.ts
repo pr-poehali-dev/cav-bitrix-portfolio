@@ -77,6 +77,12 @@ export const additionalServices: Service[] = [
 
 export const hostingOptions: HostingOption[] = [
   {
+    id: 'poehali',
+    title: 'Разместить на poehali.dev',
+    description: 'Бесплатный хостинг + домен + SSL сертификат',
+    price: 0
+  },
+  {
     id: 'own',
     title: 'На моем хостинге',
     description: 'Уже купил или уже есть',
