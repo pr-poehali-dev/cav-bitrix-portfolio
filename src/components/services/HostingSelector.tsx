@@ -46,13 +46,22 @@ const HostingSelector = ({
             key={option.id}
             className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
               selectedHosting === option.id ? 'border-primary border-2 bg-primary/5' : ''
-            } ${option.id === 'poehali' ? 'relative overflow-hidden' : ''}`}
+            } ${option.id === 'poehali' ? 'relative overflow-hidden' : ''} ${
+              option.id === 'vps' ? 'relative overflow-hidden border-primary border-2 bg-gradient-to-br from-primary/5 to-primary/10' : ''
+            }`}
             onClick={() => onHostingChange(option.id)}
           >
             {option.id === 'poehali' && (
               <div className="absolute top-2 right-2">
                 <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold">
                   ⭐ Рекомендуем
+                </span>
+              </div>
+            )}
+            {option.id === 'vps' && (
+              <div className="absolute top-2 right-2">
+                <span className="bg-primary text-white text-xs px-3 py-1 rounded-full font-bold">
+                  VPS PIXEL
                 </span>
               </div>
             )}
