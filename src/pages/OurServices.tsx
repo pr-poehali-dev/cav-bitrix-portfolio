@@ -2,9 +2,14 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import Icon from '@/components/ui/icon';
 import Footer from '@/components/Footer';
-import ServiceSection from '@/components/services/ServiceSection';
 import ServiceCard from '@/components/services/ServiceCard';
 import TechnologySelector from '@/components/services/TechnologySelector';
 import HostingSelector from '@/components/services/HostingSelector';
@@ -159,70 +164,108 @@ const OurServices = () => {
           </p>
         </div>
 
-        <section id="development" className="mb-16 scroll-mt-24">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-              <Icon name="Code" className="text-primary" size={24} />
-            </div>
-            <div>
-              <h2 className="text-3xl font-bold">Разработка</h2>
-              <p className="text-muted-foreground">Создание сайтов под ключ</p>
-            </div>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
-            {developmentServices.map(service => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                isSelected={selectedDevelopment.includes(service.id)}
-                onToggle={() => toggleService(service.id, 'development')}
+        <Accordion type="multiple" className="space-y-4" defaultValue={['development']}>
+          <AccordionItem value="development" className="border rounded-lg bg-white">
+            <AccordionTrigger className="px-6 hover:no-underline">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Icon name="Code" className="text-primary" size={24} />
+                </div>
+                <div className="text-left">
+                  <h2 className="text-2xl font-bold">Разработка</h2>
+                  <p className="text-sm text-muted-foreground font-normal">Создание сайтов под ключ</p>
+                </div>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="px-6 pb-6">
+              <div className="grid md:grid-cols-2 gap-6 mb-8">
+                {developmentServices.map(service => (
+                  <ServiceCard
+                    key={service.id}
+                    service={service}
+                    isSelected={selectedDevelopment.includes(service.id)}
+                    onToggle={() => toggleService(service.id, 'development')}
+                  />
+                ))}
+              </div>
+
+              <TechnologySelector
+                selectedTechnology={selectedTechnology}
+                selectedBitrixLicense={selectedBitrixLicense}
+                bitrixLicenses={bitrixLicenses}
+                onTechnologyChange={handleTechnologyChange}
+                onBitrixLicenseChange={handleBitrixLicenseChange}
               />
-            ))}
-          </div>
 
-          <TechnologySelector
-            selectedTechnology={selectedTechnology}
-            selectedBitrixLicense={selectedBitrixLicense}
-            bitrixLicenses={bitrixLicenses}
-            onTechnologyChange={handleTechnologyChange}
-            onBitrixLicenseChange={handleBitrixLicenseChange}
-          />
+              <HostingSelector
+                selectedHosting={selectedHosting}
+                selectedBegetTariff={selectedBegetTariff}
+                selectedVPSTariff={selectedVPSTariff}
+                hostingOptions={hostingOptions}
+                begetTariffs={begetTariffs}
+                vpsTariffs={vpsTariffs}
+                onHostingChange={handleHostingChange}
+                onBegetTariffChange={handleBegetTariffChange}
+                onVPSTariffChange={handleVPSTariffChange}
+              />
+            </AccordionContent>
+          </AccordionItem>
 
-          <HostingSelector
-            selectedHosting={selectedHosting}
-            selectedBegetTariff={selectedBegetTariff}
-            selectedVPSTariff={selectedVPSTariff}
-            hostingOptions={hostingOptions}
-            begetTariffs={begetTariffs}
-            vpsTariffs={vpsTariffs}
-            onHostingChange={handleHostingChange}
-            onBegetTariffChange={handleBegetTariffChange}
-            onVPSTariffChange={handleVPSTariffChange}
-          />
-        </section>
+          <AccordionItem value="promotion" className="border rounded-lg bg-white">
+            <AccordionTrigger className="px-6 hover:no-underline">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Icon name="TrendingUp" className="text-primary" size={24} />
+                </div>
+                <div className="text-left">
+                  <h2 className="text-2xl font-bold">Продвижение</h2>
+                  <p className="text-sm text-muted-foreground font-normal">Привлечение клиентов и рост продаж</p>
+                </div>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="px-6 pb-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                {promotionServices.map(service => (
+                  <ServiceCard
+                    key={service.id}
+                    service={service}
+                    isSelected={selectedPromotion.includes(service.id)}
+                    onToggle={() => toggleService(service.id, 'promotion')}
+                  />
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
 
-        <ServiceSection
-          id="promotion"
-          title="Продвижение"
-          description="Привлечение клиентов и рост продаж"
-          icon="TrendingUp"
-          services={promotionServices}
-          selectedServices={selectedPromotion}
-          onToggle={(id) => toggleService(id, 'promotion')}
-        />
-
-        <ServiceSection
-          id="additional"
-          title="Дополнительные услуги"
-          description="Поддержка и развитие проекта"
-          icon="Plus"
-          services={additionalServices}
-          selectedServices={selectedAdditional}
-          onToggle={(id) => toggleService(id, 'additional')}
-        />
+          <AccordionItem value="additional" className="border rounded-lg bg-white">
+            <AccordionTrigger className="px-6 hover:no-underline">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Icon name="Plus" className="text-primary" size={24} />
+                </div>
+                <div className="text-left">
+                  <h2 className="text-2xl font-bold">Дополнительные услуги</h2>
+                  <p className="text-sm text-muted-foreground font-normal">Поддержка и развитие проекта</p>
+                </div>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="px-6 pb-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                {additionalServices.map(service => (
+                  <ServiceCard
+                    key={service.id}
+                    service={service}
+                    isSelected={selectedAdditional.includes(service.id)}
+                    onToggle={() => toggleService(service.id, 'additional')}
+                  />
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
         {totalPrice > 0 && (
-          <Card className="sticky bottom-6 p-8 bg-white shadow-xl border-2">
+          <Card className="sticky bottom-6 p-8 bg-white shadow-xl border-2 mt-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div>
                 <p className="text-muted-foreground mb-2">Предварительная стоимость проекта</p>
