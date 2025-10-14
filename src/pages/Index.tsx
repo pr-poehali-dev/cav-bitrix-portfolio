@@ -11,22 +11,10 @@ import Footer from '@/components/Footer';
 import CookieConsent from '@/components/CookieConsent';
 import PartnerLogin from '@/components/services/PartnerLogin';
 import HowItWorks from '@/components/HowItWorks';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 
 const Index = () => {
-  const navigate = useNavigate();
-  
   return (
     <div className="min-h-screen bg-white">
-      <Button 
-        onClick={() => navigate('/test-s3')}
-        className="fixed bottom-4 right-4 z-50 shadow-lg"
-        variant="secondary"
-        size="sm"
-      >
-        🧪 Тест S3
-      </Button>
       <PartnerLogin />
       <Hero />
       
