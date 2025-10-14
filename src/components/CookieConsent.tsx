@@ -15,8 +15,13 @@ const CookieConsent = () => {
   }, []);
 
   const handleAccept = () => {
-    if (cookies && terms && privacy) {
-      localStorage.setItem('cookieConsent', 'true');
+    if (cookies) {
+      localStorage.setItem('cookieConsent', JSON.stringify({
+        cookies,
+        terms,
+        privacy,
+        date: new Date().toISOString()
+      }));
       setIsVisible(false);
     }
   };
@@ -26,8 +31,6 @@ const CookieConsent = () => {
   };
 
   if (!isVisible) return null;
-
-  const allChecked = cookies && terms && privacy;
 
   return (
     <div className="fixed inset-0 z-[99999] flex items-end justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
@@ -60,7 +63,7 @@ const CookieConsent = () => {
               )}
             </div>
             <span className="text-gray-700 group-hover:text-gray-900 transition-colors">
-              Согласие на использование cookies для улучшения работы сайта
+              Согласие на использование cookies для улучшения работы сайта <span className="text-red-500 font-semibold">*</span>
             </span>
           </label>
 
@@ -108,14 +111,14 @@ const CookieConsent = () => {
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={handleAccept}
-            disabled={!allChecked}
+            disabled={!cookies}
             className={`flex-1 px-6 py-4 rounded-full text-sm font-semibold transition-all duration-300 ${
-              allChecked
+              cookies
                 ? 'bg-gradient-to-r from-gradient-start to-gradient-mid text-white hover:shadow-xl hover:scale-105'
                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'
             }`}
           >
-            Принять все
+            Принять
           </button>
           <button
             onClick={handleDecline}
@@ -125,9 +128,9 @@ const CookieConsent = () => {
           </button>
         </div>
 
-        {!allChecked && (
-          <p className="text-xs text-gray-500 text-center mt-4">
-            Для продолжения необходимо принять все условия
+        {!cookies && (
+          <p className="text-xs text-red-500 text-center mt-4">
+            * Согласие на использование cookies обязательно для работы сайта
           </p>
         )}
       </div>

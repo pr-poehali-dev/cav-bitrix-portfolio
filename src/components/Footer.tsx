@@ -54,13 +54,22 @@ const Footer = () => {
           <p className="text-sm text-gray-500">
             © {new Date().getFullYear()} Pixel. Все права защищены.
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-6 items-center justify-center">
             <a href="/terms" className="text-sm text-gray-500 hover:text-gradient-start transition-colors">
               Пользовательское соглашение
             </a>
             <a href="/privacy" className="text-sm text-gray-500 hover:text-gradient-start transition-colors">
               Политика конфиденциальности
             </a>
+            <button
+              onClick={() => {
+                localStorage.removeItem('cookieConsent');
+                window.location.reload();
+              }}
+              className="text-sm text-gray-500 hover:text-gradient-start transition-colors underline"
+            >
+              Настройки cookies
+            </button>
           </div>
         </div>
       </div>
