@@ -231,7 +231,7 @@ const PartnersAdmin = () => {
           
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="new-name">Название</Label>
+              <Label htmlFor="new-name" className="text-base font-semibold">Название бренда</Label>
               <Input
                 id="new-name"
                 value={formData.name}
@@ -241,7 +241,7 @@ const PartnersAdmin = () => {
             </div>
 
             <div>
-              <Label htmlFor="new-website">Сайт</Label>
+              <Label htmlFor="new-website" className="text-base font-semibold">Сайт партнёра</Label>
               <Input
                 id="new-website"
                 value={formData.website_url}
@@ -251,7 +251,8 @@ const PartnersAdmin = () => {
             </div>
 
             <div className="col-span-2 space-y-3">
-              <Label>Логотип</Label>
+              <Label className="text-base font-semibold">Логотип партнёра</Label>
+              <p className="text-sm text-gray-500">Вставьте ссылку на изображение или загрузите файл с компьютера</p>
               
               <div className="flex gap-3">
                 <div className="flex-1">
@@ -259,7 +260,7 @@ const PartnersAdmin = () => {
                     id="new-logo"
                     value={formData.logo_url}
                     onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
-                    placeholder="https://example.com/logo.svg или загрузите файл"
+                    placeholder="https://example.com/logo.svg"
                   />
                 </div>
                 
@@ -276,21 +277,21 @@ const PartnersAdmin = () => {
                     type="button"
                     onClick={() => document.getElementById('upload-new-logo')?.click()}
                     disabled={isUploading}
-                    variant="outline"
-                    className="whitespace-nowrap"
+                    className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white whitespace-nowrap"
                   >
                     <Icon name={isUploading ? 'Loader2' : 'Upload'} size={16} className={`mr-2 ${isUploading ? 'animate-spin' : ''}`} />
-                    {isUploading ? 'Загрузка...' : 'Загрузить'}
+                    {isUploading ? 'Загрузка...' : 'Загрузить файл'}
                   </Button>
                 </div>
               </div>
 
               {formData.logo_url && (
-                <div className="mt-2 p-3 border rounded-lg bg-gray-50">
+                <div className="mt-2 p-4 border-2 border-gradient-start/20 rounded-lg bg-gradient-to-br from-gray-50 to-white">
+                  <p className="text-xs text-gray-500 mb-2">Предпросмотр:</p>
                   <img 
                     src={formData.logo_url} 
                     alt="Preview" 
-                    className="h-16 object-contain"
+                    className="h-20 object-contain"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
@@ -356,14 +357,15 @@ const PartnersAdmin = () => {
                   </div>
 
                   <div className="col-span-2 space-y-3">
-                    <Label>Логотип</Label>
+                    <Label className="text-base font-semibold">Логотип партнёра</Label>
+                    <p className="text-sm text-gray-500">Вставьте ссылку на изображение или загрузите файл с компьютера</p>
                     
                     <div className="flex gap-3">
                       <div className="flex-1">
                         <Input
                           value={partner.logo_url}
                           onChange={(e) => updatePartner(partner.id, 'logo_url', e.target.value)}
-                          placeholder="https://example.com/logo.svg или загрузите файл"
+                          placeholder="https://example.com/logo.svg"
                         />
                       </div>
                       
@@ -380,21 +382,21 @@ const PartnersAdmin = () => {
                           type="button"
                           onClick={() => document.getElementById(`upload-logo-${partner.id}`)?.click()}
                           disabled={isUploading}
-                          variant="outline"
-                          className="whitespace-nowrap"
+                          className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white whitespace-nowrap"
                         >
                           <Icon name={isUploading ? 'Loader2' : 'Upload'} size={16} className={`mr-2 ${isUploading ? 'animate-spin' : ''}`} />
-                          {isUploading ? 'Загрузка...' : 'Загрузить'}
+                          {isUploading ? 'Загрузка...' : 'Загрузить файл'}
                         </Button>
                       </div>
                     </div>
 
                     {partner.logo_url && (
-                      <div className="mt-2 p-3 border rounded-lg bg-gray-50">
+                      <div className="mt-2 p-4 border-2 border-gradient-start/20 rounded-lg bg-gradient-to-br from-gray-50 to-white">
+                        <p className="text-xs text-gray-500 mb-2">Предпросмотр:</p>
                         <img 
                           src={partner.logo_url} 
                           alt="Preview" 
-                          className="h-16 object-contain"
+                          className="h-20 object-contain"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
