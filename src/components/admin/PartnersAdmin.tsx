@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -18,6 +19,7 @@ interface PartnerLogo {
 }
 
 const PartnersAdmin = () => {
+  const navigate = useNavigate();
   const [partners, setPartners] = useState<PartnerLogo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -216,13 +218,23 @@ const PartnersAdmin = () => {
         <h2 className="text-3xl font-bold bg-gradient-to-r from-gradient-start to-gradient-mid bg-clip-text text-transparent">
           Логотипы партнёров
         </h2>
-        <Button
-          onClick={() => setIsAdding(!isAdding)}
-          className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white"
-        >
-          <Icon name={isAdding ? 'X' : 'Plus'} size={20} className="mr-2" />
-          {isAdding ? 'Отмена' : 'Добавить партнёра'}
-        </Button>
+        <div className="flex gap-3">
+          <Button
+            onClick={() => navigate('/test-s3')}
+            variant="outline"
+            className="border-gradient-start text-gradient-start hover:bg-gradient-start/10"
+          >
+            <Icon name="TestTube2" size={20} className="mr-2" />
+            Тест S3
+          </Button>
+          <Button
+            onClick={() => setIsAdding(!isAdding)}
+            className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white"
+          >
+            <Icon name={isAdding ? 'X' : 'Plus'} size={20} className="mr-2" />
+            {isAdding ? 'Отмена' : 'Добавить партнёра'}
+          </Button>
+        </div>
       </div>
 
       {isAdding && (

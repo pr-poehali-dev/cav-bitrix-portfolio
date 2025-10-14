@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import Icon from '@/components/ui/icon';
 
 export default function TestS3Upload() {
+  const navigate = useNavigate();
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedUrl, setUploadedUrl] = useState<string>('');
   const [errorDetails, setErrorDetails] = useState<string>('');
@@ -60,6 +63,17 @@ export default function TestS3Upload() {
     <div className="min-h-screen bg-background p-8">
       <div className="max-w-2xl mx-auto">
         <div className="bg-card p-8 rounded-lg shadow-lg">
+          <div className="flex items-center gap-4 mb-6">
+            <Button
+              onClick={() => navigate('/admin')}
+              variant="outline"
+              size="sm"
+            >
+              <Icon name="ArrowLeft" size={16} className="mr-2" />
+              В админ-панель
+            </Button>
+          </div>
+
           <h1 className="text-3xl font-bold mb-4">🧪 Тест подключения S3</h1>
           <p className="text-muted-foreground mb-6">
             Проверка настройки Yandex Cloud Object Storage для загрузки логотипов партнёров
