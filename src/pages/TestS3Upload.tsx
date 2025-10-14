@@ -5,11 +5,13 @@ import { useToast } from '@/hooks/use-toast';
 export default function TestS3Upload() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedUrl, setUploadedUrl] = useState<string>('');
+  const [errorDetails, setErrorDetails] = useState<string>('');
   const { toast } = useToast();
 
   const testUpload = async () => {
     setIsUploading(true);
     setUploadedUrl('');
+    setErrorDetails('');
 
     // Маленькая тестовая картинка 1x1 пиксель (красный PNG)
     const testImageBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg==';
@@ -33,16 +35,20 @@ export default function TestS3Upload() {
           description: 'S3 настроен правильно. Логотип загружен.'
         });
       } else {
+        const errorMsg = JSON.stringify(data, null, 2);
+        setErrorDetails(errorMsg);
         toast({
           title: '❌ Ошибка загрузки',
-          description: data.error || 'Проверьте секреты S3',
+          description: data.error || data.message || 'Проверьте секреты S3',
           variant: 'destructive'
         });
       }
     } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      setErrorDetails(errorMsg);
       toast({
         title: '❌ Ошибка подключения',
-        description: 'Не удалось подключиться к функции',
+        description: errorMsg,
         variant: 'destructive'
       });
     } finally {
@@ -95,6 +101,17 @@ export default function TestS3Upload() {
                     />
                   </div>
                 </div>
+              </div>
+            )}
+
+            {errorDetails && (
+              <div className="bg-red-50 dark:bg-red-950 p-6 rounded-lg border-2 border-red-500">
+                <h3 className="text-lg font-semibold text-red-700 dark:text-red-300 mb-3">
+                  ❌ Детали ошибки:
+                </h3>
+                <pre className="text-xs bg-red-100 dark:bg-red-900 p-3 rounded overflow-auto max-h-64">
+                  {errorDetails}
+                </pre>
               </div>
             )}
 
