@@ -24,6 +24,7 @@ const PartnersAdmin = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isFixingPermissions, setIsFixingPermissions] = useState(false);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -203,6 +204,37 @@ const PartnersAdmin = () => {
     setPartners(partners.map(p => p.id === id ? { ...p, [field]: value } : p));
   };
 
+  const handleFixPermissions = async () => {
+    if (!confirm('Исправить доступ ко всем загруженным файлам в S3?')) return;
+
+    setIsFixingPermissions(true);
+    try {
+      const response = await fetch('https://functions.poehali.dev/aff07754-8999-4fc7-8efe-c58dabe45548', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast({
+          title: 'Успешно',
+          description: data.message || `Исправлено файлов: ${data.fixed}`
+        });
+        fetchPartners();
+      } else {
+        throw new Error('Failed to fix permissions');
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось исправить доступ к файлам',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsFixingPermissions(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="p-8 text-center">
@@ -218,6 +250,15 @@ const PartnersAdmin = () => {
           Логотипы партнёров
         </h2>
         <div className="flex gap-3">
+          <Button
+            onClick={handleFixPermissions}
+            disabled={isFixingPermissions}
+            variant="outline"
+            className="border-orange-500 text-orange-600 hover:bg-orange-50"
+          >
+            <Icon name={isFixingPermissions ? 'Loader2' : 'Shield'} size={20} className={`mr-2 ${isFixingPermissions ? 'animate-spin' : ''}`} />
+            {isFixingPermissions ? 'Исправление...' : 'Исправить доступ S3'}
+          </Button>
           <Button
             onClick={() => navigate('/test-s3')}
             variant="outline"
