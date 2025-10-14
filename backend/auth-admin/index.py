@@ -1,16 +1,41 @@
 import json
 import os
 import bcrypt
+import psycopg2
 from typing import Dict, Any
+
+def log_login_attempt(ip_address: str, user_agent: str, success: bool) -> None:
+    database_url = os.environ.get('DATABASE_URL')
+    if not database_url:
+        return
+    
+    conn = psycopg2.connect(database_url)
+    cursor = conn.cursor()
+    
+    cursor.execute(
+        "INSERT INTO admin_login_logs (ip_address, user_agent, success) VALUES (%s, %s, %s)",
+        (ip_address, user_agent, success)
+    )
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
-    Business: Authenticate admin user with password
-    Args: event with httpMethod, body containing password
+    Business: Authenticate admin user with password and log attempt
+    Args: event with httpMethod, body containing password, headers, requestContext
           context with request_id
     Returns: HTTP response with auth token or error
     '''
     method: str = event.get('httpMethod', 'GET')
+    
+    request_context = event.get('requestContext', {})
+    identity = request_context.get('identity', {})
+    ip_address = identity.get('sourceIp', 'unknown')
+    
+    headers = event.get('headers', {})
+    user_agent = headers.get('user-agent', headers.get('User-Agent', 'unknown'))
     
     if method == 'OPTIONS':
         return {
@@ -70,7 +95,11 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     password_bytes = password.encode('utf-8')
     hash_bytes = admin_password_hash.encode('utf-8')
     
-    if bcrypt.checkpw(password_bytes, hash_bytes):
+    is_valid = bcrypt.checkpw(password_bytes, hash_bytes)
+    
+    log_login_attempt(ip_address, user_agent, is_valid)
+    
+    if is_valid:
         return {
             'statusCode': 200,
             'headers': {

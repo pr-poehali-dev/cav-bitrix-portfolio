@@ -1,4 +1,5 @@
 {
+  "admin-login-logs": "https://functions.poehali.dev/4ea0202f-2619-4cf6-bc32-78c81e7beab3",
   "change-admin-password": "https://functions.poehali.dev/1a4261f2-7b2d-489d-9aad-de7faea69c80",
   "auth-admin": "https://functions.poehali.dev/fcfd14ca-b5b0-4e96-bd94-e4db4df256d5",
   "consent": "https://functions.poehali.dev/80536dd3-4799-47a9-893a-a756a259460e",

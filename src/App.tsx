@@ -8,6 +8,7 @@ import BotProtection from "./components/BotProtection";
 import BotAdmin from "./pages/BotAdmin";
 import ConsentAdmin from "./pages/ConsentAdmin";
 import AdminLogin from "./pages/AdminLogin";
+import LoginHistory from "./pages/LoginHistory";
 import ChangePassword from "./pages/ChangePassword";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import TermsOfUse from "./pages/TermsOfUse";
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/bots" element={<AdminProtectedRoute><BotAdmin /></AdminProtectedRoute>} />
           <Route path="/admin/consents" element={<AdminProtectedRoute><ConsentAdmin /></AdminProtectedRoute>} />
+          <Route path="/admin/login-history" element={<AdminProtectedRoute><LoginHistory /></AdminProtectedRoute>} />
           <Route path="/admin/change-password" element={<AdminProtectedRoute><ChangePassword /></AdminProtectedRoute>} />
           <Route path="/terms" element={<TermsOfUse />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
