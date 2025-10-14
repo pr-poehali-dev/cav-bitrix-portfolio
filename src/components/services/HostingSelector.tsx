@@ -66,6 +66,52 @@ const HostingSelector = ({
             {option.id === 'own' && (
               <p className="text-muted-foreground text-sm mt-2">Без дополнительных затрат</p>
             )}
+            {option.id === 'vps' && (
+              <div className="mt-3">
+                <p className="text-primary font-bold text-xl mb-3">от 350 ₽/мес</p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <Icon name="Check" size={14} />
+                    <span>ISPmanager 6</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <Icon name="Check" size={14} />
+                    <span>До 3 сайтов со своими доменами</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <Icon name="Check" size={14} />
+                    <span>Бесплатный SSL</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <Icon name="Check" size={14} />
+                    <span>Root права и SSH доступ</span>
+                  </div>
+                </div>
+              </div>
+            )}
+            {option.id === 'beget' && (
+              <div className="mt-3">
+                <p className="text-primary font-bold text-xl mb-3">от 150 ₽/мес</p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <Icon name="Check" size={14} />
+                    <span>Панель управления cPanel</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <Icon name="Check" size={14} />
+                    <span>Бесплатный SSL</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <Icon name="Check" size={14} />
+                    <span>Почтовые ящики</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <Icon name="Check" size={14} />
+                    <span>Базы данных MySQL</span>
+                  </div>
+                </div>
+              </div>
+            )}
             {option.id === 'poehali' && (
               <div className="mt-3">
                 <p className="text-primary font-bold text-xl mb-3">Бесплатно</p>
