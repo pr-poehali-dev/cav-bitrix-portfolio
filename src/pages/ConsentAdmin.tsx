@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ShieldCheck, Users, Mail, Phone, Search, Filter, X, Download, FileSpreadsheet, FileText } from 'lucide-react';
 import * as XLSX from 'xlsx';
+import AdminLayout from '@/components/AdminLayout';
 
 interface Consent {
   id: number;
@@ -137,7 +138,7 @@ const ConsentAdmin = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8">
+      <AdminLayout>
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse space-y-4">
             <div className="h-12 bg-gray-700 rounded w-1/3"></div>
@@ -148,7 +149,7 @@ const ConsentAdmin = () => {
             </div>
           </div>
         </div>
-      </div>
+      </AdminLayout>
     );
   }
 
@@ -157,18 +158,13 @@ const ConsentAdmin = () => {
   const withEmail = filteredConsents.filter(c => c.email).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8">
+    <AdminLayout>
       <div className="max-w-7xl mx-auto space-y-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Согласия пользователей
-            </h1>
-            <p className="text-gray-400">Управление согласиями на обработку персональных данных</p>
-          </div>
-          <a href="/admin/bots" className="text-sm text-gray-400 hover:text-white transition-colors">
-            ← К панели ботов
-          </a>
+        <div>
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+            Согласия пользователей
+          </h1>
+          <p className="text-gray-400">Управление согласиями на обработку персональных данных</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -367,7 +363,7 @@ const ConsentAdmin = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 
