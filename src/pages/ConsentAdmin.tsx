@@ -2,7 +2,9 @@ import { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ShieldCheck, Users, Mail, Phone, Search, Filter, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ShieldCheck, Users, Mail, Phone, Search, Filter, X, Download, FileSpreadsheet, FileText } from 'lucide-react';
+import * as XLSX from 'xlsx';
 
 interface Consent {
   id: number;
@@ -83,6 +85,56 @@ const ConsentAdmin = () => {
     }).format(date);
   };
 
+  const exportToExcel = () => {
+    const exportData = filteredConsents.map(consent => ({
+      'ID': consent.id,
+      'ФИО': consent.fullName,
+      'Телефон': consent.phone || '',
+      'Email': consent.email || '',
+      'Cookies': consent.cookies ? 'Да' : 'Нет',
+      'Соглашение': consent.terms ? 'Да' : 'Нет',
+      'Конфиденциальность': consent.privacy ? 'Да' : 'Нет',
+      'IP-адрес': consent.ipAddress,
+      'Дата создания': formatDate(consent.createdAt)
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Согласия');
+    
+    const timestamp = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(wb, `consents_${timestamp}.xlsx`);
+  };
+
+  const exportToCSV = () => {
+    const exportData = filteredConsents.map(consent => ({
+      'ID': consent.id,
+      'ФИО': consent.fullName,
+      'Телефон': consent.phone || '',
+      'Email': consent.email || '',
+      'Cookies': consent.cookies ? 'Да' : 'Нет',
+      'Соглашение': consent.terms ? 'Да' : 'Нет',
+      'Конфиденциальность': consent.privacy ? 'Да' : 'Нет',
+      'IP-адрес': consent.ipAddress,
+      'Дата создания': formatDate(consent.createdAt)
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const csv = XLSX.utils.sheet_to_csv(ws);
+    
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    const timestamp = new Date().toISOString().split('T')[0];
+    link.setAttribute('href', url);
+    link.setAttribute('download', `consents_${timestamp}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8">
@@ -154,9 +206,31 @@ const ConsentAdmin = () => {
         <Card className="bg-gray-800/50 border-gray-700 backdrop-blur">
           <CardHeader>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <CardTitle className="text-xl text-white">Список согласий</CardTitle>
-              <div className="text-sm text-gray-400">
-                Показано: {totalConsents} {data?.consents.length !== totalConsents && `из ${data?.consents.length || 0}`}
+              <div className="flex items-center gap-4">
+                <CardTitle className="text-xl text-white">Список согласий</CardTitle>
+                <div className="text-sm text-gray-400">
+                  Показано: {totalConsents} {data?.consents.length !== totalConsents && `из ${data?.consents.length || 0}`}
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  onClick={exportToExcel}
+                  disabled={filteredConsents.length === 0}
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                  size="sm"
+                >
+                  <FileSpreadsheet className="h-4 w-4 mr-2" />
+                  Excel
+                </Button>
+                <Button
+                  onClick={exportToCSV}
+                  disabled={filteredConsents.length === 0}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  size="sm"
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  CSV
+                </Button>
               </div>
             </div>
           </CardHeader>
