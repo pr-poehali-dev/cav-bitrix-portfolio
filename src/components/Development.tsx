@@ -1,20 +1,125 @@
+import { useState, useEffect } from 'react';
+
 const Development = () => {
+  const [activeType, setActiveType] = useState(0);
+  
+  const developmentTypes = [
+    {
+      title: 'Landing page',
+      illustration: (
+        <div className="w-full h-full bg-white rounded-2xl p-6 relative">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-8 h-8 rounded-full bg-gray-300/60" />
+            <div className="flex gap-2">
+              <div className="w-12 h-1 bg-gray-300/60 rounded" />
+              <div className="w-12 h-1 bg-gray-300/60 rounded" />
+            </div>
+            <div className="w-16 h-6 bg-gray-300/60 rounded" />
+          </div>
+          <div className="w-full h-32 bg-gray-300/60 rounded-xl mb-4" />
+          <div className="absolute bottom-8 left-8 right-8 h-24 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl p-4 flex flex-col justify-between">
+            <div className="space-y-2">
+              <div className="w-3 h-3 rounded-full bg-white" />
+              <div className="w-3 h-3 rounded-full bg-white" />
+              <div className="w-3 h-3 rounded-full bg-white" />
+            </div>
+            <div className="w-16 h-6 bg-white rounded-lg" />
+          </div>
+        </div>
+      )
+    },
+    {
+      title: 'Корпоративные\nсайты',
+      illustration: (
+        <div className="w-full h-full bg-white rounded-2xl p-6 relative">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-8 h-8 rounded-full bg-gray-300/60" />
+            <div className="flex gap-2">
+              <div className="w-20 h-1 bg-gray-300/60 rounded" />
+              <div className="w-20 h-1 bg-gray-300/60 rounded" />
+              <div className="w-20 h-1 bg-gray-300/60 rounded" />
+            </div>
+          </div>
+          <div className="w-full h-24 bg-gray-300/60 rounded-xl mb-3" />
+          <div className="grid grid-cols-2 gap-3">
+            <div className="h-20 bg-gray-300/60 rounded-xl" />
+            <div className="h-20 bg-gray-300/60 rounded-xl" />
+          </div>
+          <div className="absolute bottom-6 left-6 flex gap-1">
+            <div className="w-1 h-1 rounded-full bg-gray-400/60" />
+            <div className="w-1 h-1 rounded-full bg-gray-400/60" />
+            <div className="w-1 h-1 rounded-full bg-gray-400/60" />
+          </div>
+        </div>
+      )
+    },
+    {
+      title: 'Разработка\nприложений',
+      illustration: (
+        <div className="w-full h-full bg-white rounded-2xl p-6 relative flex gap-3">
+          <div className="flex-1 space-y-3">
+            <div className="h-40 bg-gray-300/60 rounded-xl" />
+            <div className="space-y-2 px-2">
+              <div className="text-[6px] text-gray-400/80 font-medium">&lt;div class=</div>
+              <div className="text-[5px] text-gray-400/80 pl-2">...</div>
+              <div className="text-[5px] text-gray-400/80 pl-2">...</div>
+            </div>
+          </div>
+          <div className="w-24 h-full bg-gradient-to-b from-gray-300/60 to-gray-400/60 rounded-xl flex flex-col items-center justify-center gap-2">
+            <div className="w-12 h-12 bg-blue-600/80 rounded-2xl flex items-center justify-center text-white text-xs font-bold">
+              App
+            </div>
+          </div>
+        </div>
+      )
+    }
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveType((prev) => (prev + 1) % developmentTypes.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="blok-dev" className="blok-dev">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
         <div className="grid lg:grid-cols-2 gap-[76px] items-start min-h-[600px]">
           <div className="blok-dev-left space-y-8">
             <h2 className="section-title">Разработка</h2>
-            <div className="w-full h-96 bg-gradient-to-br from-blue-500/30 via-cyan-500/20 to-indigo-500/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm group hover:scale-[1.02] transition-all duration-500">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-6xl font-black text-white/20 group-hover:text-white/30 transition-colors duration-500">
-                  &lt;/&gt;
+            <div className="w-full h-[480px] bg-gradient-to-br from-blue-500/30 via-cyan-500/20 to-indigo-500/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm">
+              <div className="absolute inset-0 flex items-center justify-center p-12">
+                <div className="w-full max-w-[420px] aspect-[4/3] relative">
+                  {developmentTypes.map((type, index) => (
+                    <div
+                      key={index}
+                      className={`absolute inset-0 transition-all duration-700 ${
+                        index === activeType
+                          ? 'opacity-100 scale-100'
+                          : 'opacity-0 scale-95'
+                      }`}
+                    >
+                      {type.illustration}
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div className="absolute top-4 left-4 right-4 h-8 bg-gradient-to-r from-white/20 to-white/5 rounded-lg backdrop-blur-sm" />
-              <div className="absolute top-16 left-4 right-20 h-4 bg-gradient-to-r from-white/15 to-transparent rounded" />
-              <div className="absolute top-24 left-4 right-32 h-4 bg-gradient-to-r from-white/15 to-transparent rounded" />
-              <div className="absolute inset-0 bg-gradient-to-t from-gradient-start/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
+                {developmentTypes.map((type, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveType(index)}
+                    className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 ${
+                      index === activeType
+                        ? 'bg-white text-blue-600 shadow-lg scale-105'
+                        : 'bg-white/30 text-white hover:bg-white/50'
+                    }`}
+                  >
+                    {type.title.split('\n')[0]}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
           <div className="blok-dev-right pt-[316px] min-h-full space-y-6">
