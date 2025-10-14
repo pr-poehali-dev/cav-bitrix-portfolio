@@ -57,12 +57,26 @@ const PartnersAdmin = () => {
 
 
 
+  const normalizeYandexDiskUrl = (url: string): string => {
+    if (url.includes('disk.yandex.ru') || url.includes('disk.360.yandex.ru')) {
+      if (!url.endsWith('/download')) {
+        return url.replace(/\/$/, '') + '/download';
+      }
+    }
+    return url;
+  };
+
   const handleAdd = async () => {
     try {
+      const normalizedData = {
+        ...formData,
+        logo_url: normalizeYandexDiskUrl(formData.logo_url)
+      };
+
       const response = await fetch('https://functions.poehali.dev/c7b03587-cdba-48a4-ac48-9aa2775ff9a0', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(normalizedData)
       });
 
       if (response.ok) {
@@ -94,10 +108,15 @@ const PartnersAdmin = () => {
       const partner = partners.find(p => p.id === id);
       if (!partner) return;
 
+      const normalizedPartner = {
+        ...partner,
+        logo_url: normalizeYandexDiskUrl(partner.logo_url)
+      };
+
       const response = await fetch('https://functions.poehali.dev/c7b03587-cdba-48a4-ac48-9aa2775ff9a0', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(partner)
+        body: JSON.stringify(normalizedPartner)
       });
 
       if (response.ok) {
