@@ -8,6 +8,7 @@ import LeadGeneration from '@/components/LeadGeneration';
 import Portfolio from '@/components/Portfolio';
 import Contacts from '@/components/Contacts';
 import Footer from '@/components/Footer';
+import CookieConsent from '@/components/CookieConsent';
 
 const Index = () => {
   return (
@@ -25,6 +26,7 @@ const Index = () => {
       </main>
 
       <Footer />
+      <CookieConsent />
     </div>
   );
 };
