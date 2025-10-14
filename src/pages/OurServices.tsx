@@ -32,6 +32,7 @@ const OurServices = () => {
   const [selectedHosting, setSelectedHosting] = useState<string>('');
   const [selectedBegetTariff, setSelectedBegetTariff] = useState<string>('');
   const [selectedVPSTariff, setSelectedVPSTariff] = useState<string>('');
+  const [hostingPeriod, setHostingPeriod] = useState<6 | 12>(12);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -87,6 +88,10 @@ const OurServices = () => {
     setSelectedVPSTariff(tariffId === selectedVPSTariff ? '' : tariffId);
   };
 
+  const handlePeriodChange = (period: 6 | 12) => {
+    setHostingPeriod(period);
+  };
+
   const calculateTotal = () => {
     let total = 0;
     
@@ -125,14 +130,14 @@ const OurServices = () => {
     if (selectedHosting === 'vps' && selectedVPSTariff) {
       const tariff = vpsTariffs.find(t => t.id === selectedVPSTariff);
       if (tariff) {
-        total += tariff.priceYearly;
+        total += hostingPeriod === 6 ? tariff.priceMonthly * 6 : tariff.priceYearly;
       }
     }
 
     if (selectedHosting === 'beget' && selectedBegetTariff) {
       const tariff = begetTariffs.find(t => t.id === selectedBegetTariff);
       if (tariff) {
-        total += tariff.price * 12;
+        total += hostingPeriod === 6 ? tariff.price * 6 : tariff.price * 12;
       }
     }
     
@@ -204,9 +209,11 @@ const OurServices = () => {
                 hostingOptions={hostingOptions}
                 begetTariffs={begetTariffs}
                 vpsTariffs={vpsTariffs}
+                hostingPeriod={hostingPeriod}
                 onHostingChange={handleHostingChange}
                 onBegetTariffChange={handleBegetTariffChange}
                 onVPSTariffChange={handleVPSTariffChange}
+                onPeriodChange={handlePeriodChange}
               />
             </AccordionContent>
           </AccordionItem>

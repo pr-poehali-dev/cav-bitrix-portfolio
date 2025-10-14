@@ -77,27 +77,27 @@ export const additionalServices: Service[] = [
 
 export const hostingOptions: HostingOption[] = [
   {
-    id: 'poehali',
-    title: 'Разместить на poehali.dev',
-    description: 'Бесплатный хостинг + домен + SSL сертификат',
-    price: 0
-  },
-  {
     id: 'own',
     title: 'На моем хостинге',
     description: 'Уже купил или уже есть',
     price: 0
   },
   {
+    id: 'poehali',
+    title: 'Разместить на poehali.dev',
+    description: 'Бесплатный хостинг + домен + SSL сертификат',
+    price: 0
+  },
+  {
     id: 'vps',
     title: 'Предоставить VPS с ISPmanager 6',
-    description: 'До 3-х сайтов',
-    price: 4000
+    description: 'Выберите конфигурацию',
+    price: 0
   },
   {
     id: 'beget',
     title: 'Приобрести хостинг партнера Beget.com',
-    description: 'Надежный виртуальный хостинг',
+    description: 'Выберите тариф',
     price: 0
   }
 ];

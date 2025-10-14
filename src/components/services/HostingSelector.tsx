@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { HostingOption, BegetTariff, VPSTariff } from './types';
 import HostingComparison from './HostingComparison';
@@ -11,9 +13,11 @@ interface HostingSelectorProps {
   hostingOptions: HostingOption[];
   begetTariffs: BegetTariff[];
   vpsTariffs: VPSTariff[];
+  hostingPeriod: 6 | 12;
   onHostingChange: (hostingId: string) => void;
   onBegetTariffChange: (tariffId: string) => void;
   onVPSTariffChange: (tariffId: string) => void;
+  onPeriodChange: (period: 6 | 12) => void;
 }
 
 const formatPrice = (price: number) => {
@@ -27,9 +31,11 @@ const HostingSelector = ({
   hostingOptions,
   begetTariffs,
   vpsTariffs,
+  hostingPeriod,
   onHostingChange,
   onBegetTariffChange,
-  onVPSTariffChange
+  onVPSTariffChange,
+  onPeriodChange
 }: HostingSelectorProps) => {
   return (
     <div className="mt-12">
@@ -57,9 +63,12 @@ const HostingSelector = ({
                 <p className="text-sm text-muted-foreground">{option.description}</p>
               </div>
             </div>
-            <p className="text-primary font-bold text-xl">
-              {option.price === 0 ? 'Бесплатно' : `${formatPrice(option.price)} ₽/год`}
-            </p>
+            {option.id === 'own' && (
+              <p className="text-muted-foreground text-sm mt-2">Без дополнительных затрат</p>
+            )}
+            {option.id === 'poehali' && (
+              <p className="text-primary font-bold text-xl">Бесплатно</p>
+            )}
             {option.id === 'poehali' && (
               <div className="mt-3 space-y-1">
                 <div className="flex items-center gap-2 text-sm text-green-600">
@@ -80,10 +89,32 @@ const HostingSelector = ({
         ))}
       </div>
 
-      {selectedHosting === 'vps' && (
+      {(selectedHosting === 'vps' || selectedHosting === 'beget') && (
         <div className="animate-in slide-in-from-top-4 duration-300">
-          <h4 className="text-xl font-bold mb-4">Выберите конфигурацию VPS</h4>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="flex items-center justify-between mb-4">
+            <h4 className="text-xl font-bold">
+              {selectedHosting === 'vps' ? 'Выберите конфигурацию VPS' : 'Выберите тариф Beget'}
+            </h4>
+            <div className="flex gap-2">
+              <Button
+                variant={hostingPeriod === 6 ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => onPeriodChange(6)}
+              >
+                6 месяцев
+              </Button>
+              <Button
+                variant={hostingPeriod === 12 ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => onPeriodChange(12)}
+              >
+                12 месяцев
+              </Button>
+            </div>
+          </div>
+          
+          {selectedHosting === 'vps' && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {vpsTariffs.map(tariff => (
               <Card
                 key={tariff.id}
@@ -96,8 +127,12 @@ const HostingSelector = ({
                   <Checkbox checked={selectedVPSTariff === tariff.id} className="mb-3" />
                   <h5 className="font-bold text-lg mb-1">{tariff.name}</h5>
                   <div className="mb-2">
-                    <p className="text-primary font-bold text-xl">{formatPrice(tariff.priceMonthly)} ₽/мес</p>
-                    <p className="text-sm text-muted-foreground">{formatPrice(tariff.priceYearly)} ₽/год</p>
+                    <p className="text-primary font-bold text-xl">
+                      {formatPrice(hostingPeriod === 6 ? tariff.priceMonthly * 6 : tariff.priceYearly)} ₽
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {formatPrice(tariff.priceMonthly)} ₽/мес × {hostingPeriod} мес
+                    </p>
                   </div>
                   <div className="space-y-1 text-sm mb-3">
                     <p><strong>CPU:</strong> {tariff.cpu}</p>
@@ -117,13 +152,10 @@ const HostingSelector = ({
               </Card>
             ))}
           </div>
-        </div>
-      )}
+          )}
 
-      {selectedHosting === 'beget' && (
-        <div className="animate-in slide-in-from-top-4 duration-300">
-          <h4 className="text-xl font-bold mb-4">Выберите тариф Beget</h4>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {selectedHosting === 'beget' && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {begetTariffs.map(tariff => (
               <Card
                 key={tariff.id}
@@ -135,8 +167,12 @@ const HostingSelector = ({
                 <div className="mb-4">
                   <Checkbox checked={selectedBegetTariff === tariff.id} className="mb-3" />
                   <h5 className="font-bold text-lg mb-1">{tariff.name}</h5>
-                  <p className="text-primary font-bold text-xl mb-1">{formatPrice(tariff.price)} ₽/{tariff.period}</p>
-                  <p className="text-sm text-muted-foreground">{formatPrice(tariff.price * 12)} ₽/год</p>
+                  <p className="text-primary font-bold text-xl mb-1">
+                    {formatPrice(hostingPeriod === 6 ? tariff.price * 6 : tariff.price * 12)} ₽
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {formatPrice(tariff.price)} ₽/мес × {hostingPeriod} мес
+                  </p>
                 </div>
                 <ul className="space-y-2">
                   {tariff.features.map((feature, idx) => (
@@ -149,6 +185,7 @@ const HostingSelector = ({
               </Card>
             ))}
           </div>
+          )}
         </div>
       )}
 
