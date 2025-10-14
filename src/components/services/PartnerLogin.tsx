@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { usePartner } from '@/contexts/PartnerContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,6 +7,7 @@ import Icon from '@/components/ui/icon';
 
 export default function PartnerLogin() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isPartner, login, logout, discountPercent, partnerName } = usePartner();
   const [loginValue, setLoginValue] = useState('');
   const [password, setPassword] = useState('');
@@ -21,6 +22,50 @@ export default function PartnerLogin() {
     setIsLoading(true);
     setError('');
     
+    // Проверка на админ-логин
+    if (loginValue === 'suser') {
+      try {
+        const response = await fetch('https://functions.poehali.dev/fcfd14ca-b5b0-4e96-bd94-e4db4df256d5', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ password }),
+        });
+
+        if (response.ok) {
+          localStorage.setItem('admin_auth', password);
+          localStorage.setItem('admin_auth_time', Date.now().toString());
+          
+          if (navigator.vibrate) {
+            navigator.vibrate([100, 50, 100]);
+          }
+          
+          setLoginValue('');
+          setPassword('');
+          setError('');
+          setShowLogin(false);
+          setIsHovered(false);
+          
+          navigate('/admin/bots');
+          setIsLoading(false);
+          return;
+        } else {
+          setError('Неверный пароль администратора');
+          if (navigator.vibrate) {
+            navigator.vibrate(200);
+          }
+          setIsLoading(false);
+          return;
+        }
+      } catch (err) {
+        setError('Ошибка подключения к серверу');
+        setIsLoading(false);
+        return;
+      }
+    }
+    
+    // Обычный партнёрский вход
     const success = await login(loginValue, password);
     
     if (success) {
