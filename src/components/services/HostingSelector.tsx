@@ -67,21 +67,36 @@ const HostingSelector = ({
               <p className="text-muted-foreground text-sm mt-2">Без дополнительных затрат</p>
             )}
             {option.id === 'poehali' && (
-              <p className="text-primary font-bold text-xl">Бесплатно</p>
-            )}
-            {option.id === 'poehali' && (
-              <div className="mt-3 space-y-1">
-                <div className="flex items-center gap-2 text-sm text-green-600">
-                  <Icon name="Check" size={14} />
-                  <span>Публикация за 1 клик</span>
+              <div className="mt-3">
+                <p className="text-primary font-bold text-xl mb-3">Бесплатно</p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <Icon name="Check" size={14} />
+                    <span>Публикация за 1 клик</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <Icon name="Check" size={14} />
+                    <span>Автоматические SSL</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <Icon name="Check" size={14} />
+                    <span>Бесплатный поддомен</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-green-600">
-                  <Icon name="Check" size={14} />
-                  <span>Автоматические SSL</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-green-600">
-                  <Icon name="Check" size={14} />
-                  <span>Бесплатный поддомен</span>
+                <div className="border-t pt-3 space-y-2">
+                  <h5 className="font-semibold text-sm mb-2">Дополнительные услуги:</h5>
+                  <div className="flex items-start gap-2 text-sm">
+                    <Icon name="Crown" size={14} className="text-amber-500 mt-0.5 flex-shrink-0" />
+                    <span>Свой домен — <strong>1 000 ₽/год</strong></span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm">
+                    <Icon name="Zap" size={14} className="text-amber-500 mt-0.5 flex-shrink-0" />
+                    <span>Увеличенные лимиты — <strong>от 500 ₽/мес</strong></span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm">
+                    <Icon name="Shield" size={14} className="text-amber-500 mt-0.5 flex-shrink-0" />
+                    <span>Приоритетная поддержка — <strong>от 1 000 ₽/мес</strong></span>
+                  </div>
                 </div>
               </div>
             )}
