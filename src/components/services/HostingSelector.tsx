@@ -48,6 +48,8 @@ const HostingSelector = ({
               selectedHosting === option.id ? 'border-primary border-2 bg-primary/5' : ''
             } ${option.id === 'poehali' ? 'relative overflow-hidden' : ''} ${
               option.id === 'vps' ? 'relative overflow-hidden border-primary border-2 bg-gradient-to-br from-primary/5 to-primary/10' : ''
+            } ${
+              option.id === 'beget' ? 'relative overflow-hidden border-amber-400 border-2 bg-gradient-to-br from-amber-50 to-amber-100' : ''
             }`}
             onClick={() => onHostingChange(option.id)}
           >
@@ -62,6 +64,14 @@ const HostingSelector = ({
               <div className="absolute top-2 right-2">
                 <span className="bg-primary text-white text-xs px-3 py-1 rounded-full font-bold">
                   VPS PIXEL
+                </span>
+              </div>
+            )}
+            {option.id === 'beget' && (
+              <div className="absolute top-2 right-2">
+                <span className="bg-amber-500 text-white text-xs px-3 py-1 rounded-full font-bold flex items-center gap-1">
+                  <Icon name="ShieldCheck" size={12} />
+                  Проверенный
                 </span>
               </div>
             )}
