@@ -15,6 +15,7 @@ import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import TermsOfUse from "./pages/TermsOfUse";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import OurServices from "./pages/OurServices";
+import TelegramMiniApp from "./pages/TelegramMiniApp";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/services" element={<OurServices />} />
+            <Route path="/tg" element={<TelegramMiniApp />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/bots" element={<AdminProtectedRoute><BotAdmin /></AdminProtectedRoute>} />
             <Route path="/admin/consents" element={<AdminProtectedRoute><ConsentAdmin /></AdminProtectedRoute>} />

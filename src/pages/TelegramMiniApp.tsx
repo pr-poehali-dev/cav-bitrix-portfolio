@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,12 +8,9 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import Icon from '@/components/ui/icon';
-import Footer from '@/components/Footer';
 import ServiceCard from '@/components/services/ServiceCard';
 import TechnologySelector from '@/components/services/TechnologySelector';
 import HostingSelector from '@/components/services/HostingSelector';
-import PartnerLogin from '@/components/services/PartnerLogin';
-import OrderModal from '@/components/services/OrderModal';
 import { usePartner } from '@/contexts/PartnerContext';
 import {
   developmentServices,
@@ -26,10 +22,36 @@ import {
   vpsTariffs
 } from '@/components/services/servicesData';
 
-const OurServices = () => {
+declare global {
+  interface Window {
+    Telegram?: {
+      WebApp?: {
+        ready: () => void;
+        MainButton: {
+          setText: (text: string) => void;
+          show: () => void;
+          hide: () => void;
+          onClick: (callback: () => void) => void;
+          offClick: (callback: () => void) => void;
+        };
+        initDataUnsafe?: {
+          user?: {
+            id: number;
+            first_name?: string;
+            last_name?: string;
+            username?: string;
+          };
+        };
+        close: () => void;
+        sendData: (data: string) => void;
+      };
+    };
+  }
+}
+
+const TelegramMiniApp = () => {
   const { getDiscountedPrice } = usePartner();
   const [selectedDevelopment, setSelectedDevelopment] = useState<string[]>([]);
-  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [selectedPromotion, setSelectedPromotion] = useState<string[]>([]);
   const [selectedAdditional, setSelectedAdditional] = useState<string[]>([]);
   const [selectedTechnology, setSelectedTechnology] = useState<string>('');
@@ -38,16 +60,12 @@ const OurServices = () => {
   const [selectedBegetTariff, setSelectedBegetTariff] = useState<string>('');
   const [selectedVPSTariff, setSelectedVPSTariff] = useState<string>('');
   const [hostingPeriod, setHostingPeriod] = useState<6 | 12>(12);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      setTimeout(() => {
-        const element = document.querySelector(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 100);
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
     }
   }, []);
 
@@ -207,43 +225,86 @@ const OurServices = () => {
     return services;
   };
 
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    const tg = window.Telegram?.WebApp;
+    const user = tg?.initDataUnsafe?.user;
+    
+    const services = getSelectedServices();
+    const total = calculateTotal();
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/4dbcd084-f89e-4737-be41-9371059c6e4d', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          total,
+          services,
+          isPartner: false,
+          discount: 0,
+          name: user?.first_name || 'Telegram User',
+          phone: `@${user?.username || user?.id || 'unknown'}`,
+          email: `telegram_${user?.id || 'unknown'}@temp.mail`,
+        }),
+      });
+
+      if (response.ok) {
+        if (tg) {
+          tg.sendData(JSON.stringify({ success: true, total, services }));
+          tg.close();
+        }
+      } else {
+        alert('Ошибка при отправке заявки');
+      }
+    } catch (error) {
+      alert('Ошибка соединения');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const totalPrice = calculateTotal();
 
-  return (
-    <div className="min-h-screen bg-background">
-      <PartnerLogin />
-      <header className="border-b bg-white sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <Link to="/" className="flex items-center gap-2 text-primary hover:opacity-80 transition-opacity">
-            <Icon name="ArrowLeft" size={20} />
-            <span className="font-medium">На главную</span>
-          </Link>
-        </div>
-      </header>
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+    if (tg && totalPrice > 0) {
+      tg.MainButton.setText(`Отправить заявку (${formatPrice(totalPrice)} ₽)`);
+      tg.MainButton.show();
+      tg.MainButton.onClick(handleSubmit);
+      
+      return () => {
+        tg.MainButton.offClick(handleSubmit);
+        tg.MainButton.hide();
+      };
+    }
+  }, [totalPrice]);
 
-      <main className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Наши услуги</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Выберите нужные услуги и рассчитайте стоимость проекта
+  return (
+    <div className="min-h-screen bg-background pb-20">
+      <div className="container mx-auto px-4 py-6">
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold mb-2">Калькулятор услуг</h1>
+          <p className="text-sm text-muted-foreground">
+            Выберите услуги для расчёта стоимости
           </p>
         </div>
 
         <Accordion type="multiple" className="space-y-4" defaultValue={['development']}>
           <AccordionItem value="development" className="border rounded-lg bg-white">
-            <AccordionTrigger className="px-6 hover:no-underline">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Icon name="Code" className="text-primary" size={24} />
+            <AccordionTrigger className="px-4 hover:no-underline">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Icon name="Code" className="text-primary" size={20} />
                 </div>
                 <div className="text-left">
-                  <h2 className="text-2xl font-bold">Разработка</h2>
-                  <p className="text-sm text-muted-foreground font-normal">Создание сайтов под ключ</p>
+                  <h2 className="text-lg font-bold">Разработка</h2>
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-6 pb-6">
-              <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <AccordionContent className="px-4 pb-4">
+              <div className="space-y-3">
                 {developmentServices.map(service => (
                   <ServiceCard
                     key={service.id}
@@ -279,19 +340,18 @@ const OurServices = () => {
           </AccordionItem>
 
           <AccordionItem value="promotion" className="border rounded-lg bg-white">
-            <AccordionTrigger className="px-6 hover:no-underline">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Icon name="TrendingUp" className="text-primary" size={24} />
+            <AccordionTrigger className="px-4 hover:no-underline">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Icon name="TrendingUp" className="text-primary" size={20} />
                 </div>
                 <div className="text-left">
-                  <h2 className="text-2xl font-bold">Продвижение</h2>
-                  <p className="text-sm text-muted-foreground font-normal">Привлечение клиентов и рост продаж</p>
+                  <h2 className="text-lg font-bold">Продвижение</h2>
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-6 pb-6">
-              <div className="grid md:grid-cols-2 gap-6">
+            <AccordionContent className="px-4 pb-4">
+              <div className="space-y-3">
                 {promotionServices.map(service => (
                   <ServiceCard
                     key={service.id}
@@ -305,19 +365,18 @@ const OurServices = () => {
           </AccordionItem>
 
           <AccordionItem value="additional" className="border rounded-lg bg-white">
-            <AccordionTrigger className="px-6 hover:no-underline">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Icon name="Plus" className="text-primary" size={24} />
+            <AccordionTrigger className="px-4 hover:no-underline">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Icon name="Plus" className="text-primary" size={20} />
                 </div>
                 <div className="text-left">
-                  <h2 className="text-2xl font-bold">Дополнительные услуги</h2>
-                  <p className="text-sm text-muted-foreground font-normal">Поддержка и развитие проекта</p>
+                  <h2 className="text-lg font-bold">Дополнительно</h2>
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-6 pb-6">
-              <div className="grid md:grid-cols-2 gap-6">
+            <AccordionContent className="px-4 pb-4">
+              <div className="space-y-3">
                 {additionalServices.map(service => (
                   <ServiceCard
                     key={service.id}
@@ -332,35 +391,31 @@ const OurServices = () => {
         </Accordion>
 
         {totalPrice > 0 && (
-          <Card className="sticky bottom-6 p-8 bg-white shadow-xl border-2 mt-8">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div>
-                <p className="text-muted-foreground mb-2">Предварительная стоимость проекта</p>
-                <p className="text-4xl font-bold text-primary">{formatPrice(totalPrice)} ₽</p>
-              </div>
-              <Button 
-                size="lg" 
-                className="w-full md:w-auto"
-                onClick={() => setIsOrderModalOpen(true)}
-              >
-                <Icon name="Send" size={20} className="mr-2" />
-                Отправить заявку
-              </Button>
+          <Card className="mt-6 p-4 bg-white border-2">
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground mb-1">Итоговая стоимость:</p>
+              <p className="text-3xl font-bold text-primary">{formatPrice(totalPrice)} ₽</p>
             </div>
           </Card>
         )}
-      </main>
 
-      <OrderModal
-        isOpen={isOrderModalOpen}
-        onClose={() => setIsOrderModalOpen(false)}
-        total={totalPrice}
-        services={getSelectedServices()}
-      />
-
-      <Footer />
+        {!window.Telegram?.WebApp && (
+          <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center">
+            <p className="text-sm text-yellow-800">
+              Эта страница предназначена для работы внутри Telegram Mini App
+            </p>
+            <Button 
+              onClick={handleSubmit}
+              disabled={isSubmitting || totalPrice === 0}
+              className="mt-4"
+            >
+              {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default OurServices;
+export default TelegramMiniApp;
