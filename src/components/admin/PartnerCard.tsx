@@ -60,14 +60,23 @@ const PartnerCard = ({
             <div className="col-span-2 space-y-3">
               <Label className="text-base font-semibold text-black">Логотип партнёра</Label>
               <p className="text-sm text-gray-500">
-                Загрузите логотип на <a href="https://disk.yandex.ru" target="_blank" className="text-blue-600 underline">Яндекс.Диск</a>, 
-                получите публичную ссылку и вставьте её сюда
+                Выберите файл логотипа с компьютера (PNG, SVG, JPG)
               </p>
               
               <Input
-                value={partner.logo_url}
-                onChange={(e) => onUpdate(partner.id, 'logo_url', e.target.value)}
-                placeholder="https://disk.yandex.ru/i/..."
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                      const dataUri = event.target?.result as string;
+                      onUpdate(partner.id, 'logo_url', dataUri);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
                 className="text-black"
               />
 
