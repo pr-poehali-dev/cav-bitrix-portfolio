@@ -249,6 +249,7 @@ const PartnersAdmin = () => {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="1С-Битрикс"
+                className="text-black"
               />
             </div>
 
@@ -259,6 +260,7 @@ const PartnersAdmin = () => {
                 value={formData.website_url}
                 onChange={(e) => setFormData({ ...formData, website_url: e.target.value })}
                 placeholder="https://example.com"
+                className="text-black"
               />
             </div>
 
@@ -273,6 +275,7 @@ const PartnersAdmin = () => {
                     value={formData.logo_url}
                     onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
                     placeholder="https://example.com/logo.svg"
+                    className="text-black"
                   />
                 </div>
                 
@@ -320,6 +323,7 @@ const PartnersAdmin = () => {
                 type="number"
                 value={formData.display_order}
                 onChange={(e) => setFormData({ ...formData, display_order: parseInt(e.target.value) })}
+                className="text-black"
               />
             </div>
 
@@ -357,6 +361,7 @@ const PartnersAdmin = () => {
                     <Input
                       value={partner.name}
                       onChange={(e) => updatePartner(partner.id, 'name', e.target.value)}
+                      className="text-black"
                     />
                   </div>
 
@@ -365,6 +370,7 @@ const PartnersAdmin = () => {
                     <Input
                       value={partner.website_url}
                       onChange={(e) => updatePartner(partner.id, 'website_url', e.target.value)}
+                      className="text-black"
                     />
                   </div>
 
@@ -378,6 +384,7 @@ const PartnersAdmin = () => {
                           value={partner.logo_url}
                           onChange={(e) => updatePartner(partner.id, 'logo_url', e.target.value)}
                           placeholder="https://example.com/logo.svg"
+                          className="text-black"
                         />
                       </div>
                       
@@ -424,6 +431,7 @@ const PartnersAdmin = () => {
                       type="number"
                       value={partner.display_order}
                       onChange={(e) => updatePartner(partner.id, 'display_order', parseInt(e.target.value))}
+                      className="text-black"
                     />
                   </div>
 
