@@ -14,21 +14,15 @@ interface PartnerFormData {
 
 interface PartnerFormProps {
   formData: PartnerFormData;
-  isUploading: boolean;
   onFormDataChange: (data: PartnerFormData) => void;
-  onFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
-  uploadInputId: string;
   submitLabel: string;
 }
 
 const PartnerForm = ({
   formData,
-  isUploading,
   onFormDataChange,
-  onFileUpload,
   onSubmit,
-  uploadInputId,
   submitLabel
 }: PartnerFormProps) => {
   return (
@@ -58,39 +52,18 @@ const PartnerForm = ({
 
         <div className="col-span-2 space-y-3">
           <Label className="text-base font-semibold text-black">Логотип партнёра</Label>
-          <p className="text-sm text-gray-500">Вставьте ссылку на изображение или загрузите файл с компьютера</p>
+          <p className="text-sm text-gray-500">
+            Загрузите логотип на <a href="https://disk.yandex.ru" target="_blank" className="text-blue-600 underline">Яндекс.Диск</a>, 
+            получите публичную ссылку и вставьте её сюда
+          </p>
           
-          <div className="flex gap-3">
-            <div className="flex-1">
-              <Input
-                id="logo"
-                value={formData.logo_url}
-                onChange={(e) => onFormDataChange({ ...formData, logo_url: e.target.value })}
-                placeholder="https://example.com/logo.svg"
-                className="text-black"
-              />
-            </div>
-            
-            <div className="relative">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={onFileUpload}
-                className="hidden"
-                id={uploadInputId}
-                disabled={isUploading}
-              />
-              <Button
-                type="button"
-                onClick={() => document.getElementById(uploadInputId)?.click()}
-                disabled={isUploading}
-                className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white whitespace-nowrap"
-              >
-                <Icon name={isUploading ? 'Loader2' : 'Upload'} size={16} className={`mr-2 ${isUploading ? 'animate-spin' : ''}`} />
-                {isUploading ? 'Загрузка...' : 'Загрузить файл'}
-              </Button>
-            </div>
-          </div>
+          <Input
+            id="logo"
+            value={formData.logo_url}
+            onChange={(e) => onFormDataChange({ ...formData, logo_url: e.target.value })}
+            placeholder="https://disk.yandex.ru/i/..."
+            className="text-black"
+          />
 
           {formData.logo_url && (
             <div className="mt-2 p-4 border-2 border-gradient-start/20 rounded-lg bg-gradient-to-br from-gray-50 to-white">

@@ -23,8 +23,6 @@ const PartnersAdmin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [isAdding, setIsAdding] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-  const [isFixingPermissions, setIsFixingPermissions] = useState(false);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -57,64 +55,7 @@ const PartnersAdmin = () => {
     }
   };
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, partnerId?: number) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      toast({
-        title: 'Ошибка',
-        description: 'Можно загружать только изображения',
-        variant: 'destructive'
-      });
-      return;
-    }
-
-    setIsUploading(true);
-
-    try {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const base64Image = e.target?.result as string;
-
-        const response = await fetch('https://functions.poehali.dev/1103293c-17a5-453c-b290-c1c376ead996', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            image: base64Image,
-            filename: file.name
-          })
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          
-          if (partnerId) {
-            updatePartner(partnerId, 'logo_url', data.url);
-          } else {
-            setFormData({ ...formData, logo_url: data.url });
-          }
-
-          toast({
-            title: 'Успешно',
-            description: 'Логотип загружен'
-          });
-        } else {
-          throw new Error('Upload failed');
-        }
-      };
-
-      reader.readAsDataURL(file);
-    } catch (error) {
-      toast({
-        title: 'Ошибка',
-        description: 'Не удалось загрузить логотип',
-        variant: 'destructive'
-      });
-    } finally {
-      setIsUploading(false);
-    }
-  };
 
   const handleAdd = async () => {
     try {
@@ -204,36 +145,7 @@ const PartnersAdmin = () => {
     setPartners(partners.map(p => p.id === id ? { ...p, [field]: value } : p));
   };
 
-  const handleFixPermissions = async () => {
-    if (!confirm('Исправить доступ ко всем загруженным файлам в S3?')) return;
 
-    setIsFixingPermissions(true);
-    try {
-      const response = await fetch('https://functions.poehali.dev/aff07754-8999-4fc7-8efe-c58dabe45548', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        toast({
-          title: 'Успешно',
-          description: data.message || `Исправлено файлов: ${data.fixed}`
-        });
-        fetchPartners();
-      } else {
-        throw new Error('Failed to fix permissions');
-      }
-    } catch (error) {
-      toast({
-        title: 'Ошибка',
-        description: 'Не удалось исправить доступ к файлам',
-        variant: 'destructive'
-      });
-    } finally {
-      setIsFixingPermissions(false);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -249,32 +161,13 @@ const PartnersAdmin = () => {
         <h2 className="text-3xl font-bold text-black">
           Логотипы партнёров
         </h2>
-        <div className="flex gap-3">
-          <Button
-            onClick={handleFixPermissions}
-            disabled={isFixingPermissions}
-            variant="outline"
-            className="border-orange-500 text-orange-600 hover:bg-orange-50"
-          >
-            <Icon name={isFixingPermissions ? 'Loader2' : 'Shield'} size={20} className={`mr-2 ${isFixingPermissions ? 'animate-spin' : ''}`} />
-            {isFixingPermissions ? 'Исправление...' : 'Исправить доступ S3'}
-          </Button>
-          <Button
-            onClick={() => navigate('/test-s3')}
-            variant="outline"
-            className="border-gradient-start text-gradient-start hover:bg-gradient-start/10"
-          >
-            <Icon name="TestTube2" size={20} className="mr-2" />
-            Тест S3
-          </Button>
-          <Button
-            onClick={() => setIsAdding(!isAdding)}
-            className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white"
-          >
-            <Icon name={isAdding ? 'X' : 'Plus'} size={20} className="mr-2" />
-            {isAdding ? 'Отмена' : 'Добавить партнёра'}
-          </Button>
-        </div>
+        <Button
+          onClick={() => setIsAdding(!isAdding)}
+          className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white"
+        >
+          <Icon name={isAdding ? 'X' : 'Plus'} size={20} className="mr-2" />
+          {isAdding ? 'Отмена' : 'Добавить партнёра'}
+        </Button>
       </div>
 
       {isAdding && (
@@ -283,11 +176,8 @@ const PartnersAdmin = () => {
           
           <PartnerForm
             formData={formData}
-            isUploading={isUploading}
             onFormDataChange={setFormData}
-            onFileUpload={(e) => handleFileUpload(e)}
             onSubmit={handleAdd}
-            uploadInputId="upload-new-logo"
             submitLabel="Сохранить"
           />
         </div>
@@ -299,13 +189,11 @@ const PartnersAdmin = () => {
             key={partner.id}
             partner={partner}
             isEditing={editingId === partner.id}
-            isUploading={isUploading}
             onEdit={() => setEditingId(partner.id)}
             onUpdate={updatePartner}
             onSave={() => handleUpdate(partner.id)}
             onCancel={() => setEditingId(null)}
             onDelete={() => handleDelete(partner.id)}
-            onFileUpload={(e) => handleFileUpload(e, partner.id)}
           />
         ))}
       </div>
