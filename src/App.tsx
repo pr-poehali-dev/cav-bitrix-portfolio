@@ -1,7 +1,7 @@
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { PartnerProvider } from "@/contexts/PartnerContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -30,6 +30,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/services" element={<OurServices />} />
             <Route path="/tg" element={<TelegramMiniApp />} />
+            <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/bots" element={<AdminProtectedRoute><BotAdmin /></AdminProtectedRoute>} />
             <Route path="/admin/consents" element={<AdminProtectedRoute><ConsentAdmin /></AdminProtectedRoute>} />
