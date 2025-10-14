@@ -22,6 +22,7 @@ const PartnersAdmin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [isAdding, setIsAdding] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -51,6 +52,65 @@ const PartnersAdmin = () => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, partnerId?: number) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: 'Ошибка',
+        description: 'Можно загружать только изображения',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const base64Image = e.target?.result as string;
+
+        const response = await fetch('https://functions.poehali.dev/1103293c-17a5-453c-b290-c1c376ead996', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image: base64Image,
+            filename: file.name
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          
+          if (partnerId) {
+            updatePartner(partnerId, 'logo_url', data.url);
+          } else {
+            setFormData({ ...formData, logo_url: data.url });
+          }
+
+          toast({
+            title: 'Успешно',
+            description: 'Логотип загружен'
+          });
+        } else {
+          throw new Error('Upload failed');
+        }
+      };
+
+      reader.readAsDataURL(file);
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось загрузить логотип',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -190,14 +250,54 @@ const PartnersAdmin = () => {
               />
             </div>
 
-            <div className="col-span-2">
-              <Label htmlFor="new-logo">URL логотипа</Label>
-              <Input
-                id="new-logo"
-                value={formData.logo_url}
-                onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
-                placeholder="https://example.com/logo.svg"
-              />
+            <div className="col-span-2 space-y-3">
+              <Label>Логотип</Label>
+              
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <Input
+                    id="new-logo"
+                    value={formData.logo_url}
+                    onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
+                    placeholder="https://example.com/logo.svg или загрузите файл"
+                  />
+                </div>
+                
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileUpload(e)}
+                    className="hidden"
+                    id="upload-new-logo"
+                    disabled={isUploading}
+                  />
+                  <Button
+                    type="button"
+                    onClick={() => document.getElementById('upload-new-logo')?.click()}
+                    disabled={isUploading}
+                    variant="outline"
+                    className="whitespace-nowrap"
+                  >
+                    <Icon name={isUploading ? 'Loader2' : 'Upload'} size={16} className={`mr-2 ${isUploading ? 'animate-spin' : ''}`} />
+                    {isUploading ? 'Загрузка...' : 'Загрузить'}
+                  </Button>
+                </div>
+              </div>
+
+              {formData.logo_url && (
+                <div className="mt-2 p-3 border rounded-lg bg-gray-50">
+                  <img 
+                    src={formData.logo_url} 
+                    alt="Preview" 
+                    className="h-16 object-contain"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
             <div>
@@ -255,12 +355,53 @@ const PartnersAdmin = () => {
                     />
                   </div>
 
-                  <div className="col-span-2">
-                    <Label>URL логотипа</Label>
-                    <Input
-                      value={partner.logo_url}
-                      onChange={(e) => updatePartner(partner.id, 'logo_url', e.target.value)}
-                    />
+                  <div className="col-span-2 space-y-3">
+                    <Label>Логотип</Label>
+                    
+                    <div className="flex gap-3">
+                      <div className="flex-1">
+                        <Input
+                          value={partner.logo_url}
+                          onChange={(e) => updatePartner(partner.id, 'logo_url', e.target.value)}
+                          placeholder="https://example.com/logo.svg или загрузите файл"
+                        />
+                      </div>
+                      
+                      <div className="relative">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleFileUpload(e, partner.id)}
+                          className="hidden"
+                          id={`upload-logo-${partner.id}`}
+                          disabled={isUploading}
+                        />
+                        <Button
+                          type="button"
+                          onClick={() => document.getElementById(`upload-logo-${partner.id}`)?.click()}
+                          disabled={isUploading}
+                          variant="outline"
+                          className="whitespace-nowrap"
+                        >
+                          <Icon name={isUploading ? 'Loader2' : 'Upload'} size={16} className={`mr-2 ${isUploading ? 'animate-spin' : ''}`} />
+                          {isUploading ? 'Загрузка...' : 'Загрузить'}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {partner.logo_url && (
+                      <div className="mt-2 p-3 border rounded-lg bg-gray-50">
+                        <img 
+                          src={partner.logo_url} 
+                          alt="Preview" 
+                          className="h-16 object-contain"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <div>
