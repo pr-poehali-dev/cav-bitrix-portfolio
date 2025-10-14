@@ -1,4 +1,4 @@
-import { Service, BitrixLicense, HostingOption, BegetTariff } from './types';
+import { Service, BitrixLicense, HostingOption, BegetTariff, VPSTariff } from './types';
 
 export const developmentServices: Service[] = [
   {
@@ -162,5 +162,52 @@ export const bitrixLicenses: BitrixLicense[] = [
     description: 'Максимальные возможности для корпораций',
     price: 1699000,
     features: ['Все возможности Бизнес', 'Высоконагруженные проекты', 'Персональная поддержка', 'SLA 99.9%']
+  }
+];
+
+export const vpsTariffs: VPSTariff[] = [
+  {
+    id: 'vps-start',
+    name: 'START',
+    priceMonthly: 350,
+    priceYearly: 3360,
+    cpu: '1 vCPU',
+    ram: '1 ГБ',
+    disk: '25 ГБ NVMe',
+    traffic: 'Безлимит',
+    features: ['ISPmanager 6', 'До 3 сайтов', 'Бесплатный SSL', 'SSH доступ', 'Root права']
+  },
+  {
+    id: 'vps-optimal',
+    name: 'OPTIMAL',
+    priceMonthly: 700,
+    priceYearly: 6720,
+    cpu: '2 vCPU',
+    ram: '2 ГБ',
+    disk: '50 ГБ NVMe',
+    traffic: 'Безлимит',
+    features: ['ISPmanager 6', 'До 10 сайтов', 'Бесплатный SSL', 'SSH доступ', 'Root права', 'Резервные копии']
+  },
+  {
+    id: 'vps-business',
+    name: 'BUSINESS',
+    priceMonthly: 1400,
+    priceYearly: 13440,
+    cpu: '4 vCPU',
+    ram: '4 ГБ',
+    disk: '100 ГБ NVMe',
+    traffic: 'Безлимит',
+    features: ['ISPmanager 6', 'Безлимит сайтов', 'Бесплатный SSL', 'SSH доступ', 'Root права', 'Резервные копии', 'Приоритетная поддержка']
+  },
+  {
+    id: 'vps-pro',
+    name: 'PRO',
+    priceMonthly: 2800,
+    priceYearly: 26880,
+    cpu: '8 vCPU',
+    ram: '8 ГБ',
+    disk: '200 ГБ NVMe',
+    traffic: 'Безлимит',
+    features: ['ISPmanager 6', 'Безлимит сайтов', 'Бесплатный SSL', 'SSH доступ', 'Root права', 'Резервные копии', 'Приоритетная поддержка', 'Выделенный IP']
   }
 ];

@@ -14,7 +14,8 @@ import {
   additionalServices,
   bitrixLicenses,
   hostingOptions,
-  begetTariffs
+  begetTariffs,
+  vpsTariffs
 } from '@/components/services/servicesData';
 
 const OurServices = () => {
@@ -25,6 +26,7 @@ const OurServices = () => {
   const [selectedBitrixLicense, setSelectedBitrixLicense] = useState<string>('');
   const [selectedHosting, setSelectedHosting] = useState<string>('');
   const [selectedBegetTariff, setSelectedBegetTariff] = useState<string>('');
+  const [selectedVPSTariff, setSelectedVPSTariff] = useState<string>('');
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -69,10 +71,15 @@ const OurServices = () => {
   const handleHostingChange = (hostingId: string) => {
     setSelectedHosting(selectedHosting === hostingId ? '' : hostingId);
     setSelectedBegetTariff('');
+    setSelectedVPSTariff('');
   };
 
   const handleBegetTariffChange = (tariffId: string) => {
     setSelectedBegetTariff(tariffId === selectedBegetTariff ? '' : tariffId);
+  };
+
+  const handleVPSTariffChange = (tariffId: string) => {
+    setSelectedVPSTariff(tariffId === selectedVPSTariff ? '' : tariffId);
   };
 
   const calculateTotal = () => {
@@ -107,6 +114,13 @@ const OurServices = () => {
       const hosting = hostingOptions.find(h => h.id === selectedHosting);
       if (hosting) {
         total += hosting.price;
+      }
+    }
+
+    if (selectedHosting === 'vps' && selectedVPSTariff) {
+      const tariff = vpsTariffs.find(t => t.id === selectedVPSTariff);
+      if (tariff) {
+        total += tariff.priceYearly;
       }
     }
 
@@ -177,10 +191,13 @@ const OurServices = () => {
           <HostingSelector
             selectedHosting={selectedHosting}
             selectedBegetTariff={selectedBegetTariff}
+            selectedVPSTariff={selectedVPSTariff}
             hostingOptions={hostingOptions}
             begetTariffs={begetTariffs}
+            vpsTariffs={vpsTariffs}
             onHostingChange={handleHostingChange}
             onBegetTariffChange={handleBegetTariffChange}
+            onVPSTariffChange={handleVPSTariffChange}
           />
         </section>
 
