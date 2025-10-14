@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, Shield, FileCheck, LayoutDashboard, LogOut, Key, History, Users } from 'lucide-react';
+import { Home, Shield, FileCheck, LayoutDashboard, LogOut, Key, History, Users, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface AdminLayoutProps {
@@ -15,6 +15,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     { path: '/admin/bots', label: 'Защита от ботов', icon: Shield },
     { path: '/admin/consents', label: 'Согласия', icon: FileCheck },
     { path: '/admin/partners', label: 'Партнёры', icon: Users },
+    { path: '/admin/analytics', label: 'Аналитика и SEO', icon: BarChart3 },
     { path: '/admin/login-history', label: 'История входов', icon: History },
     { path: '/admin/change-password', label: 'Сменить пароль', icon: Key },
   ];
