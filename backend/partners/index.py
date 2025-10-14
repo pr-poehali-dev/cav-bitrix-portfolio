@@ -1,6 +1,7 @@
 import json
 import os
 import psycopg2
+import bcrypt
 from typing import Dict, Any, List
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
@@ -28,7 +29,34 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     headers = event.get('headers', {})
     admin_password = headers.get('x-admin-password') or headers.get('X-Admin-Password')
     
-    if not admin_password or admin_password != 'admin123':
+    admin_password_hash = os.environ.get('ADMIN_PASSWORD_HASH')
+    
+    if not admin_password or not admin_password_hash:
+        return {
+            'statusCode': 401,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'body': json.dumps({'error': 'Unauthorized'}),
+            'isBase64Encoded': False
+        }
+    
+    password_bytes = admin_password.encode('utf-8')
+    hash_str = admin_password_hash.strip()
+    
+    if hash_str.startswith('$2a$'):
+        hash_str = '$2b$' + hash_str[4:]
+    
+    hash_bytes = hash_str.encode('utf-8')
+    
+    is_valid = False
+    try:
+        is_valid = bcrypt.checkpw(password_bytes, hash_bytes)
+    except Exception:
+        pass
+    
+    if not is_valid:
         return {
             'statusCode': 401,
             'headers': {
