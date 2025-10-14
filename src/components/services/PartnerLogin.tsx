@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { usePartner } from '@/contexts/PartnerContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
 
 export default function PartnerLogin() {
+  const location = useLocation();
   const { isPartner, login, logout, discountPercent, partnerName } = usePartner();
   const [loginValue, setLoginValue] = useState('');
   const [password, setPassword] = useState('');
@@ -12,6 +14,8 @@ export default function PartnerLogin() {
   const [isHovered, setIsHovered] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -43,6 +47,10 @@ export default function PartnerLogin() {
       handleLogin();
     }
   };
+
+  if (isAdminRoute) {
+    return null;
+  }
 
   if (isPartner) {
     return (
