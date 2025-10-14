@@ -44,9 +44,9 @@ export default function Partners() {
   });
 
   useEffect(() => {
-    const adminAuth = localStorage.getItem('adminAuth');
+    const adminAuth = localStorage.getItem('admin_auth');
     if (!adminAuth) {
-      navigate('/admin');
+      navigate('/admin/login');
       return;
     }
     
