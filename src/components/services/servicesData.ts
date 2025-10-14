@@ -56,6 +56,12 @@ export const promotionServices: Service[] = [
 
 export const additionalServices: Service[] = [
   {
+    id: 'crm-integration',
+    title: 'Работа с интеграциями CRM',
+    description: 'Создание форм с веб-хуками в CRM (amoCRM, Битрикс24)',
+    price: 5000
+  },
+  {
     id: 'content',
     title: 'Контент-менеджмент',
     description: 'Регулярное обновление и наполнение сайта',
