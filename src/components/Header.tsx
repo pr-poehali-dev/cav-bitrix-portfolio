@@ -53,16 +53,16 @@ const Header = () => {
         </button>
         
         <div className={`${menuOpen ? 'flex' : 'hidden'} lg:flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-6 z-[999999] ${menuOpen ? 'absolute top-full right-0 bg-white/95 backdrop-blur-xl p-8 rounded-2xl shadow-2xl mt-4 border border-gradient-start/10' : ''}`}>
-          <a href="/#" className="nav-link-custom relative group">
-            Новости
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
-          </a>
           <a href="/#blok-dev" className="nav-link-custom relative group">
             Разработка
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
           <a href="/#blok-prom" className="nav-link-custom relative group">
             Продвижение
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+          </a>
+          <a href="/#news" className="nav-link-custom relative group">
+            Новости
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
           <a href="/services" className="nav-link-custom relative group">
