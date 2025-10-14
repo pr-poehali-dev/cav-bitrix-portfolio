@@ -1,7 +1,8 @@
+import { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ShieldCheck, Users, Mail, Phone } from 'lucide-react';
+import { ShieldCheck, Users, Mail, Phone, Search, Filter, X } from 'lucide-react';
 
 interface Consent {
   id: number;
@@ -20,6 +21,9 @@ interface ConsentResponse {
 }
 
 const ConsentAdmin = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterType, setFilterType] = useState<'all' | 'phone' | 'email' | 'cookies' | 'terms' | 'privacy'>('all');
+
   const { data, isLoading } = useQuery<ConsentResponse>({
     queryKey: ['consents'],
     queryFn: async () => {
@@ -29,6 +33,43 @@ const ConsentAdmin = () => {
     },
     refetchInterval: 10000
   });
+
+  const filteredConsents = useMemo(() => {
+    if (!data?.consents) return [];
+
+    let filtered = data.consents;
+
+    if (filterType !== 'all') {
+      filtered = filtered.filter(consent => {
+        switch (filterType) {
+          case 'phone':
+            return consent.phone !== null;
+          case 'email':
+            return consent.email !== null;
+          case 'cookies':
+            return consent.cookies;
+          case 'terms':
+            return consent.terms;
+          case 'privacy':
+            return consent.privacy;
+          default:
+            return true;
+        }
+      });
+    }
+
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(consent => 
+        consent.fullName.toLowerCase().includes(query) ||
+        consent.phone?.toLowerCase().includes(query) ||
+        consent.email?.toLowerCase().includes(query) ||
+        consent.ipAddress.toLowerCase().includes(query)
+      );
+    }
+
+    return filtered;
+  }, [data?.consents, searchQuery, filterType]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -59,9 +100,9 @@ const ConsentAdmin = () => {
     );
   }
 
-  const totalConsents = data?.consents.length || 0;
-  const withPhone = data?.consents.filter(c => c.phone).length || 0;
-  const withEmail = data?.consents.filter(c => c.email).length || 0;
+  const totalConsents = filteredConsents.length;
+  const withPhone = filteredConsents.filter(c => c.phone).length;
+  const withEmail = filteredConsents.filter(c => c.email).length;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8">
@@ -112,11 +153,83 @@ const ConsentAdmin = () => {
 
         <Card className="bg-gray-800/50 border-gray-700 backdrop-blur">
           <CardHeader>
-            <CardTitle className="text-xl text-white">Список согласий</CardTitle>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <CardTitle className="text-xl text-white">Список согласий</CardTitle>
+              <div className="text-sm text-gray-400">
+                Показано: {totalConsents} {data?.consents.length !== totalConsents && `из ${data?.consents.length || 0}`}
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
+            <div className="space-y-4 mb-6">
+              <div className="flex flex-col md:flex-row gap-3">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Поиск по имени, телефону, email или IP..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-10 py-2 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <Filter className="h-5 w-5 text-gray-400 self-center" />
+                  <select
+                    value={filterType}
+                    onChange={(e) => setFilterType(e.target.value as any)}
+                    className="px-4 py-2 bg-gray-900/50 border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+                  >
+                    <option value="all">Все записи</option>
+                    <option value="phone">С телефоном</option>
+                    <option value="email">С email</option>
+                    <option value="cookies">Cookies</option>
+                    <option value="terms">Соглашение</option>
+                    <option value="privacy">Конфиденциальность</option>
+                  </select>
+                </div>
+              </div>
+              
+              {(searchQuery || filterType !== 'all') && (
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="text-gray-400">Активные фильтры:</span>
+                  {searchQuery && (
+                    <Badge variant="secondary" className="bg-blue-500/20 text-blue-300 border-blue-500/30">
+                      Поиск: "{searchQuery}"
+                    </Badge>
+                  )}
+                  {filterType !== 'all' && (
+                    <Badge variant="secondary" className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+                      {filterType === 'phone' && 'С телефоном'}
+                      {filterType === 'email' && 'С email'}
+                      {filterType === 'cookies' && 'Cookies'}
+                      {filterType === 'terms' && 'Соглашение'}
+                      {filterType === 'privacy' && 'Конфиденциальность'}
+                    </Badge>
+                  )}
+                  <button
+                    onClick={() => {
+                      setSearchQuery('');
+                      setFilterType('all');
+                    }}
+                    className="text-gray-400 hover:text-white transition-colors ml-2"
+                  >
+                    Сбросить
+                  </button>
+                </div>
+              )}
+            </div>
+
             <div className="space-y-3 max-h-[600px] overflow-y-auto">
-              {data?.consents.map((consent) => (
+              {filteredConsents.map((consent) => (
                 <div
                   key={consent.id}
                   className="p-4 bg-gray-900/50 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors"
@@ -170,10 +283,10 @@ const ConsentAdmin = () => {
                 </div>
               ))}
               
-              {(!data?.consents || data.consents.length === 0) && (
+              {filteredConsents.length === 0 && (
                 <div className="text-center py-12 text-gray-400">
                   <ShieldCheck className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>Пока нет записей о согласиях</p>
+                  <p>{searchQuery || filterType !== 'all' ? 'Ничего не найдено' : 'Пока нет записей о согласиях'}</p>
                 </div>
               )}
             </div>
