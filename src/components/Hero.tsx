@@ -24,7 +24,7 @@ const Hero = () => {
         }} />
       </div>
 
-      <div className="fixed top-[100px] left-0 right-0 z-50">
+      <div className="fixed top-[10px] left-0 right-0 z-50">
         <div className="max-w-[1500px] w-full px-[50px] mx-auto">
           <Header />
         </div>
