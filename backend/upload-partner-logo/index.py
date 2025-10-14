@@ -104,7 +104,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             Bucket=s3_bucket_name,
             Key=new_filename,
             Body=image_bytes,
-            ContentType=content_type
+            ContentType=content_type,
+            ACL='public-read'
         )
     except ClientError as e:
         error_code = e.response.get('Error', {}).get('Code', 'Unknown')
