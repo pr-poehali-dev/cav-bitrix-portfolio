@@ -52,26 +52,6 @@ export default function PartnerLogin() {
     return null;
   }
 
-  if (isPartner) {
-    return (
-      <div className="fixed top-4 right-4 z-[99999999] bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-in slide-in-from-right">
-        <Icon name="BadgeCheck" size={24} />
-        <div className="flex flex-col">
-          <span className="font-bold">{partnerName}</span>
-          <span className="text-xs opacity-90">Скидка {discountPercent}% на услуги</span>
-        </div>
-        <Button
-          onClick={logout}
-          variant="ghost"
-          size="sm"
-          className="ml-2 hover:bg-white/20 text-white"
-        >
-          <Icon name="LogOut" size={16} />
-        </Button>
-      </div>
-    );
-  }
-
   if (showLogin) {
     return (
       <div 
@@ -164,17 +144,24 @@ export default function PartnerLogin() {
       onMouseLeave={() => setIsHovered(false)}
     >
       <Button
-        onClick={() => setShowLogin(true)}
+        onClick={() => {
+          if (isPartner) {
+            logout();
+          } else {
+            setShowLogin(true);
+          }
+        }}
         className={`
-          bg-primary hover:bg-primary/90 text-white shadow-lg rounded-l-full rounded-r-none pr-4 pl-4
+          ${isPartner ? 'bg-green-600 hover:bg-green-700' : 'bg-primary hover:bg-primary/90'} 
+          text-white shadow-lg rounded-l-full rounded-r-none pr-4 pl-4
           transition-all duration-300 ease-out
           ${isHovered ? 'translate-x-0' : 'translate-x-[calc(100%-48px)]'}
         `}
         size="sm"
       >
-        <Icon name="Users" size={20} className="flex-shrink-0" />
+        <Icon name={isPartner ? "BadgeCheck" : "Users"} size={20} className="flex-shrink-0" />
         <span className={`ml-2 whitespace-nowrap overflow-hidden transition-all duration-300 ${isHovered ? 'w-auto opacity-100' : 'w-0 opacity-0'}`}>
-          Вход для партнеров
+          {isPartner ? `${partnerName} (${discountPercent}%)` : 'Вход для партнеров'}
         </span>
       </Button>
     </div>
