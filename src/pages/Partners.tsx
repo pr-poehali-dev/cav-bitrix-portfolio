@@ -55,7 +55,7 @@ export default function Partners() {
 
   const loadPartners = async () => {
     try {
-      const adminAuth = localStorage.getItem('adminAuth');
+      const adminAuth = localStorage.getItem('admin_auth');
       if (!adminAuth) return;
 
       const response = await fetch('https://functions.poehali.dev/3f1e2a11-15ea-463e-9cec-11697b90090c', {
@@ -79,7 +79,7 @@ export default function Partners() {
     e.preventDefault();
     
     try {
-      const adminAuth = localStorage.getItem('adminAuth');
+      const adminAuth = localStorage.getItem('admin_auth');
       if (!adminAuth) return;
 
       const url = editingPartner 
@@ -132,7 +132,7 @@ export default function Partners() {
     if (!confirm('Вы уверены, что хотите удалить этого партнёра?')) return;
 
     try {
-      const adminAuth = localStorage.getItem('adminAuth');
+      const adminAuth = localStorage.getItem('admin_auth');
       if (!adminAuth) return;
 
       const response = await fetch(`https://functions.poehali.dev/3f1e2a11-15ea-463e-9cec-11697b90090c?id=${id}`, {
