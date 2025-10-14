@@ -19,7 +19,6 @@ const Index = () => {
         <Development />
         <Promotion />
         <Services />
-        <LeadGeneration />
         <AboutUs />
         <Portfolio />
         <Contacts />
