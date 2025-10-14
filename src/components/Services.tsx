@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import Icon from '@/components/ui/icon';
+import ContactModal from './ContactModal';
 
 const Services = () => {
+  const [contactModalOpen, setContactModalOpen] = useState(false);
   const services = [
     { icon: "TrendingUp", title: "Таргетированная реклама", color: "from-blue-500 to-indigo-600" },
     { icon: "BarChart3", title: "UI Оптимизация", color: "from-purple-500 to-pink-600" },
@@ -39,12 +42,17 @@ const Services = () => {
             <h3 className="section-subtitle">
               Сделаем чтобы продукт работал на Вас, а не вы на него!
             </h3>
-            <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300">
+            <button 
+              onClick={() => setContactModalOpen(true)}
+              className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300"
+            >
               Обсудить проект
             </button>
           </div>
         </div>
       </div>
+      
+      <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
     </section>
   );
 };

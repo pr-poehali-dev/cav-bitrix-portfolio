@@ -1,4 +1,9 @@
+import { useState } from 'react';
+import ContactModal from './ContactModal';
+
 const AboutUs = () => {
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+  
   return (
     <section className="about-us">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
@@ -31,12 +36,17 @@ const AboutUs = () => {
             </p>
             <h3 className="section-subtitle">Наша главная цель в компании</h3>
             <p className="section-descr text-muted-foreground">Забота о клиенте и его продукте.</p>
-            <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300">
+            <button 
+              onClick={() => setContactModalOpen(true)}
+              className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300"
+            >
               Обсудить проект
             </button>
           </div>
         </div>
       </div>
+      
+      <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
     </section>
   );
 };

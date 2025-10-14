@@ -1,4 +1,9 @@
+import { useState } from 'react';
+import ContactModal from './ContactModal';
+
 const Promotion = () => {
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+  
   return (
     <section className="promotion">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
@@ -26,12 +31,17 @@ const Promotion = () => {
               взлетаем
             </a>
             <h3 className="section-subtitle">Сможем продвинуть любой ваш продукт или идею от А до Я</h3>
-            <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300">
+            <button 
+              onClick={() => setContactModalOpen(true)}
+              className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300"
+            >
               Обсудить проект
             </button>
           </div>
         </div>
       </div>
+      
+      <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
     </section>
   );
 };

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import ContactModal from './ContactModal';
 
 const Development = () => {
   const [activeType, setActiveType] = useState(0);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
   
   const developmentTypes = [
     {
@@ -135,12 +137,17 @@ const Development = () => {
             <p className="text-gray-600 leading-relaxed">
               Мы предлагаем полный спектр услуг по разработке сайтов, которые помогут вашему бизнесу расти и развиваться в интернете. Наши решения — это сочетание современного дизайна, удобства и функциональности, адаптированные под ваши потребности и бюджет.
             </p>
-            <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300">
+            <button 
+              onClick={() => setContactModalOpen(true)}
+              className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300"
+            >
               Обсудить проект
             </button>
           </div>
         </div>
       </div>
+      
+      <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
     </section>
   );
 };

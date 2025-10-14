@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import ContactModal from './ContactModal';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,11 +77,16 @@ const Header = () => {
             Контакты
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
-          <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-6 py-3 rounded-full text-sm font-semibold max-w-[181px] hover:shadow-xl transition-all duration-300">
+          <button 
+            onClick={() => setContactModalOpen(true)}
+            className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-6 py-3 rounded-full text-sm font-semibold max-w-[181px] hover:shadow-xl transition-all duration-300"
+          >
             Обсудить проект
           </button>
         </div>
       </nav>
+      
+      <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
     </>
   );
 };

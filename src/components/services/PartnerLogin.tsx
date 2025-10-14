@@ -29,7 +29,7 @@ export default function PartnerLogin() {
 
   if (isPartner) {
     return (
-      <div className="fixed top-4 right-4 z-50 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
+      <div className="fixed top-4 right-4 z-[99999999] bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
         <Icon name="BadgeCheck" size={24} />
         <div className="flex flex-col">
           <span className="font-bold">Партнерский доступ</span>
@@ -51,7 +51,7 @@ export default function PartnerLogin() {
     return (
       <Button
         onClick={() => setShowLogin(true)}
-        className="fixed top-4 right-4 z-50 bg-primary hover:bg-primary/90 text-white shadow-lg"
+        className="fixed top-4 right-4 z-[99999999] bg-primary hover:bg-primary/90 text-white shadow-lg"
         size="sm"
       >
         <Icon name="Users" size={16} className="mr-2" />
@@ -61,7 +61,7 @@ export default function PartnerLogin() {
   }
 
   return (
-    <div className="fixed top-4 right-4 z-50 bg-white rounded-lg shadow-xl p-4 border-2 border-primary/20 w-72">
+    <div className="fixed top-4 right-4 z-[99999999] bg-white rounded-lg shadow-xl p-4 border-2 border-primary/20 w-72">
       <div className="flex items-center justify-between mb-3">
         <h3 className="font-bold text-lg flex items-center gap-2">
           <Icon name="Users" size={20} />

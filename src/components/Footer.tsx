@@ -1,4 +1,9 @@
+import { useState } from 'react';
+import ContactModal from './ContactModal';
+
 const Footer = () => {
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+  
   return (
     <footer className="footer pt-16 pb-8 relative">
       <div className="absolute inset-0 bg-gradient-to-t from-gradient-start/5 via-transparent to-transparent pointer-events-none" />
@@ -44,7 +49,10 @@ const Footer = () => {
               Admin
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
             </a>
-            <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-6 py-3 rounded-full text-sm font-semibold hover:shadow-xl transition-all duration-300">
+            <button 
+              onClick={() => setContactModalOpen(true)}
+              className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-6 py-3 rounded-full text-sm font-semibold hover:shadow-xl transition-all duration-300"
+            >
               Обсудить проект
             </button>
           </nav>
@@ -73,6 +81,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      
+      <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
     </footer>
   );
 };

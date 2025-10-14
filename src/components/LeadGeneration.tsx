@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import Icon from '@/components/ui/icon';
+import ContactModal from './ContactModal';
 
 const LeadGeneration = () => {
+  const [contactModalOpen, setContactModalOpen] = useState(false);
   const services = [
     { icon: "Target", title: "Таргетированная реклама", color: "from-orange-500 to-red-600" },
     { icon: "Zap", title: "UI Оптимизация", color: "from-cyan-500 to-blue-600" },
@@ -37,12 +40,17 @@ const LeadGeneration = () => {
               лучшие в своем деле
             </p>
             <h3 className="section-subtitle">Мы комплексно подходим к процессу запуска интернет продаж</h3>
-            <button className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300">
+            <button 
+              onClick={() => setContactModalOpen(true)}
+              className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300"
+            >
               Обсудить проект
             </button>
           </div>
         </div>
       </div>
+      
+      <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
     </section>
   );
 };
