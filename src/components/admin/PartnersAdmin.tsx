@@ -57,10 +57,16 @@ const PartnersAdmin = () => {
 
 
 
-  const normalizeYandexDiskUrl = (url: string): string => {
+  const normalizeYandexDiskUrl = async (url: string): Promise<string> => {
     if (url.includes('disk.yandex.ru') || url.includes('disk.360.yandex.ru')) {
-      if (!url.endsWith('/download')) {
-        return url.replace(/\/$/, '') + '/download';
+      try {
+        const response = await fetch(`https://functions.poehali.dev/8dd5a9cf-1430-457d-a682-7114624f923a?url=${encodeURIComponent(url)}`);
+        if (response.ok) {
+          const data = await response.json();
+          return data.direct_url;
+        }
+      } catch (error) {
+        console.error('Failed to convert Yandex.Disk URL:', error);
       }
     }
     return url;
@@ -68,9 +74,10 @@ const PartnersAdmin = () => {
 
   const handleAdd = async () => {
     try {
+      const normalizedUrl = await normalizeYandexDiskUrl(formData.logo_url);
       const normalizedData = {
         ...formData,
-        logo_url: normalizeYandexDiskUrl(formData.logo_url)
+        logo_url: normalizedUrl
       };
 
       const response = await fetch('https://functions.poehali.dev/c7b03587-cdba-48a4-ac48-9aa2775ff9a0', {
@@ -108,9 +115,10 @@ const PartnersAdmin = () => {
       const partner = partners.find(p => p.id === id);
       if (!partner) return;
 
+      const normalizedUrl = await normalizeYandexDiskUrl(partner.logo_url);
       const normalizedPartner = {
         ...partner,
-        logo_url: normalizeYandexDiskUrl(partner.logo_url)
+        logo_url: normalizedUrl
       };
 
       const response = await fetch('https://functions.poehali.dev/c7b03587-cdba-48a4-ac48-9aa2775ff9a0', {
