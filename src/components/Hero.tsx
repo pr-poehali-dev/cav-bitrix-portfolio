@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Header from './Header';
+import PartnersCarousel from './PartnersCarousel';
 
 const Hero = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -95,6 +96,8 @@ const Hero = () => {
           <div className="w-1.5 h-3 bg-gradient-to-b from-gradient-start to-transparent rounded-full animate-pulse" />
         </div>
       </div>
+
+      <PartnersCarousel />
     </header>
   );
 };

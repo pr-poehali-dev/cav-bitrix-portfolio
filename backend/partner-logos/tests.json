@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {
+      "name": "Get active partner logos",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": [
+        {
+          "id": 1
+        }
+      ],
+      "bodyMatcher": "partial"
+    }
+  ]
+}

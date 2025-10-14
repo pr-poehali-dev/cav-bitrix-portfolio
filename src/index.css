@@ -118,6 +118,15 @@
   }
 }
 
+@keyframes carousel {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 @keyframes slide-up {
   from {
     transform: translateY(20px);
@@ -147,6 +156,10 @@
 
 .animate-marquee-slow {
   animation: marquee 60s linear infinite;
+}
+
+.animate-carousel {
+  animation: carousel 30s linear infinite;
 }
 
 .section-title {
