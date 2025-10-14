@@ -93,9 +93,18 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         }
     
     password_bytes = password.encode('utf-8')
-    hash_bytes = admin_password_hash.encode('utf-8')
+    hash_str = admin_password_hash.strip()
     
-    is_valid = bcrypt.checkpw(password_bytes, hash_bytes)
+    if hash_str.startswith('$2a$'):
+        hash_str = '$2b$' + hash_str[4:]
+    
+    hash_bytes = hash_str.encode('utf-8')
+    
+    is_valid = False
+    try:
+        is_valid = bcrypt.checkpw(password_bytes, hash_bytes)
+    except Exception as e:
+        print(f"Password check error: {e}")
     
     log_login_attempt(ip_address, user_agent, is_valid)
     
