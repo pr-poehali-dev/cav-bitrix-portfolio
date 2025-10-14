@@ -62,6 +62,7 @@ const PartnersCarousel = () => {
                   src={partner.logo_url}
                   alt={partner.name}
                   className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                  crossOrigin="anonymous"
                   onError={(e) => {
                     console.error('Failed to load image:', partner.logo_url, 'for partner:', partner.name);
                     const target = e.target as HTMLImageElement;
