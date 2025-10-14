@@ -13,6 +13,8 @@ import Footer from '@/components/Footer';
 import ServiceCard from '@/components/services/ServiceCard';
 import TechnologySelector from '@/components/services/TechnologySelector';
 import HostingSelector from '@/components/services/HostingSelector';
+import PartnerLogin from '@/components/services/PartnerLogin';
+import { usePartner } from '@/contexts/PartnerContext';
 import {
   developmentServices,
   promotionServices,
@@ -24,6 +26,7 @@ import {
 } from '@/components/services/servicesData';
 
 const OurServices = () => {
+  const { getDiscountedPrice } = usePartner();
   const [selectedDevelopment, setSelectedDevelopment] = useState<string[]>([]);
   const [selectedPromotion, setSelectedPromotion] = useState<string[]>([]);
   const [selectedAdditional, setSelectedAdditional] = useState<string[]>([]);
@@ -97,47 +100,49 @@ const OurServices = () => {
     
     developmentServices.forEach(service => {
       if (selectedDevelopment.includes(service.id)) {
-        total += service.price;
+        total += getDiscountedPrice(service.price, false);
       }
     });
     
     promotionServices.forEach(service => {
       if (selectedPromotion.includes(service.id)) {
-        total += service.price;
+        total += getDiscountedPrice(service.price, false);
       }
     });
     
     additionalServices.forEach(service => {
       if (selectedAdditional.includes(service.id)) {
-        total += service.price;
+        total += getDiscountedPrice(service.price, false);
       }
     });
 
     if (selectedTechnology === 'bitrix' && selectedBitrixLicense) {
       const license = bitrixLicenses.find(l => l.id === selectedBitrixLicense);
       if (license) {
-        total += license.price;
+        total += getDiscountedPrice(license.price, false);
       }
     }
 
     if (selectedHosting) {
       const hosting = hostingOptions.find(h => h.id === selectedHosting);
       if (hosting) {
-        total += hosting.price;
+        total += getDiscountedPrice(hosting.price, true);
       }
     }
 
     if (selectedHosting === 'vps' && selectedVPSTariff) {
       const tariff = vpsTariffs.find(t => t.id === selectedVPSTariff);
       if (tariff) {
-        total += hostingPeriod === 6 ? tariff.priceMonthly * 6 : tariff.priceYearly;
+        const hostingPrice = hostingPeriod === 6 ? tariff.priceMonthly * 6 : tariff.priceYearly;
+        total += getDiscountedPrice(hostingPrice, true);
       }
     }
 
     if (selectedHosting === 'beget' && selectedBegetTariff) {
       const tariff = begetTariffs.find(t => t.id === selectedBegetTariff);
       if (tariff) {
-        total += hostingPeriod === 6 ? tariff.price * 6 : tariff.price * 12;
+        const hostingPrice = hostingPeriod === 6 ? tariff.price * 6 : tariff.price * 12;
+        total += getDiscountedPrice(hostingPrice, true);
       }
     }
     
@@ -152,6 +157,7 @@ const OurServices = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <PartnerLogin />
       <header className="border-b bg-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <Link to="/" className="flex items-center gap-2 text-primary hover:opacity-80 transition-opacity">
