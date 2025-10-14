@@ -19,6 +19,7 @@ const PartnersCarousel = () => {
         const response = await fetch('https://functions.poehali.dev/c7b03587-cdba-48a4-ac48-9aa2775ff9a0');
         if (response.ok) {
           const data = await response.json();
+          console.log('Partners data:', data);
           setPartners(data);
         }
       } catch (error) {
@@ -62,6 +63,7 @@ const PartnersCarousel = () => {
                   alt={partner.name}
                   className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300"
                   onError={(e) => {
+                    console.error('Failed to load image:', partner.logo_url, 'for partner:', partner.name);
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
                     const textFallback = document.createElement('div');
