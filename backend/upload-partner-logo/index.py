@@ -9,7 +9,7 @@ from botocore.exceptions import ClientError
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
-    Business: Upload partner logo to S3 and return public URL
+    Business: Upload partner logo to S3 storage and return URL
     Args: event with httpMethod, body containing base64 image
     Returns: JSON with image URL
     '''
@@ -91,21 +91,39 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     }
     content_type = content_type_map.get(ext.lower(), 'application/octet-stream')
     
-    s3_client = boto3.client(
-        's3',
-        aws_access_key_id=aws_access_key_id,
-        aws_secret_access_key=aws_secret_access_key,
-        endpoint_url=s3_endpoint_url if s3_endpoint_url else None,
-        region_name=s3_region
-    )
-    
-    s3_client.put_object(
-        Bucket=s3_bucket_name,
-        Key=new_filename,
-        Body=image_bytes,
-        ContentType=content_type,
-        ACL='public-read'
-    )
+    try:
+        s3_client = boto3.client(
+            's3',
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            endpoint_url=s3_endpoint_url if s3_endpoint_url else None,
+            region_name=s3_region
+        )
+        
+        s3_client.put_object(
+            Bucket=s3_bucket_name,
+            Key=new_filename,
+            Body=image_bytes,
+            ContentType=content_type
+        )
+    except ClientError as e:
+        error_code = e.response.get('Error', {}).get('Code', 'Unknown')
+        error_msg = e.response.get('Error', {}).get('Message', str(e))
+        
+        return {
+            'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'body': json.dumps({
+                'error': f'S3 Error: {error_code}',
+                'message': error_msg,
+                'bucket': s3_bucket_name,
+                'hint': 'Проверьте роль storage.editor у сервисного аккаунта'
+            }),
+            'isBase64Encoded': False
+        }
     
     if s3_endpoint_url and 'yandexcloud' in s3_endpoint_url:
         s3_url = f'https://storage.yandexcloud.net/{s3_bucket_name}/{new_filename}'
