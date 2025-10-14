@@ -27,7 +27,7 @@ const AdminLogin = () => {
       });
 
       if (response.ok) {
-        localStorage.setItem('admin_auth', 'true');
+        localStorage.setItem('admin_auth', password);
         localStorage.setItem('admin_auth_time', Date.now().toString());
         navigate('/admin/bots');
       } else {

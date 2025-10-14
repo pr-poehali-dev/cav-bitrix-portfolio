@@ -9,10 +9,10 @@ const AdminProtectedRoute = ({ children }: AdminProtectedRouteProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('admin_auth') === 'true';
+    const adminAuth = localStorage.getItem('admin_auth');
     const authTime = localStorage.getItem('admin_auth_time');
     
-    if (!isAuthenticated || !authTime) {
+    if (!adminAuth || !authTime) {
       navigate('/admin/login');
       return;
     }
@@ -27,7 +27,7 @@ const AdminProtectedRoute = ({ children }: AdminProtectedRouteProps) => {
     }
   }, [navigate]);
 
-  const isAuthenticated = localStorage.getItem('admin_auth') === 'true';
+  const isAuthenticated = !!localStorage.getItem('admin_auth');
   
   if (!isAuthenticated) {
     return null;
