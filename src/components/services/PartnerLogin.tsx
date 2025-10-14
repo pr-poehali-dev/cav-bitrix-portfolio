@@ -5,26 +5,41 @@ import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
 
 export default function PartnerLogin() {
-  const { isPartner, login, logout, discountPercent } = usePartner();
+  const { isPartner, login, logout, discountPercent, partnerName } = usePartner();
+  const [loginValue, setLoginValue] = useState('');
   const [password, setPassword] = useState('');
   const [showLogin, setShowLogin] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = () => {
-    const success = login(password);
+  const handleLogin = async () => {
+    setIsLoading(true);
+    setError('');
+    
+    const success = await login(loginValue, password);
+    
     if (success) {
+      if (navigator.vibrate) {
+        navigator.vibrate([100, 50, 100]);
+      }
+      setLoginValue('');
       setPassword('');
       setError('');
       setShowLogin(false);
       setIsHovered(false);
     } else {
-      setError('Неверный пароль');
+      if (navigator.vibrate) {
+        navigator.vibrate(200);
+      }
+      setError('Неверный логин или пароль');
     }
+    
+    setIsLoading(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !isLoading) {
       handleLogin();
     }
   };
@@ -34,7 +49,7 @@ export default function PartnerLogin() {
       <div className="fixed top-4 right-4 z-[99999999] bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-in slide-in-from-right">
         <Icon name="BadgeCheck" size={24} />
         <div className="flex flex-col">
-          <span className="font-bold">Партнерский доступ</span>
+          <span className="font-bold">{partnerName}</span>
           <span className="text-xs opacity-90">Скидка {discountPercent}% на услуги</span>
         </div>
         <Button
@@ -54,9 +69,12 @@ export default function PartnerLogin() {
       <div 
         className="fixed top-4 right-4 z-[99999999] bg-white rounded-lg shadow-xl p-4 border-2 border-primary/20 w-72 animate-in slide-in-from-right"
         onMouseLeave={() => {
-          setShowLogin(false);
-          setError('');
-          setPassword('');
+          if (!isLoading) {
+            setShowLogin(false);
+            setError('');
+            setLoginValue('');
+            setPassword('');
+          }
         }}
       >
         <div className="flex items-center justify-between mb-3">
@@ -68,10 +86,12 @@ export default function PartnerLogin() {
             onClick={() => {
               setShowLogin(false);
               setError('');
+              setLoginValue('');
               setPassword('');
             }}
             variant="ghost"
             size="sm"
+            disabled={isLoading}
           >
             <Icon name="X" size={16} />
           </Button>
@@ -79,8 +99,21 @@ export default function PartnerLogin() {
         
         <div className="space-y-3">
           <Input
+            type="text"
+            placeholder="Логин"
+            value={loginValue}
+            onChange={(e) => {
+              setLoginValue(e.target.value);
+              setError('');
+            }}
+            onKeyPress={handleKeyPress}
+            disabled={isLoading}
+            autoFocus
+          />
+          
+          <Input
             type="password"
-            placeholder="Введите пароль"
+            placeholder="Пароль"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -88,7 +121,7 @@ export default function PartnerLogin() {
             }}
             onKeyPress={handleKeyPress}
             className={error ? 'border-red-500' : ''}
-            autoFocus
+            disabled={isLoading}
           />
           
           {error && (
@@ -98,14 +131,19 @@ export default function PartnerLogin() {
             </p>
           )}
           
-          <Button onClick={handleLogin} className="w-full">
-            <Icon name="LogIn" size={16} className="mr-2" />
-            Войти
+          <Button onClick={handleLogin} className="w-full" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Icon name="Loader2" size={16} className="mr-2 animate-spin" />
+                Вход...
+              </>
+            ) : (
+              <>
+                <Icon name="LogIn" size={16} className="mr-2" />
+                Войти
+              </>
+            )}
           </Button>
-          
-          <p className="text-xs text-gray-500 text-center">
-            Скидка {discountPercent}% на все услуги кроме хостинга
-          </p>
         </div>
       </div>
     );
