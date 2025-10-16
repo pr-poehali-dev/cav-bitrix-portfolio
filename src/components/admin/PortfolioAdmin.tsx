@@ -3,6 +3,23 @@ import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  rectSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface PortfolioProject {
   id?: number;
@@ -14,11 +31,99 @@ interface PortfolioProject {
   is_active: boolean;
 }
 
+interface SortableProjectProps {
+  project: PortfolioProject;
+  onEdit: () => void;
+  onDelete: () => void;
+}
+
+const SortableProject = ({ project, onEdit, onDelete }: SortableProjectProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: project.id! });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-lg transition-shadow"
+    >
+      <div className="aspect-video relative">
+        <img
+          src={project.image_url}
+          alt={project.title}
+          className="w-full h-full object-cover"
+        />
+        {!project.is_active && (
+          <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
+            Скрыт
+          </div>
+        )}
+        <div
+          {...attributes}
+          {...listeners}
+          className="absolute top-2 left-2 bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300 p-2 rounded cursor-move hover:bg-white dark:hover:bg-gray-800 transition-colors"
+          title="Перетащите для изменения порядка"
+        >
+          <Icon name="GripVertical" size={20} />
+        </div>
+      </div>
+      <div className="p-4">
+        <h3 className="font-bold text-lg mb-2 text-gray-900 dark:text-gray-100">
+          {project.title}
+        </h3>
+        {project.description && (
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+            {project.description}
+          </p>
+        )}
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onEdit}
+            className="flex-1"
+          >
+            <Icon name="Edit" size={16} className="mr-1" />
+            Редактировать
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onDelete}
+            className="text-red-600 hover:text-red-700"
+          >
+            <Icon name="Trash2" size={16} />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const PortfolioAdmin = () => {
   const [projects, setProjects] = useState<PortfolioProject[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingProject, setEditingProject] = useState<PortfolioProject | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   const emptyProject: PortfolioProject = {
     title: '',
@@ -46,6 +151,38 @@ const PortfolioAdmin = () => {
   useEffect(() => {
     fetchProjects();
   }, []);
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const oldIndex = projects.findIndex((p) => p.id === active.id);
+      const newIndex = projects.findIndex((p) => p.id === over.id);
+
+      const newProjects = arrayMove(projects, oldIndex, newIndex);
+      setProjects(newProjects);
+
+      const updates = newProjects.map((project, index) => ({
+        ...project,
+        display_order: index,
+      }));
+
+      try {
+        await Promise.all(
+          updates.map((project) =>
+            fetch('https://functions.poehali.dev/99ddd15c-93b5-4d9e-8536-31e6f6630304', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(project),
+            })
+          )
+        );
+      } catch (error) {
+        console.error('Failed to update order:', error);
+        fetchProjects();
+      }
+    }
+  };
 
   const handleSave = async () => {
     if (!editingProject) return;
@@ -110,70 +247,46 @@ const PortfolioAdmin = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Портфолио</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Портфолио</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            Перетаскивайте карточки для изменения порядка отображения
+          </p>
+        </div>
         <Button onClick={() => openModal()}>
           <Icon name="Plus" size={20} className="mr-2" />
           Добавить проект
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project) => (
-          <div
-            key={project.id}
-            className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-lg transition-shadow"
-          >
-            <div className="aspect-video relative">
-              <img
-                src={project.image_url}
-                alt={project.title}
-                className="w-full h-full object-cover"
-              />
-              {!project.is_active && (
-                <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                  Скрыт
-                </div>
-              )}
-            </div>
-            <div className="p-4">
-              <h3 className="font-bold text-lg mb-2 text-gray-900 dark:text-gray-100">
-                {project.title}
-              </h3>
-              {project.description && (
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
-                  {project.description}
-                </p>
-              )}
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => openModal(project)}
-                  className="flex-1"
-                >
-                  <Icon name="Edit" size={16} className="mr-1" />
-                  Редактировать
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => project.id && handleDelete(project.id)}
-                  className="text-red-600 hover:text-red-700"
-                >
-                  <Icon name="Trash2" size={16} />
-                </Button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {projects.length === 0 && (
+      {projects.length === 0 ? (
         <div className="text-center py-12 text-gray-500 dark:text-gray-400">
           <Icon name="FolderOpen" size={48} className="mx-auto mb-4 opacity-50" />
           <p className="mb-4">Проектов пока нет</p>
           <Button onClick={() => openModal()}>Добавить первый проект</Button>
         </div>
+      ) : (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={projects.map((p) => p.id!)}
+            strategy={rectSortingStrategy}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {projects.map((project) => (
+                <SortableProject
+                  key={project.id}
+                  project={project}
+                  onEdit={() => openModal(project)}
+                  onDelete={() => project.id && handleDelete(project.id)}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
       )}
 
       {/* Modal */}
@@ -260,20 +373,6 @@ const PortfolioAdmin = () => {
                     setEditingProject({ ...editingProject, website_url: e.target.value })
                   }
                   placeholder="https://example.com"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-gray-100">
-                  Порядок отображения
-                </label>
-                <Input
-                  type="number"
-                  value={editingProject.display_order}
-                  onChange={(e) =>
-                    setEditingProject({ ...editingProject, display_order: parseInt(e.target.value) || 0 })
-                  }
-                  placeholder="0"
                 />
               </div>
 
