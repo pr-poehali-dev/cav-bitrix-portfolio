@@ -26,6 +26,8 @@ interface PortfolioProject {
   title: string;
   description: string;
   image_url: string;
+  carousel_image_url?: string;
+  preview_image_url?: string;
   website_url: string;
   display_order: number;
   is_active: boolean;
@@ -339,25 +341,85 @@ const PortfolioAdmin = () => {
 
               <div>
                 <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-gray-100">
-                  URL изображения <span className="text-red-500">*</span>
+                  Изображение для карусели <span className="text-red-500">*</span>
                 </label>
-                <Input
-                  value={editingProject.image_url}
-                  onChange={(e) =>
-                    setEditingProject({ ...editingProject, image_url: e.target.value })
-                  }
-                  placeholder="https://example.com/image.jpg"
-                />
-                {editingProject.image_url && (
+                <div className="flex gap-2">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = async () => {
+                          const base64 = reader.result as string;
+                          try {
+                            const response = await fetch('https://functions.poehali.dev/a8a5e4db-ce2f-4430-931d-8b7e67ea6e9d', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ image: base64, filename: file.name })
+                            });
+                            const data = await response.json();
+                            setEditingProject({ ...editingProject, carousel_image_url: data.url });
+                          } catch (error) {
+                            console.error('Upload failed:', error);
+                          }
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="flex-1"
+                  />
+                </div>
+                {editingProject.carousel_image_url && (
                   <div className="mt-2 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
                     <img
-                      src={editingProject.image_url}
-                      alt="Preview"
+                      src={editingProject.carousel_image_url}
+                      alt="Carousel Preview"
                       className="w-full h-48 object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3C/svg%3E';
-                      }}
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-gray-100">
+                  Изображение для превью <span className="text-red-500">*</span>
+                </label>
+                <div className="flex gap-2">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = async () => {
+                          const base64 = reader.result as string;
+                          try {
+                            const response = await fetch('https://functions.poehali.dev/a8a5e4db-ce2f-4430-931d-8b7e67ea6e9d', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ image: base64, filename: file.name })
+                            });
+                            const data = await response.json();
+                            setEditingProject({ ...editingProject, preview_image_url: data.url });
+                          } catch (error) {
+                            console.error('Upload failed:', error);
+                          }
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="flex-1"
+                  />
+                </div>
+                {editingProject.preview_image_url && (
+                  <div className="mt-2 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+                    <img
+                      src={editingProject.preview_image_url}
+                      alt="Preview"
+                      className="w-full h-32 object-cover"
                     />
                   </div>
                 )}

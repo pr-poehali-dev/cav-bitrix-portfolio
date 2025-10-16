@@ -6,6 +6,8 @@ interface PortfolioProject {
   title: string;
   description: string;
   image_url: string;
+  carousel_image_url?: string;
+  preview_image_url?: string;
   website_url: string;
   display_order: number;
   is_active: boolean;
@@ -90,7 +92,7 @@ const Portfolio = () => {
                   >
                     <div className="w-80 h-64 rounded-2xl relative overflow-hidden border border-gray-200 dark:border-gray-700 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl">
                       <img 
-                        src={project.image_url} 
+                        src={project.preview_image_url || project.image_url} 
                         alt={project.title}
                         className="w-full h-full object-cover"
                       />
@@ -137,7 +139,7 @@ const Portfolio = () => {
                       >
                         <div className="w-80 h-64 rounded-2xl relative overflow-hidden border border-gray-200 dark:border-gray-700 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl">
                           <img 
-                            src={project.image_url} 
+                            src={project.preview_image_url || project.image_url} 
                             alt={project.title}
                             className="w-full h-full object-cover"
                           />
@@ -197,12 +199,20 @@ const Portfolio = () => {
             )}
 
             <div className="p-4 bg-gray-100 dark:bg-gray-900">
-              <iframe
-                src={selectedProject.website_url}
-                className="w-full h-[calc(90vh-240px)] rounded-lg border border-gray-300 dark:border-gray-600"
-                title={selectedProject.title}
-                sandbox="allow-scripts allow-same-origin"
-              />
+              {selectedProject.carousel_image_url ? (
+                <img 
+                  src={selectedProject.carousel_image_url}
+                  alt={selectedProject.title}
+                  className="w-full h-[calc(90vh-240px)] object-contain rounded-lg"
+                />
+              ) : (
+                <iframe
+                  src={selectedProject.website_url}
+                  className="w-full h-[calc(90vh-240px)] rounded-lg border border-gray-300 dark:border-gray-600"
+                  title={selectedProject.title}
+                  sandbox="allow-scripts allow-same-origin"
+                />
+              )}
             </div>
 
             <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-4">
