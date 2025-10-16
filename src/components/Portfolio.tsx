@@ -121,7 +121,7 @@ const Portfolio = () => {
                 <div className="py-8 border-y border-gradient-start/20 overflow-hidden my-12 relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gradient-start/5 to-transparent" />
                   <div className="flex gap-16 animate-marquee-slow whitespace-nowrap text-2xl font-semibold">
-                    {['Веб-дизайн', 'Разработка', 'Оптимизация', 'Веб-дизайн', 'Разработка', 'Оптимизация'].map((text, i) => (
+                    {['Разработка', 'Оптимизация', 'Веб-дизайн', 'Разработка', 'Оптимизация', 'Веб-дизайн', 'Разработка', 'Оптимизация'].map((text, i) => (
                       <p key={i} className="bg-gradient-to-r from-gradient-start to-gradient-mid bg-clip-text text-transparent dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">
                         {text}
                       </p>
