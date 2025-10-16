@@ -59,14 +59,14 @@ const Footer = () => {
         </div>
 
         <div className="pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             © {new Date().getFullYear()} Pixel. Все права защищены.
           </p>
           <div className="flex flex-wrap gap-6 items-center justify-center">
-            <a href="/terms" className="text-sm text-gray-500 hover:text-gradient-start transition-colors">
+            <a href="/terms" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors">
               Пользовательское соглашение
             </a>
-            <a href="/privacy" className="text-sm text-gray-500 hover:text-gradient-start transition-colors">
+            <a href="/privacy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors">
               Политика конфиденциальности
             </a>
             <button
@@ -74,7 +74,7 @@ const Footer = () => {
                 localStorage.removeItem('cookieConsent');
                 window.location.reload();
               }}
-              className="text-sm text-gray-500 hover:text-gradient-start transition-colors underline"
+              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors underline"
             >
               Настройки cookies
             </button>

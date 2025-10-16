@@ -25,7 +25,7 @@ const Services = () => {
                   <div className={`mb-4 w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300`}>
                     <Icon name={service.icon as any} size={32} className="text-white" />
                   </div>
-                  <p className="text-[22px] font-semibold max-w-[190px]">{service.title}</p>
+                  <p className="text-[22px] font-semibold max-w-[190px] dark:text-gray-100">{service.title}</p>
                 </li>
               ))}
             </ul>

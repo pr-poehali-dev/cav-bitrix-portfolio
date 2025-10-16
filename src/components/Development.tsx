@@ -9,16 +9,16 @@ const Development = () => {
     {
       title: 'Landing page',
       illustration: (
-        <div className="w-full h-full bg-white rounded-2xl p-6 relative">
+        <div className="w-full h-full bg-white dark:bg-gray-900 rounded-2xl p-6 relative">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-8 h-8 rounded-full bg-gray-300/60" />
+            <div className="w-8 h-8 rounded-full bg-gray-300/60 dark:bg-gray-700/60" />
             <div className="flex gap-2">
-              <div className="w-12 h-1 bg-gray-300/60 rounded" />
-              <div className="w-12 h-1 bg-gray-300/60 rounded" />
+              <div className="w-12 h-1 bg-gray-300/60 dark:bg-gray-700/60 rounded" />
+              <div className="w-12 h-1 bg-gray-300/60 dark:bg-gray-700/60 rounded" />
             </div>
-            <div className="w-16 h-6 bg-gray-300/60 rounded" />
+            <div className="w-16 h-6 bg-gray-300/60 dark:bg-gray-700/60 rounded" />
           </div>
-          <div className="w-full h-32 bg-gray-300/60 rounded-xl mb-4" />
+          <div className="w-full h-32 bg-gray-300/60 dark:bg-gray-700/60 rounded-xl mb-4" />
           <div className="absolute bottom-8 left-8 right-8 h-24 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl p-4 flex flex-col justify-between">
             <div className="space-y-2">
               <div className="w-3 h-3 rounded-full bg-white" />
@@ -33,24 +33,24 @@ const Development = () => {
     {
       title: 'Корпоративные\nсайты',
       illustration: (
-        <div className="w-full h-full bg-white rounded-2xl p-6 relative">
+        <div className="w-full h-full bg-white dark:bg-gray-900 rounded-2xl p-6 relative">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-8 h-8 rounded-full bg-gray-300/60" />
+            <div className="w-8 h-8 rounded-full bg-gray-300/60 dark:bg-gray-700/60" />
             <div className="flex gap-2">
-              <div className="w-20 h-1 bg-gray-300/60 rounded" />
-              <div className="w-20 h-1 bg-gray-300/60 rounded" />
-              <div className="w-20 h-1 bg-gray-300/60 rounded" />
+              <div className="w-20 h-1 bg-gray-300/60 dark:bg-gray-700/60 rounded" />
+              <div className="w-20 h-1 bg-gray-300/60 dark:bg-gray-700/60 rounded" />
+              <div className="w-20 h-1 bg-gray-300/60 dark:bg-gray-700/60 rounded" />
             </div>
           </div>
-          <div className="w-full h-24 bg-gray-300/60 rounded-xl mb-3" />
+          <div className="w-full h-24 bg-gray-300/60 dark:bg-gray-700/60 rounded-xl mb-3" />
           <div className="grid grid-cols-2 gap-3">
-            <div className="h-20 bg-gray-300/60 rounded-xl" />
-            <div className="h-20 bg-gray-300/60 rounded-xl" />
+            <div className="h-20 bg-gray-300/60 dark:bg-gray-700/60 rounded-xl" />
+            <div className="h-20 bg-gray-300/60 dark:bg-gray-700/60 rounded-xl" />
           </div>
           <div className="absolute bottom-6 left-6 flex gap-1">
-            <div className="w-1 h-1 rounded-full bg-gray-400/60" />
-            <div className="w-1 h-1 rounded-full bg-gray-400/60" />
-            <div className="w-1 h-1 rounded-full bg-gray-400/60" />
+            <div className="w-1 h-1 rounded-full bg-gray-400/60 dark:bg-gray-600/60" />
+            <div className="w-1 h-1 rounded-full bg-gray-400/60 dark:bg-gray-600/60" />
+            <div className="w-1 h-1 rounded-full bg-gray-400/60 dark:bg-gray-600/60" />
           </div>
         </div>
       )
@@ -58,16 +58,16 @@ const Development = () => {
     {
       title: 'Разработка\nприложений',
       illustration: (
-        <div className="w-full h-full bg-white rounded-2xl p-6 relative flex gap-3">
+        <div className="w-full h-full bg-white dark:bg-gray-900 rounded-2xl p-6 relative flex gap-3">
           <div className="flex-1 space-y-3">
-            <div className="h-40 bg-gray-300/60 rounded-xl" />
+            <div className="h-40 bg-gray-300/60 dark:bg-gray-700/60 rounded-xl" />
             <div className="space-y-2 px-2">
-              <div className="text-[6px] text-gray-400/80 font-medium">&lt;div class=</div>
-              <div className="text-[5px] text-gray-400/80 pl-2">...</div>
-              <div className="text-[5px] text-gray-400/80 pl-2">...</div>
+              <div className="text-[6px] text-gray-400/80 dark:text-gray-500/80 font-medium">&lt;div class=</div>
+              <div className="text-[5px] text-gray-400/80 dark:text-gray-500/80 pl-2">...</div>
+              <div className="text-[5px] text-gray-400/80 dark:text-gray-500/80 pl-2">...</div>
             </div>
           </div>
-          <div className="w-24 h-full bg-gradient-to-b from-gray-300/60 to-gray-400/60 rounded-xl flex flex-col items-center justify-center gap-2">
+          <div className="w-24 h-full bg-gradient-to-b from-gray-300/60 to-gray-400/60 dark:from-gray-700/60 dark:to-gray-600/60 rounded-xl flex flex-col items-center justify-center gap-2">
             <div className="w-12 h-12 bg-blue-600/80 rounded-2xl flex items-center justify-center text-white text-xs font-bold">
               App
             </div>
@@ -114,8 +114,8 @@ const Development = () => {
                     onClick={() => setActiveType(index)}
                     className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 ${
                       index === activeType
-                        ? 'bg-white text-blue-600 shadow-lg scale-105'
-                        : 'bg-white/30 text-white hover:bg-white/50'
+                        ? 'bg-white dark:bg-gray-900 text-blue-600 dark:text-blue-400 shadow-lg scale-105'
+                        : 'bg-white/30 dark:bg-gray-900/30 text-white hover:bg-white/50 dark:hover:bg-gray-900/50'
                     }`}
                   >
                     {type.title.split('\n')[0]}
@@ -134,7 +134,7 @@ const Development = () => {
               наши услуги
             </a>
             <h3 className="section-subtitle">Делаем любой сложности проекты</h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
               Мы предлагаем полный спектр услуг по разработке сайтов, которые помогут вашему бизнесу расти и развиваться в интернете. Наши решения — это сочетание современного дизайна, удобства и функциональности, адаптированные под ваши потребности и бюджет.
             </p>
             <button 

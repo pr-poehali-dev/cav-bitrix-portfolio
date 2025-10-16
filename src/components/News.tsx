@@ -64,7 +64,7 @@ const News = () => {
   };
 
   return (
-    <section id="news" className="py-24 px-[50px] bg-gradient-to-b from-white to-gray-50/50 relative overflow-hidden">
+    <section id="news" className="py-24 px-[50px] bg-gradient-to-b from-white to-gray-50/50 dark:from-gray-950 dark:to-gray-900/50 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gradient-start/20 to-transparent" />
       
       <div className="max-w-[1500px] mx-auto">
@@ -72,7 +72,7 @@ const News = () => {
           <h2 className="text-[clamp(40px,8vw,80px)] font-black bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent">
             Новости
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Последние тренды и обновления из мира веб-разработки
           </p>
         </div>
@@ -85,7 +85,7 @@ const News = () => {
               className={`px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 ${
                 selectedCategory === category
                   ? 'bg-gradient-to-r from-gradient-start to-gradient-mid text-white shadow-lg scale-105'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gradient-start/30'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 hover:border-gradient-start/30'
               }`}
             >
               {category}
@@ -97,23 +97,23 @@ const News = () => {
           <div className="flex items-center justify-center py-20">
             <div className="flex flex-col items-center gap-4">
               <div className="w-16 h-16 border-4 border-gradient-start/20 border-t-gradient-start rounded-full animate-spin" />
-              <p className="text-gray-600 font-semibold">Загрузка новостей...</p>
+              <p className="text-gray-600 dark:text-gray-400 font-semibold">Загрузка новостей...</p>
             </div>
           </div>
         ) : filteredNews.length === 0 ? (
           <div className="text-center py-20">
-            <Icon name="FileQuestion" size={64} className="mx-auto mb-4 text-gray-300" />
-            <p className="text-xl text-gray-600">Новостей не найдено</p>
+            <Icon name="FileQuestion" size={64} className="mx-auto mb-4 text-gray-300 dark:text-gray-700" />
+            <p className="text-xl text-gray-600 dark:text-gray-400">Новостей не найдено</p>
           </div>
         ) : (
           <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
             {filteredNews.map((item, index) => (
               <article
                 key={`${item.link}-${index}`}
-                className={`group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 hover:border-gradient-start/30 break-inside-avoid mb-4 ${getCardHeight(index)}`}
+                className={`group relative bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 dark:border-gray-800 hover:border-gradient-start/30 break-inside-avoid mb-4 ${getCardHeight(index)}`}
                 onClick={() => setSelectedNews(item)}
               >
-                <div className="relative overflow-hidden h-[45%] min-h-[160px] bg-gray-100">
+                <div className="relative overflow-hidden h-[45%] min-h-[160px] bg-gray-100 dark:bg-gray-800">
                   <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/60 to-gradient-mid/40 z-10 opacity-30 group-hover:opacity-10 transition-opacity duration-300" />
                   <img 
                     src={item.image} 
@@ -126,7 +126,7 @@ const News = () => {
                   />
                   
                   <div className="absolute top-3 left-3 z-20">
-                    <span className="inline-block px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full text-xs font-bold text-gradient-start shadow-sm">
+                    <span className="inline-block px-3 py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-full text-xs font-bold text-gradient-start shadow-sm">
                       {item.category}
                     </span>
                   </div>
@@ -134,26 +134,26 @@ const News = () => {
 
                 <div className="p-5 space-y-3 flex flex-col justify-between h-[55%]">
                   <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                       <a 
                         href={item.sourceUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 hover:text-gradient-start transition-colors font-semibold"
+                        className="flex items-center gap-1.5 hover:text-gradient-start dark:hover:text-gradient-mid transition-colors font-semibold"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Icon name="ExternalLink" size={11} />
                         <span>{item.source}</span>
                       </a>
-                      <span className="text-gray-300">•</span>
+                      <span className="text-gray-300 dark:text-gray-600">•</span>
                       <span className="text-[11px]">{item.date}</span>
                     </div>
 
-                    <h3 className="font-bold text-gray-900 group-hover:text-gradient-start transition-colors line-clamp-3 text-base leading-snug">
+                    <h3 className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-gradient-start transition-colors line-clamp-3 text-base leading-snug">
                       {item.title}
                     </h3>
 
-                    <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
+                    <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 leading-relaxed">
                       {cleanHtml(item.excerpt)}
                     </p>
                   </div>
@@ -171,14 +171,14 @@ const News = () => {
 
       {selectedNews && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10000] flex items-center justify-center p-4 animate-fade-in"
+          className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-[10000] flex items-center justify-center p-4 animate-fade-in"
           onClick={() => setSelectedNews(null)}
         >
           <div 
-            className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-scale-in"
+            className="bg-white dark:bg-gray-900 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative h-80 overflow-hidden bg-gray-100">
+            <div className="relative h-80 overflow-hidden bg-gray-100 dark:bg-gray-800">
               <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/80 via-gradient-mid/70 to-gradient-end/60 z-10 opacity-70" />
               <img 
                 src={selectedNews.image} 
@@ -192,34 +192,34 @@ const News = () => {
               
               <button
                 onClick={() => setSelectedNews(null)}
-                className="absolute top-6 right-6 z-20 w-12 h-12 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-lg group"
+                className="absolute top-6 right-6 z-20 w-12 h-12 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-gray-900 transition-colors shadow-lg group"
               >
-                <Icon name="X" size={20} className="text-gray-700 group-hover:rotate-90 transition-transform duration-300" />
+                <Icon name="X" size={20} className="text-gray-700 dark:text-gray-400 group-hover:rotate-90 transition-transform duration-300" />
               </button>
 
               <div className="absolute bottom-6 left-6 z-20">
-                <span className="inline-block px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full text-sm font-bold text-gradient-start mb-4">
+                <span className="inline-block px-4 py-2 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-full text-sm font-bold text-gradient-start mb-4">
                   {selectedNews.category}
                 </span>
               </div>
             </div>
 
             <div className="p-8 lg:p-12 space-y-6">
-              <div className="flex items-center gap-3 text-sm text-gray-500">
+              <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
                 <a 
                   href={selectedNews.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 hover:text-gradient-start transition-colors group/source"
+                  className="flex items-center gap-2 hover:text-gradient-start dark:hover:text-gradient-mid transition-colors group/source"
                 >
                   <Icon name="ExternalLink" size={14} className="group-hover/source:translate-x-0.5 group-hover/source:-translate-y-0.5 transition-transform" />
                   <span className="font-semibold">{selectedNews.source}</span>
                 </a>
-                <span className="text-gray-300">•</span>
+                <span className="text-gray-300 dark:text-gray-600">•</span>
                 <span>{selectedNews.date}</span>
               </div>
 
-              <h2 className="text-4xl font-black text-gray-900">
+              <h2 className="text-4xl font-black text-gray-900 dark:text-gray-100">
                 {selectedNews.title}
               </h2>
 
@@ -227,11 +227,11 @@ const News = () => {
                 {cleanHtml(selectedNews.excerpt)}
               </p>
 
-              <div className="prose prose-lg max-w-none">
-                <div className="text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: selectedNews.content }} />
+              <div className="prose prose-lg max-w-none dark:prose-invert">
+                <div className="text-gray-700 dark:text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: selectedNews.content }} />
               </div>
 
-              <div className="pt-6 border-t border-gray-200">
+              <div className="pt-6 border-t border-gray-200 dark:border-gray-800">
                 <a
                   href={selectedNews.link}
                   target="_blank"

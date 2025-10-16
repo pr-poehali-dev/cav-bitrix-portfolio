@@ -73,8 +73,8 @@ const CookieConsent = () => {
   const canSubmit = cookies && (!privacy || fullName.trim());
 
   return (
-    <div className="fixed inset-0 z-[99999] flex items-end justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-8 animate-slide-up border border-gradient-start/20">
+    <div className="fixed inset-0 z-[99999] flex items-end justify-center p-4 bg-black/40 dark:bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-w-2xl w-full p-8 animate-slide-up border border-gradient-start/20 dark:border-gradient-start/30">
         <div className="flex items-start gap-4 mb-6">
           <div className="w-12 h-12 bg-gradient-to-br from-gradient-start to-gradient-mid rounded-2xl flex items-center justify-center flex-shrink-0">
             <Icon name="Cookie" size={24} className="text-white" />
@@ -83,7 +83,7 @@ const CookieConsent = () => {
             <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-gradient-start to-gradient-mid bg-clip-text text-transparent">
               Мы используем cookies
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
               Для корректной работы сайта и улучшения вашего опыта мы используем файлы cookies. Пожалуйста, ознакомьтесь с условиями и дайте согласие на обработку данных.
             </p>
           </div>
@@ -96,14 +96,14 @@ const CookieConsent = () => {
                 type="checkbox"
                 checked={cookies}
                 onChange={(e) => setCookies(e.target.checked)}
-                className="w-5 h-5 rounded border-2 border-gray-300 checked:bg-gradient-to-r checked:from-gradient-start checked:to-gradient-mid checked:border-transparent focus:ring-2 focus:ring-gradient-start/30 cursor-pointer appearance-none"
+                className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 checked:bg-gradient-to-r checked:from-gradient-start checked:to-gradient-mid checked:border-transparent focus:ring-2 focus:ring-gradient-start/30 cursor-pointer appearance-none"
               />
               {cookies && (
                 <Icon name="Check" size={14} className="absolute text-white pointer-events-none" />
               )}
             </div>
-            <span className="text-gray-700 group-hover:text-gray-900 transition-colors">
-              Согласие на использование cookies для улучшения работы сайта <span className="text-red-500 font-semibold">*</span>
+            <span className="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">
+              Согласие на использование cookies для улучшения работы сайта <span className="text-red-500 dark:text-red-400 font-semibold">*</span>
             </span>
           </label>
 
@@ -113,15 +113,15 @@ const CookieConsent = () => {
                 type="checkbox"
                 checked={terms}
                 onChange={(e) => setTerms(e.target.checked)}
-                className="w-5 h-5 rounded border-2 border-gray-300 checked:bg-gradient-to-r checked:from-gradient-start checked:to-gradient-mid checked:border-transparent focus:ring-2 focus:ring-gradient-start/30 cursor-pointer appearance-none"
+                className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 checked:bg-gradient-to-r checked:from-gradient-start checked:to-gradient-mid checked:border-transparent focus:ring-2 focus:ring-gradient-start/30 cursor-pointer appearance-none"
               />
               {terms && (
                 <Icon name="Check" size={14} className="absolute text-white pointer-events-none" />
               )}
             </div>
-            <span className="text-gray-700 group-hover:text-gray-900 transition-colors">
+            <span className="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">
               Согласие с{' '}
-              <a href="/terms" className="text-gradient-start hover:text-gradient-mid underline font-medium" onClick={(e) => e.stopPropagation()}>
+              <a href="/terms" className="text-gradient-start dark:text-gradient-mid hover:text-gradient-mid underline font-medium" onClick={(e) => e.stopPropagation()}>
                 пользовательским соглашением
               </a>
             </span>
@@ -133,37 +133,37 @@ const CookieConsent = () => {
                 type="checkbox"
                 checked={privacy}
                 onChange={(e) => setPrivacy(e.target.checked)}
-                className="w-5 h-5 rounded border-2 border-gray-300 checked:bg-gradient-to-r checked:from-gradient-start checked:to-gradient-mid checked:border-transparent focus:ring-2 focus:ring-gradient-start/30 cursor-pointer appearance-none"
+                className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 checked:bg-gradient-to-r checked:from-gradient-start checked:to-gradient-mid checked:border-transparent focus:ring-2 focus:ring-gradient-start/30 cursor-pointer appearance-none"
               />
               {privacy && (
                 <Icon name="Check" size={14} className="absolute text-white pointer-events-none" />
               )}
             </div>
-            <span className="text-gray-700 group-hover:text-gray-900 transition-colors">
+            <span className="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">
               Согласие с{' '}
-              <a href="/privacy" className="text-gradient-start hover:text-gradient-mid underline font-medium" onClick={(e) => e.stopPropagation()}>
+              <a href="/privacy" className="text-gradient-start dark:text-gradient-mid hover:text-gradient-mid underline font-medium" onClick={(e) => e.stopPropagation()}>
                 политикой конфиденциальности
               </a>
             </span>
           </label>
 
           {privacy && (
-            <div className="ml-8 space-y-3 pt-3 border-l-2 border-gradient-start/30 pl-4 animate-slide-up">
+            <div className="ml-8 space-y-3 pt-3 border-l-2 border-gradient-start/30 dark:border-gradient-start/50 pl-4 animate-slide-up">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  ФИО <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  ФИО <span className="text-red-500 dark:text-red-400">*</span>
                 </label>
                 <input
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Иванов Иван Иванович"
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/30 outline-none transition-all"
+                  className="w-full px-4 py-2 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-lg focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/30 outline-none transition-all"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Телефон
                 </label>
                 <input
@@ -171,11 +171,11 @@ const CookieConsent = () => {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+7 (999) 123-45-67"
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/30 outline-none transition-all"
+                  className="w-full px-4 py-2 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-lg focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/30 outline-none transition-all"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Email
                 </label>
                 <input
@@ -183,7 +183,7 @@ const CookieConsent = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="example@mail.com"
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/30 outline-none transition-all"
+                  className="w-full px-4 py-2 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-lg focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/30 outline-none transition-all"
                 />
               </div>
             </div>
@@ -197,14 +197,14 @@ const CookieConsent = () => {
             className={`flex-1 px-6 py-4 rounded-full text-sm font-semibold transition-all duration-300 ${
               canSubmit && !isSubmitting
                 ? 'bg-gradient-to-r from-gradient-start to-gradient-mid text-white hover:shadow-xl hover:scale-105'
-                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
             }`}
           >
             {isSubmitting ? 'Сохранение...' : 'Принять'}
           </button>
           <button
             onClick={handleDecline}
-            className="flex-1 px-6 py-4 rounded-full text-sm font-semibold border-2 border-gray-300 text-gray-700 hover:border-gradient-start hover:text-gradient-start transition-all duration-300"
+            className="flex-1 px-6 py-4 rounded-full text-sm font-semibold border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gradient-start hover:text-gradient-start transition-all duration-300"
           >
             Отклонить
           </button>

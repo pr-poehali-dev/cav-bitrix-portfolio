@@ -35,7 +35,7 @@ const AboutUs = () => {
               компания
             </p>
             <h3 className="section-subtitle">Наша главная цель в компании</h3>
-            <p className="section-descr text-muted-foreground">Забота о клиенте и его продукте.</p>
+            <p className="section-descr text-muted-foreground dark:text-gray-400">Забота о клиенте и его продукте.</p>
             <button 
               onClick={() => setContactModalOpen(true)}
               className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300"

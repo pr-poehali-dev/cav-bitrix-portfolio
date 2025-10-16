@@ -68,28 +68,28 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
 
         {submitted ? (
           <div className="py-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-              <Icon name="Check" size={32} className="text-green-600" />
+            <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto">
+              <Icon name="Check" size={32} className="text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-2">Заявка отправлена!</h3>
-              <p className="text-muted-foreground">Мы свяжемся с вами в ближайшее время</p>
+              <h3 className="text-xl font-bold mb-2 dark:text-gray-100">Заявка отправлена!</h3>
+              <p className="text-muted-foreground dark:text-gray-400">Мы свяжемся с вами в ближайшее время</p>
             </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {isPartner && (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-2">
-                <Icon name="BadgeCheck" size={20} className="text-green-600" />
-                <span className="text-sm text-green-800">
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 flex items-center gap-2">
+                <Icon name="BadgeCheck" size={20} className="text-green-600 dark:text-green-400" />
+                <span className="text-sm text-green-800 dark:text-green-300">
                   Партнерская скидка {discountPercent}% применена
                 </span>
               </div>
             )}
 
             <div>
-              <label className="text-sm font-medium mb-1.5 block">
-                Имя <span className="text-red-500">*</span>
+              <label className="text-sm font-medium mb-1.5 block dark:text-gray-300">
+                Имя <span className="text-red-500 dark:text-red-400">*</span>
               </label>
               <Input
                 required
@@ -100,8 +100,8 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-1.5 block">
-                Телефон <span className="text-red-500">*</span>
+              <label className="text-sm font-medium mb-1.5 block dark:text-gray-300">
+                Телефон <span className="text-red-500 dark:text-red-400">*</span>
               </label>
               <Input
                 required
@@ -113,7 +113,7 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-1.5 block">
+              <label className="text-sm font-medium mb-1.5 block dark:text-gray-300">
                 Email
               </label>
               <Input
@@ -125,7 +125,7 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-1.5 block">
+              <label className="text-sm font-medium mb-1.5 block dark:text-gray-300">
                 Сообщение
               </label>
               <Textarea

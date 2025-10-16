@@ -44,7 +44,7 @@ const Contacts = () => {
                 <div className="absolute bottom-32 right-10 w-14 h-14 bg-gradient-to-br from-gradient-start to-gradient-end rounded-full animate-pulse" style={{ animationDelay: '1.5s' }} />
               </div>
               
-              <div className="absolute inset-0 bg-gradient-to-t from-white/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white/50 dark:from-gray-950/50 to-transparent" />
             </div>
           </div>
         </div>

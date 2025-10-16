@@ -47,7 +47,7 @@ const Header = () => {
       <nav 
         className={`navigation flex justify-between items-center z-[9999999] transition-all duration-300 ${
           isSticky 
-            ? 'fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-xl shadow-lg border-b border-gradient-start/10 py-4 px-[50px] animate-fade-in' 
+            ? 'fixed top-0 left-0 right-0 bg-white/90 dark:bg-gray-950/90 backdrop-blur-xl shadow-lg border-b border-gradient-start/10 dark:border-gray-800/50 py-4 px-[50px] animate-fade-in' 
             : 'relative'
         }`}
       >
@@ -114,7 +114,7 @@ const Header = () => {
           Меню
         </button>
         
-        <div className={`${menuOpen ? 'flex' : 'hidden'} lg:flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-6 z-[999999] ${menuOpen ? 'absolute top-full right-0 bg-white/95 backdrop-blur-xl p-8 rounded-2xl shadow-2xl mt-4 border border-gradient-start/10' : ''}`}>
+        <div className={`${menuOpen ? 'flex' : 'hidden'} lg:flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-6 z-[999999] ${menuOpen ? 'absolute top-full right-0 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl p-8 rounded-2xl shadow-2xl mt-4 border border-gradient-start/10 dark:border-gray-800/50' : ''}`}>
           <a href="/#blok-dev" className="nav-link-custom relative group">
             Разработка
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
