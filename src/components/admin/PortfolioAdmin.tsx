@@ -37,9 +37,11 @@ interface SortableProjectProps {
   project: PortfolioProject;
   onEdit: () => void;
   onDelete: () => void;
+  isSelected: boolean;
+  onToggleSelect: () => void;
 }
 
-const SortableProject = ({ project, onEdit, onDelete }: SortableProjectProps) => {
+const SortableProject = ({ project, onEdit, onDelete, isSelected, onToggleSelect }: SortableProjectProps) => {
   const {
     attributes,
     listeners,
@@ -80,6 +82,15 @@ const SortableProject = ({ project, onEdit, onDelete }: SortableProjectProps) =>
         >
           <Icon name="GripVertical" size={20} />
         </div>
+        <div className="absolute bottom-2 left-2">
+          <input
+            type="checkbox"
+            checked={isSelected}
+            onChange={onToggleSelect}
+            className="w-5 h-5 cursor-pointer"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
       </div>
       <div className="p-4">
         <h3 className="font-bold text-lg mb-2 text-gray-900 dark:text-gray-100">
@@ -119,6 +130,7 @@ const PortfolioAdmin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [editingProject, setEditingProject] = useState<PortfolioProject | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProjects, setSelectedProjects] = useState<Set<number>>(new Set());
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -238,6 +250,47 @@ const PortfolioAdmin = () => {
     setIsModalOpen(true);
   };
 
+  const toggleProjectSelection = (id: number) => {
+    const newSelected = new Set(selectedProjects);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedProjects(newSelected);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedProjects.size === projects.length) {
+      setSelectedProjects(new Set());
+    } else {
+      setSelectedProjects(new Set(projects.map(p => p.id!)));
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedProjects.size === 0) return;
+    
+    if (!confirm(`Удалить выбранные проекты (${selectedProjects.size} шт.)?`)) return;
+
+    try {
+      const deletePromises = Array.from(selectedProjects).map(id =>
+        fetch('https://functions.poehali.dev/99ddd15c-93b5-4d9e-8536-31e6f6630304', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id }),
+        })
+      );
+
+      await Promise.all(deletePromises);
+      setSelectedProjects(new Set());
+      await fetchProjects();
+    } catch (error) {
+      console.error('Failed to delete projects:', error);
+      alert('Ошибка при удалении проектов');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-12">
@@ -255,11 +308,39 @@ const PortfolioAdmin = () => {
             Перетаскивайте карточки для изменения порядка отображения
           </p>
         </div>
-        <Button onClick={() => openModal()}>
-          <Icon name="Plus" size={20} className="mr-2" />
-          Добавить проект
-        </Button>
+        <div className="flex gap-3">
+          {selectedProjects.size > 0 && (
+            <Button 
+              onClick={handleBulkDelete}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              <Icon name="Trash2" size={20} className="mr-2" />
+              Удалить ({selectedProjects.size})
+            </Button>
+          )}
+          <Button onClick={() => openModal()}>
+            <Icon name="Plus" size={20} className="mr-2" />
+            Добавить проект
+          </Button>
+        </div>
       </div>
+
+      {projects.length > 0 && (
+        <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={selectedProjects.size === projects.length}
+              onChange={toggleSelectAll}
+              className="w-4 h-4"
+            />
+            <span>Выбрать все</span>
+          </label>
+          {selectedProjects.size > 0 && (
+            <span>Выбрано: {selectedProjects.size} из {projects.length}</span>
+          )}
+        </div>
+      )}
 
       {projects.length === 0 ? (
         <div className="text-center py-12 text-gray-500 dark:text-gray-400">
@@ -284,6 +365,8 @@ const PortfolioAdmin = () => {
                   project={project}
                   onEdit={() => openModal(project)}
                   onDelete={() => project.id && handleDelete(project.id)}
+                  isSelected={selectedProjects.has(project.id!)}
+                  onToggleSelect={() => toggleProjectSelection(project.id!)}
                 />
               ))}
             </div>
