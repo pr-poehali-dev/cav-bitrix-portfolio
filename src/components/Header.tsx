@@ -76,7 +76,7 @@ const Header = () => {
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
                     theme === 'light'
                       ? 'bg-gradient-to-r from-gradient-start to-gradient-mid text-white shadow-lg'
-                      : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                      : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-300'
                   }`}
                 >
                   <Icon name="Sun" size={18} />
@@ -91,7 +91,7 @@ const Header = () => {
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
                     theme === 'dark'
                       ? 'bg-gradient-to-r from-gray-800 to-gray-900 text-white shadow-lg border border-gray-700'
-                      : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                      : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-300'
                   }`}
                 >
                   <Icon name="Moon" size={18} />
