@@ -40,15 +40,15 @@ const PartnersCarousel = () => {
   const doubledPartners = [...partners, ...partners];
 
   return (
-    <div className="relative w-full py-8 bg-white/50 backdrop-blur-sm border-t border-gradient-start/10">
+    <div className="relative w-full py-8 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-t border-gradient-start/10 dark:border-gradient-start/20 rounded-[30px] mx-[50px] max-w-[calc(100%-100px)]">
       <div className="max-w-[1500px] mx-auto px-[50px]">
-        <h3 className="text-center text-sm font-semibold text-gray-500 mb-6 uppercase tracking-wider">
+        <h3 className="text-center text-sm font-semibold text-gray-500 dark:text-gray-300 mb-6 uppercase tracking-wider dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
           Наши партнёры
         </h3>
         
-        <div className="relative overflow-hidden">
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white/50 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white/50 to-transparent z-10 pointer-events-none" />
+        <div className="relative overflow-hidden rounded-[20px]">
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white/50 dark:from-gray-800/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white/50 dark:from-gray-800/80 to-transparent z-10 pointer-events-none" />
           
           <div className="flex animate-carousel hover:[animation-play-state:paused]">
             {doubledPartners.map((partner, index) => (
@@ -67,7 +67,7 @@ const PartnersCarousel = () => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
                     const textFallback = document.createElement('div');
-                    textFallback.className = 'text-lg font-bold text-gray-700';
+                    textFallback.className = 'text-lg font-bold text-gray-700 dark:text-gray-300';
                     textFallback.textContent = partner.name;
                     target.parentElement?.appendChild(textFallback);
                   }}

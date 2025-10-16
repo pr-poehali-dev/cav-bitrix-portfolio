@@ -21,31 +21,31 @@ const Footer = () => {
           </div>
           
           <nav className="flex flex-col md:flex-row gap-6 items-start md:items-center">
-            <a href="#" className="nav-link-custom relative group">
+            <a href="#" className="nav-link-custom relative group dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
               Новости
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
             </a>
-            <a href="#blok-dev" className="nav-link-custom relative group">
+            <a href="#blok-dev" className="nav-link-custom relative group dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
               Разработка
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
             </a>
-            <a href="#blok-prom" className="nav-link-custom relative group">
+            <a href="#blok-prom" className="nav-link-custom relative group dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
               Продвижение
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
             </a>
-            <a href="#services" className="nav-link-custom relative group">
+            <a href="#services" className="nav-link-custom relative group dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
               Услуги
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
             </a>
-            <a href="#portfolio" className="nav-link-custom relative group">
+            <a href="#portfolio" className="nav-link-custom relative group dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
               Портфолио
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
             </a>
-            <a href="#contacts" className="nav-link-custom relative group">
+            <a href="#contacts" className="nav-link-custom relative group dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
               Контакты
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
             </a>
-            <a href="/admin/consents" className="nav-link-custom relative group text-xs opacity-50 hover:opacity-100">
+            <a href="/admin/consents" className="nav-link-custom relative group text-xs opacity-50 hover:opacity-100 dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
               Admin
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
             </a>
@@ -59,14 +59,14 @@ const Footer = () => {
         </div>
 
         <div className="pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-gray-500 dark:text-gray-400 dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.5)]">
             © {new Date().getFullYear()} Pixel. Все права защищены.
           </p>
           <div className="flex flex-wrap gap-6 items-center justify-center">
-            <a href="/terms" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors">
+            <a href="/terms" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.5)]">
               Пользовательское соглашение
             </a>
-            <a href="/privacy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors">
+            <a href="/privacy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.5)]">
               Политика конфиденциальности
             </a>
             <button
@@ -74,7 +74,7 @@ const Footer = () => {
                 localStorage.removeItem('cookieConsent');
                 window.location.reload();
               }}
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors underline"
+              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors underline dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.5)]"
             >
               Настройки cookies
             </button>
