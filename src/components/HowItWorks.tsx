@@ -29,7 +29,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-24 px-[50px] bg-white relative overflow-hidden">
+    <section className="py-24 px-[50px] bg-white dark:bg-gray-950 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gradient-start/20 to-transparent" />
       
       <div className="max-w-[1500px] mx-auto">
@@ -37,7 +37,7 @@ const HowItWorks = () => {
           <h2 className="text-[clamp(40px,8vw,80px)] font-black bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent">
             Как мы работаем
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Простой процесс создания вашего идеального сайта за 4 шага
           </p>
         </div>
@@ -53,12 +53,12 @@ const HowItWorks = () => {
                 className="group relative"
               >
                 {/* Карточка */}
-                <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-gray-100 hover:border-gradient-start/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 relative overflow-hidden">
+                <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg border-2 border-gray-100 dark:border-gray-800 hover:border-gradient-start/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 relative overflow-hidden">
                   {/* Декоративный фон */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gradient-start/5 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
                   
                   {/* Номер шага */}
-                  <div className="absolute top-4 right-4 text-6xl font-black text-gray-100 group-hover:text-gradient-start/10 transition-colors">
+                  <div className="absolute top-4 right-4 text-6xl font-black text-gray-100 dark:text-gray-800 group-hover:text-gradient-start/10 transition-colors">
                     {step.number}
                   </div>
 
@@ -72,19 +72,19 @@ const HowItWorks = () => {
                   </div>
 
                   {/* Заголовок */}
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3 relative z-10">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3 relative z-10">
                     {step.title}
                   </h3>
 
                   {/* Описание */}
-                  <p className="text-gray-600 leading-relaxed relative z-10">
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed relative z-10">
                     {step.description}
                   </p>
 
                   {/* Стрелка для десктопа */}
                   {index < steps.length - 1 && (
                     <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-20">
-                      <div className="w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center border-2 border-gradient-start/20 group-hover:scale-110 group-hover:border-gradient-start transition-all">
+                      <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-900 shadow-lg flex items-center justify-center border-2 border-gradient-start/20 group-hover:scale-110 group-hover:border-gradient-start transition-all">
                         <Icon name="ArrowRight" size={16} className="text-gradient-start" />
                       </div>
                     </div>

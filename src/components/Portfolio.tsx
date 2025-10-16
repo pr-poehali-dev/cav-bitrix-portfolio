@@ -11,7 +11,7 @@ const Portfolio = () => {
   ];
 
   return (
-    <section id="portfolio" className="portfolio">
+    <section id="portfolio" className="portfolio bg-white dark:bg-gray-950">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
         <div className="w-[95%]">
           <h2 className="section-title">Портфолио</h2>

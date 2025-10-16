@@ -10,7 +10,7 @@ const LeadGeneration = () => {
   ];
 
   return (
-    <section id="lid" className="lid">
+    <section id="lid" className="lid bg-gray-50 dark:bg-gray-900">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
         <div className="grid lg:grid-cols-2 gap-[76px] items-start min-h-[600px]">
           <div className="lid-left">

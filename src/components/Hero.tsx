@@ -12,10 +12,10 @@ const Hero = () => {
   }, []);
 
   return (
-    <header className="header relative overflow-hidden min-h-screen flex flex-col -mt-[1px]">
+    <header className="header relative overflow-hidden min-h-screen flex flex-col -mt-[1px] bg-white dark:bg-gray-950">
       <div className="absolute inset-0 animated-gradient-bg" />
       
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-20 dark:opacity-10">
         <div className="absolute inset-0" style={{
           backgroundImage: `radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
                            radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),

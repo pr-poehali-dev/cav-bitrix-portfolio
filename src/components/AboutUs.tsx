@@ -5,7 +5,7 @@ const AboutUs = () => {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   
   return (
-    <section className="about-us">
+    <section className="about-us bg-gray-50 dark:bg-gray-900">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
         <div className="grid lg:grid-cols-2 gap-[76px] items-start min-h-[600px]">
           <div className="about-us-left space-y-8">
