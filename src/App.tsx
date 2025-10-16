@@ -3,6 +3,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { PartnerProvider } from "@/contexts/PartnerContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import BotProtection from "./components/BotProtection";
@@ -25,10 +26,11 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <PartnerProvider>
-        <BotProtection />
-        <BrowserRouter>
+    <ThemeProvider>
+      <TooltipProvider>
+        <PartnerProvider>
+          <BotProtection />
+          <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/services" element={<OurServices />} />
@@ -49,8 +51,9 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-      </PartnerProvider>
-    </TooltipProvider>
+        </PartnerProvider>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
