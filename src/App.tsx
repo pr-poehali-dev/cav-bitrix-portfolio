@@ -21,6 +21,7 @@ import Partners from "./pages/Partners";
 import Analytics from "./pages/Analytics";
 import PartnerLogosAdmin from "./pages/PartnerLogosAdmin";
 import TestS3Upload from "./pages/TestS3Upload";
+import PortfolioAdminPage from "./pages/PortfolioAdmin";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/admin/consents" element={<AdminProtectedRoute><ConsentAdmin /></AdminProtectedRoute>} />
             <Route path="/admin/partners" element={<AdminProtectedRoute><Partners /></AdminProtectedRoute>} />
             <Route path="/admin/partner-logos" element={<AdminProtectedRoute><PartnerLogosAdmin /></AdminProtectedRoute>} />
+            <Route path="/admin/portfolio" element={<AdminProtectedRoute><PortfolioAdminPage /></AdminProtectedRoute>} />
             <Route path="/admin/analytics" element={<AdminProtectedRoute><Analytics /></AdminProtectedRoute>} />
             <Route path="/admin/login-history" element={<AdminProtectedRoute><LoginHistory /></AdminProtectedRoute>} />
             <Route path="/admin/change-password" element={<AdminProtectedRoute><ChangePassword /></AdminProtectedRoute>} />
