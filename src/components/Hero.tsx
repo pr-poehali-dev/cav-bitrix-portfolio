@@ -24,6 +24,41 @@ const Hero = () => {
         }} />
       </div>
 
+      {/* Пролетающие макеты сайтов */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30 dark:opacity-20">
+        {[
+          { delay: '0s', duration: '25s', top: '10%', size: 'w-[280px] h-[180px]' },
+          { delay: '5s', duration: '30s', top: '40%', size: 'w-[320px] h-[200px]' },
+          { delay: '10s', duration: '28s', top: '70%', size: 'w-[300px] h-[190px]' },
+          { delay: '15s', duration: '32s', top: '25%', size: 'w-[260px] h-[170px]' },
+          { delay: '8s', duration: '27s', top: '55%', size: 'w-[290px] h-[185px]' },
+        ].map((mockup, idx) => (
+          <div
+            key={idx}
+            className={`absolute ${mockup.size} animate-float-horizontal`}
+            style={{
+              top: mockup.top,
+              left: '-350px',
+              animationDelay: mockup.delay,
+              animationDuration: mockup.duration,
+            }}
+          >
+            <div className="w-full h-full rounded-2xl bg-gradient-to-br from-gray-900/40 to-gray-700/30 dark:from-black/50 dark:to-gray-900/40 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.4)] backdrop-blur-sm border border-gray-400/20 dark:border-gray-600/30">
+              <div className="w-full h-8 bg-gradient-to-b from-gray-800/50 to-transparent dark:from-black/60 rounded-t-2xl flex items-center px-3 gap-1.5 border-b border-gray-500/20">
+                <div className="w-2.5 h-2.5 rounded-full bg-gray-600/60 dark:bg-gray-700/70"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-gray-600/60 dark:bg-gray-700/70"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-gray-600/60 dark:bg-gray-700/70"></div>
+              </div>
+              <div className="p-4 space-y-2">
+                <div className="h-3 w-3/4 bg-gradient-to-r from-gray-700/40 to-gray-600/30 dark:from-gray-800/60 dark:to-gray-700/50 rounded"></div>
+                <div className="h-3 w-1/2 bg-gradient-to-r from-gray-700/40 to-gray-600/30 dark:from-gray-800/60 dark:to-gray-700/50 rounded"></div>
+                <div className="mt-4 h-20 w-full bg-gradient-to-br from-gray-700/30 to-gray-600/20 dark:from-gray-800/50 dark:to-gray-700/40 rounded"></div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
       <div className="fixed top-[10px] left-0 right-0 z-50">
         <div className="max-w-[1500px] w-full px-[50px] mx-auto">
           <Header />

@@ -155,6 +155,26 @@
   }
 }
 
+@keyframes float-horizontal {
+  0% {
+    transform: translateX(0) translateY(0) rotate(-2deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(calc(50vw + 150px)) translateY(-20px) rotate(1deg);
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(100vw + 350px)) translateY(0) rotate(-1deg);
+    opacity: 0;
+  }
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -206,6 +226,10 @@
 
 .animate-carousel {
   animation: carousel 30s linear infinite;
+}
+
+.animate-float-horizontal {
+  animation: float-horizontal 30s ease-in-out infinite;
 }
 
 .section-title {
