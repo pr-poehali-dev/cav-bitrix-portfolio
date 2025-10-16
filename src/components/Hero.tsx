@@ -12,10 +12,10 @@ const Hero = () => {
   }, []);
 
   return (
-    <header className="header relative overflow-hidden min-h-screen flex flex-col -mt-[1px] bg-white dark:bg-gray-950">
+    <header className="header relative overflow-hidden min-h-screen flex flex-col -mt-[1px] bg-white dark:bg-gray-800">
       <div className="absolute inset-0 animated-gradient-bg" />
       
-      <div className="absolute inset-0 opacity-20 dark:opacity-10">
+      <div className="absolute inset-0 opacity-20 dark:opacity-15">
         <div className="absolute inset-0" style={{
           backgroundImage: `radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
                            radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
@@ -34,15 +34,15 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-[76px] items-center flex-1">
           <div className="header-left space-y-12 relative z-10 flex flex-col justify-center">
             <div className="header-bottom space-y-8">
-              <h1 className="text-[clamp(60px,12vw,140px)] font-black leading-none m-0 bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent animate-gradient-shift bg-[length:200%_auto]">
+              <h1 className="text-[clamp(60px,12vw,140px)] font-black leading-none m-0 bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent animate-gradient-shift bg-[length:200%_auto] [text-shadow:0_3px_12px_rgba(0,0,0,0.4)] dark:[text-shadow:0_4px_16px_rgba(0,0,0,0.7)]">
                 Pixel
               </h1>
               <div className="flex flex-wrap gap-6">
-                <a href="#" className="group relative nav-link-custom text-xl font-semibold pb-2 hover:-translate-y-1 transition-all duration-300">
+                <a href="#" className="group relative nav-link-custom text-xl font-semibold pb-2 hover:-translate-y-1 transition-all duration-300 [text-shadow:0_2px_8px_rgba(0,0,0,0.3)] dark:[text-shadow:0_3px_10px_rgba(0,0,0,0.6)]">
                   <span className="relative z-10">разработка сайтов</span>
                   <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 </a>
-                <a href="#" className="group relative nav-link-custom text-xl font-semibold pb-2 hover:-translate-y-1 transition-all duration-300">
+                <a href="#" className="group relative nav-link-custom text-xl font-semibold pb-2 hover:-translate-y-1 transition-all duration-300 [text-shadow:0_2px_8px_rgba(0,0,0,0.3)] dark:[text-shadow:0_3px_10px_rgba(0,0,0,0.6)]">
                   <span className="relative z-10">digital</span>
                   <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-gradient-mid to-gradient-end transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 </a>

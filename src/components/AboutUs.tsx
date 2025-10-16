@@ -5,11 +5,11 @@ const AboutUs = () => {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   
   return (
-    <section className="about-us bg-gray-50 dark:bg-gray-900">
+    <section className="about-us bg-gray-50 dark:bg-gray-700">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
         <div className="grid lg:grid-cols-2 gap-[76px] items-start min-h-[600px]">
           <div className="about-us-left space-y-8">
-            <h2 className="section-title">О Нас</h2>
+            <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">О Нас</h2>
             <div className="w-full h-96 bg-gradient-to-br from-gradient-start/30 via-gradient-mid/20 to-gradient-end/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm group hover:scale-[1.02] transition-all duration-500">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="grid grid-cols-3 gap-4 p-8 w-full h-full">
@@ -34,8 +34,8 @@ const AboutUs = () => {
               />
               компания
             </p>
-            <h3 className="section-subtitle">Наша главная цель в компании</h3>
-            <p className="section-descr text-muted-foreground dark:text-gray-400">Забота о клиенте и его продукте.</p>
+            <h3 className="section-subtitle dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">Наша главная цель в компании</h3>
+            <p className="section-descr text-muted-foreground dark:text-gray-400 dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">Забота о клиенте и его продукте.</p>
             <button 
               onClick={() => setContactModalOpen(true)}
               className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300"

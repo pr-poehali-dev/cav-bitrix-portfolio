@@ -11,10 +11,10 @@ const Portfolio = () => {
   ];
 
   return (
-    <section id="portfolio" className="portfolio bg-white dark:bg-gray-950">
+    <section id="portfolio" className="portfolio bg-white dark:bg-gray-800">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
         <div className="w-[95%]">
-          <h2 className="section-title">Портфолио</h2>
+          <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">Портфолио</h2>
           
           <div className="mb-8 overflow-hidden">
             <div className="flex gap-6 animate-marquee whitespace-nowrap">
@@ -23,7 +23,7 @@ const Portfolio = () => {
                   <div className={`w-80 h-64 bg-gradient-to-br ${project.gradient} rounded-2xl relative overflow-hidden border border-white/20 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl`}>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="text-white text-xl font-bold bg-black/30 backdrop-blur-md px-6 py-3 rounded-full">
+                      <div className="text-white text-xl font-bold bg-black/30 backdrop-blur-md px-6 py-3 rounded-full dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">
                         Смотреть проект
                       </div>
                     </div>
@@ -37,7 +37,7 @@ const Portfolio = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gradient-start/5 to-transparent" />
             <div className="flex gap-16 animate-marquee-slow whitespace-nowrap text-2xl font-semibold">
               {['Одностраничник', 'Корпоративные сайты', 'Интернет-магазины', 'Одностраничник', 'Корпоративные сайты', 'Интернет-магазины'].map((text, i) => (
-                <p key={i} className="bg-gradient-to-r from-gradient-start to-gradient-mid bg-clip-text text-transparent">
+                <p key={i} className="bg-gradient-to-r from-gradient-start to-gradient-mid bg-clip-text text-transparent dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">
                   {text}
                 </p>
               ))}
@@ -51,7 +51,7 @@ const Portfolio = () => {
                   <div className={`w-80 h-64 bg-gradient-to-br ${project.gradient} rounded-2xl relative overflow-hidden border border-white/20 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl`}>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="text-white text-xl font-bold bg-black/30 backdrop-blur-md px-6 py-3 rounded-full">
+                      <div className="text-white text-xl font-bold bg-black/30 backdrop-blur-md px-6 py-3 rounded-full dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">
                         Смотреть проект
                       </div>
                     </div>

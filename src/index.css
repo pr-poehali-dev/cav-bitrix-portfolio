@@ -36,13 +36,13 @@
   }
 
   .dark {
-    --background: 0 0% 8%;
+    --background: 0 0% 31%;
     --foreground: 0 0% 98%;
 
-    --card: 0 0% 12%;
+    --card: 0 0% 31%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 12%;
+    --popover: 0 0% 31%;
     --popover-foreground: 0 0% 98%;
 
     --primary: 250 95% 65%;
@@ -51,8 +51,8 @@
     --secondary: 280 90% 70%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 70%;
 
     --accent: 190 95% 60%;
     --accent-foreground: 0 0% 100%;
@@ -60,8 +60,8 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
     --ring: 250 95% 65%;
   }
 }
@@ -90,7 +90,7 @@
   }
 
   .dark body {
-    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0a0a0a 100%);
+    background: linear-gradient(135deg, #3f3f46 0%, #52525b 50%, #475569 100%);
   }
 
   a {
@@ -139,10 +139,10 @@
 .dark .animated-gradient-bg {
   background: linear-gradient(
     -45deg,
-    rgba(99, 102, 241, 0.08),
-    rgba(168, 85, 247, 0.1),
-    rgba(6, 182, 212, 0.06),
-    rgba(139, 92, 246, 0.08)
+    rgba(99, 102, 241, 0.12),
+    rgba(168, 85, 247, 0.15),
+    rgba(6, 182, 212, 0.1),
+    rgba(139, 92, 246, 0.12)
   );
 }
 
@@ -218,6 +218,11 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.02em;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.dark .section-title {
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.6));
 }
 
 .section-subtitle {
@@ -231,12 +236,17 @@
 
 .dark .section-subtitle {
   color: #f5f5f5;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .section-descr {
   font-size: 20px;
   font-weight: 400;
   margin-bottom: 32px;
+}
+
+.dark .section-descr {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
 }
 
 .btn {
@@ -364,10 +374,10 @@ section:hover {
 .dark .card-item {
   background: linear-gradient(
     135deg,
-    rgba(20, 20, 25, 0.95) 0%,
-    rgba(25, 25, 30, 0.95) 100%
+    rgba(35, 35, 40, 0.95) 0%,
+    rgba(40, 40, 45, 0.95) 100%
   );
-  border: 2px solid rgba(99, 102, 241, 0.2);
+  border: 2px solid rgba(99, 102, 241, 0.25);
 }
 
 .card-item::before {

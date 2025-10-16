@@ -64,15 +64,15 @@ const News = () => {
   };
 
   return (
-    <section id="news" className="py-24 px-[50px] bg-gradient-to-b from-white to-gray-50/50 dark:from-gray-950 dark:to-gray-900/50 relative overflow-hidden">
+    <section id="news" className="py-24 px-[50px] bg-gradient-to-b from-white to-gray-50/50 dark:from-gray-800 dark:to-gray-700/50 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gradient-start/20 to-transparent" />
       
       <div className="max-w-[1500px] mx-auto">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-[clamp(40px,8vw,80px)] font-black bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent">
+          <h2 className="text-[clamp(40px,8vw,80px)] font-black bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">
             Новости
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
             Последние тренды и обновления из мира веб-разработки
           </p>
         </div>
@@ -85,7 +85,7 @@ const News = () => {
               className={`px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 ${
                 selectedCategory === category
                   ? 'bg-gradient-to-r from-gradient-start to-gradient-mid text-white shadow-lg scale-105'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 hover:border-gradient-start/30'
+                  : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600 hover:border-gradient-start/30'
               }`}
             >
               {category}
@@ -110,10 +110,10 @@ const News = () => {
             {filteredNews.map((item, index) => (
               <article
                 key={`${item.link}-${index}`}
-                className={`group relative bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 dark:border-gray-800 hover:border-gradient-start/30 break-inside-avoid mb-4 ${getCardHeight(index)}`}
+                className={`group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 dark:border-gray-700 hover:border-gradient-start/30 break-inside-avoid mb-4 ${getCardHeight(index)}`}
                 onClick={() => setSelectedNews(item)}
               >
-                <div className="relative overflow-hidden h-[45%] min-h-[160px] bg-gray-100 dark:bg-gray-800">
+                <div className="relative overflow-hidden h-[45%] min-h-[160px] bg-gray-100 dark:bg-gray-700">
                   <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/60 to-gradient-mid/40 z-10 opacity-30 group-hover:opacity-10 transition-opacity duration-300" />
                   <img 
                     src={item.image} 
@@ -126,7 +126,7 @@ const News = () => {
                   />
                   
                   <div className="absolute top-3 left-3 z-20">
-                    <span className="inline-block px-3 py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-full text-xs font-bold text-gradient-start shadow-sm">
+                    <span className="inline-block px-3 py-1.5 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-full text-xs font-bold text-gradient-start shadow-sm">
                       {item.category}
                     </span>
                   </div>
@@ -149,16 +149,16 @@ const News = () => {
                       <span className="text-[11px]">{item.date}</span>
                     </div>
 
-                    <h3 className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-gradient-start transition-colors line-clamp-3 text-base leading-snug">
+                    <h3 className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-gradient-start transition-colors line-clamp-3 text-base leading-snug dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">
                       {item.title}
                     </h3>
 
-                    <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 leading-relaxed">
+                    <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 leading-relaxed dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
                       {cleanHtml(item.excerpt)}
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-1.5 text-gradient-start font-semibold text-sm pt-2 group-hover:gap-2 transition-all">
+                  <div className="flex items-center gap-1.5 text-gradient-start font-semibold text-sm pt-2 group-hover:gap-2 transition-all dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
                     Читать
                     <Icon name="ArrowRight" size={14} className="group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -175,10 +175,10 @@ const News = () => {
           onClick={() => setSelectedNews(null)}
         >
           <div 
-            className="bg-white dark:bg-gray-900 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-scale-in"
+            className="bg-white dark:bg-gray-800 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative h-80 overflow-hidden bg-gray-100 dark:bg-gray-800">
+            <div className="relative h-80 overflow-hidden bg-gray-100 dark:bg-gray-700">
               <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/80 via-gradient-mid/70 to-gradient-end/60 z-10 opacity-70" />
               <img 
                 src={selectedNews.image} 
@@ -219,15 +219,15 @@ const News = () => {
                 <span>{selectedNews.date}</span>
               </div>
 
-              <h2 className="text-4xl font-black text-gray-900 dark:text-gray-100">
+              <h2 className="text-4xl font-black text-gray-900 dark:text-gray-100 dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">
                 {selectedNews.title}
               </h2>
 
-              <p className="text-xl text-gradient-start font-semibold">
+              <p className="text-xl text-gradient-start font-semibold dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">
                 {cleanHtml(selectedNews.excerpt)}
               </p>
 
-              <div className="prose prose-lg max-w-none dark:prose-invert">
+              <div className="prose prose-lg max-w-none dark:prose-invert dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
                 <div className="text-gray-700 dark:text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: selectedNews.content }} />
               </div>
 

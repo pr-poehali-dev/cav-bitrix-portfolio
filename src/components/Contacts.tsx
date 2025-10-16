@@ -1,10 +1,10 @@
 const Contacts = () => {
   return (
-    <section id="contacts" className="contacts relative bg-gray-50 dark:bg-gray-900">
+    <section id="contacts" className="contacts relative bg-gray-50 dark:bg-gray-700">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
         <div className="grid lg:grid-cols-2 gap-[76px] items-center min-h-[600px]">
           <div className="contacts-content min-h-full z-[1] p-5 content-center">
-            <h2 className="section-title">Контакты</h2>
+            <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">Контакты</h2>
             <form className="flex flex-col gap-12">
               <div className="relative group">
                 <input

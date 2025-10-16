@@ -85,11 +85,11 @@ const Development = () => {
   }, []);
 
   return (
-    <section id="blok-dev" className="blok-dev bg-white dark:bg-gray-950">
+    <section id="blok-dev" className="blok-dev bg-white dark:bg-gray-800">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
         <div className="grid lg:grid-cols-2 gap-[76px] items-start min-h-[600px]">
           <div className="blok-dev-left space-y-8">
-            <h2 className="section-title">Разработка</h2>
+            <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">Разработка</h2>
             <div className="w-full h-[480px] bg-gradient-to-br from-blue-500/30 via-cyan-500/20 to-indigo-500/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm">
               <div className="absolute inset-0 flex items-center justify-center p-12">
                 <div className="w-full max-w-[420px] aspect-[4/3] relative">
@@ -133,8 +133,8 @@ const Development = () => {
               />
               наши услуги
             </a>
-            <h3 className="section-subtitle">Делаем любой сложности проекты</h3>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+            <h3 className="section-subtitle dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">Делаем любой сложности проекты</h3>
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
               Мы предлагаем полный спектр услуг по разработке сайтов, которые помогут вашему бизнесу расти и развиваться в интернете. Наши решения — это сочетание современного дизайна, удобства и функциональности, адаптированные под ваши потребности и бюджет.
             </p>
             <button 

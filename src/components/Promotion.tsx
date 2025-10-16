@@ -5,11 +5,11 @@ const Promotion = () => {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   
   return (
-    <section className="promotion bg-gray-50 dark:bg-gray-900">
+    <section className="promotion bg-gray-50 dark:bg-gray-700">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
         <div className="grid lg:grid-cols-2 gap-[76px] items-start min-h-[600px]">
           <div className="promotion-left space-y-8">
-            <h2 className="section-title">Продвижение</h2>
+            <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">Продвижение</h2>
             <div className="w-full h-96 bg-gradient-to-br from-purple-500/30 via-pink-500/20 to-rose-500/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm group hover:scale-[1.02] transition-all duration-500">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-32 h-32 border-4 border-white/30 rounded-full animate-pulse" />
@@ -30,7 +30,7 @@ const Promotion = () => {
               />
               взлетаем
             </a>
-            <h3 className="section-subtitle">Сможем продвинуть любой ваш продукт или идею от А до Я</h3>
+            <h3 className="section-subtitle dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">Сможем продвинуть любой ваш продукт или идею от А до Я</h3>
             <button 
               onClick={() => setContactModalOpen(true)}
               className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-8 py-4 rounded-full text-sm font-semibold hover:shadow-2xl transition-all duration-300"
