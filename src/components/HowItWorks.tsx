@@ -84,7 +84,7 @@ const HowItWorks = () => {
                   {/* Стрелка для десктопа */}
                   {index < steps.length - 1 && (
                     <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-20">
-                      <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center border-2 border-gradient-start/20 group-hover:scale-110 group-hover:border-gradient-start transition-all">
+                      <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow-lg flex items-center justify-center border-2 border-gradient-start/20 group-hover:scale-110 group-hover:border-gradient-start transition-all">
                         <Icon name="ArrowRight" size={16} className="text-gradient-start" />
                       </div>
                     </div>
