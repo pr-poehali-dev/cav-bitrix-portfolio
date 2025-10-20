@@ -205,12 +205,12 @@ const ServicesAdmin = ({ isEmbedded = false }: ServicesAdminProps) => {
                       onValueChange={(value: any) => setEditingService({ ...editingService, category: value })}
                     >
                       <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
-                        <SelectValue />
+                        <SelectValue placeholder="Выберите категорию" />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-800 border-gray-700">
-                        <SelectItem value="development">Разработка</SelectItem>
-                        <SelectItem value="promotion">Продвижение</SelectItem>
-                        <SelectItem value="additional">Дополнительные услуги</SelectItem>
+                      <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                        <SelectItem value="development" className="text-white hover:bg-gray-700">Разработка</SelectItem>
+                        <SelectItem value="promotion" className="text-white hover:bg-gray-700">Продвижение</SelectItem>
+                        <SelectItem value="additional" className="text-white hover:bg-gray-700">Дополнительные услуги</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
