@@ -58,14 +58,27 @@ export default function WebmasterTab({ settings, webmasterIssues, loadingIssues 
             <div className="flex items-start gap-3">
               <Icon name="Info" size={20} className="text-blue-400 flex-shrink-0 mt-0.5" />
               <div className="text-sm text-gray-300 flex-1">
-                <p className="font-medium text-white mb-2">Как получить OAuth токен:</p>
-                <ol className="list-decimal list-inside space-y-1 mb-3 text-xs">
-                  <li>Откройте <a href="https://webmaster.yandex.ru" target="_blank" className="text-blue-400 underline">Яндекс.Вебмастер</a> и войдите в аккаунт</li>
-                  <li>Нажмите F12 → вкладка Network (Сеть)</li>
-                  <li>Обновите страницу и найдите любой запрос к api.webmaster.yandex.net</li>
-                  <li>Скопируйте значение заголовка Authorization (после слова "OAuth")</li>
-                  <li>Нажмите кнопку ниже и вставьте скопированный токен</li>
-                </ol>
+                <p className="font-medium text-white mb-2">Как подключить Яндекс.Вебмастер:</p>
+                <div className="space-y-3 mb-3">
+                  <div>
+                    <p className="font-medium text-white text-xs mb-1">Способ 1 (Рекомендуется):</p>
+                    <ol className="list-decimal list-inside space-y-1 text-xs opacity-90">
+                      <li>Перейдите по ссылке: <a href="https://oauth.yandex.ru/verification_code#access_token=y0_AgAAAABpkF8FAAr6UwAAAAEW6AAAQBvGMf6x3Z_example_token_here" target="_blank" className="text-blue-400 underline break-all">получить токен</a></li>
+                      <li>Разрешите доступ к Яндекс.Вебмастеру</li>
+                      <li>Скопируйте код из поля на странице (длинная строка начинается с "y0_")</li>
+                      <li>Нажмите кнопку ниже и вставьте этот код</li>
+                    </ol>
+                  </div>
+                  <div>
+                    <p className="font-medium text-white text-xs mb-1">Способ 2 (Через DevTools):</p>
+                    <ol className="list-decimal list-inside space-y-1 text-xs opacity-90">
+                      <li>Откройте <a href="https://webmaster.yandex.ru" target="_blank" className="text-blue-400 underline">Яндекс.Вебмастер</a></li>
+                      <li>Нажмите F12 → Console (Консоль)</li>
+                      <li>Вставьте код: <code className="bg-gray-900 px-1 py-0.5 rounded text-blue-300">document.cookie.split(';').find(c=>c.includes('Session_id')).split('=')[1]</code></li>
+                      <li>Скопируйте результат и нажмите кнопку ниже</li>
+                    </ol>
+                  </div>
+                </div>
                 <Button
                   onClick={() => {
                     window.open('https://editor.poehali.dev/secrets', '_blank');
@@ -76,7 +89,7 @@ export default function WebmasterTab({ settings, webmasterIssues, loadingIssues 
                   <Icon name="Key" size={14} className="mr-2" />
                   Добавить токен в Secrets
                 </Button>
-                <p className="text-xs opacity-75 mt-2">После добавления токена обновите страницу - все проблемы сайта появятся автоматически</p>
+                <p className="text-xs opacity-75 mt-2">После добавления токена YANDEX_WEBMASTER_TOKEN обновите эту страницу</p>
               </div>
             </div>
           </div>
