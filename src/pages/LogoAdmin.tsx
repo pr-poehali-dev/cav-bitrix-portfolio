@@ -62,13 +62,14 @@ const LogoAdmin = ({ isEmbedded = false }: LogoAdminProps) => {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch('https://functions.poehali.dev/fn-cav-bitrix-portfolio/upload-image', {
+    const response = await fetch('https://functions.poehali.dev/1103293c-17a5-453c-b290-c1c376ead996', {
       method: 'POST',
       body: formData,
     });
 
     if (!response.ok) {
-      throw new Error('Ошибка загрузки файла');
+      const errorText = await response.text();
+      throw new Error(`Ошибка загрузки файла: ${errorText}`);
     }
 
     const data = await response.json();
