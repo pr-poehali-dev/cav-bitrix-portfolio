@@ -40,11 +40,11 @@ export default function SeoTab({ settings, setSettings }: SeoTabProps) {
 
   useEffect(() => {
     const loadPublicPageContent = async () => {
-      const currentUrl = window.location.origin;
-      setPageUrl(currentUrl);
+      const publicUrl = window.location.origin + '/';
+      setPageUrl(publicUrl);
 
       try {
-        const response = await fetch(currentUrl);
+        const response = await fetch(publicUrl);
         const html = await response.text();
         
         const parser = new DOMParser();
@@ -55,18 +55,21 @@ export default function SeoTab({ settings, setSettings }: SeoTabProps) {
         setCurrentTitle(metaTitle);
         setCurrentDescription(metaDescription);
 
-        const body = doc.querySelector('body');
-        if (body) {
-          const scripts = body.querySelectorAll('script, style, noscript');
-          scripts.forEach(el => el.remove());
+        const root = doc.querySelector('#root');
+        if (root) {
+          const clonedRoot = root.cloneNode(true) as HTMLElement;
           
-          const mainContent = body.textContent || '';
-          const cleanContent = mainContent.replace(/\s+/g, ' ').trim().substring(0, 3000);
-          setPageContent(cleanContent);
+          clonedRoot.querySelectorAll('script, style, noscript, nav, header, footer').forEach(el => el.remove());
+          
+          const mainContent = clonedRoot.textContent || '';
+          const cleanContent = mainContent.replace(/\s+/g, ' ').trim();
+          const summary = cleanContent.substring(0, 3000);
+          setPageContent(summary);
         }
       } catch (error) {
         console.error('Failed to load public page content:', error);
-        setPageContent('');
+        const fallback = 'Не удалось загрузить содержимое публичной страницы. Введите краткое описание вашего сайта вручную.';
+        setPageContent(fallback);
       }
     };
 
