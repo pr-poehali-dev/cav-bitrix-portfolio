@@ -116,15 +116,15 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <div className="mb-8 overflow-x-auto md:hidden scroll-smooth snap-x snap-mandatory scrollbar-hide">
-              <div className="flex gap-6 px-4">
+            <div className="mb-8 overflow-x-auto md:hidden scroll-smooth snap-x snap-mandatory scrollbar-hide -mx-4">
+              <div className="flex gap-4 px-4">
                 {projects.map((project) => (
                   <button 
                     key={project.id}
                     onClick={() => setSelectedProject(project)}
                     className="inline-block flex-shrink-0 group snap-center"
                   >
-                    <div className="w-80 h-64 rounded-2xl relative overflow-hidden border border-gray-200 dark:border-gray-700 backdrop-blur-sm transition-all duration-500 active:scale-95">
+                    <div className="w-[calc(100vw-3rem)] max-w-[320px] h-64 rounded-2xl relative overflow-hidden border border-gray-200 dark:border-gray-700 backdrop-blur-sm transition-all duration-500 active:scale-95">
                       <img 
                         src={project.preview_image_url || project.image_url} 
                         alt={project.title}

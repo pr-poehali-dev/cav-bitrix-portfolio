@@ -142,9 +142,9 @@ const ContactInfo = () => {
 const Contacts = () => {
   return (
     <section id="contacts" className="contacts relative bg-gray-50 dark:bg-gray-700">
-      <div className="max-w-[1500px] w-full px-[50px] mx-auto">
+      <div className="max-w-[1500px] w-full lg:px-[50px] px-4 mx-auto">
         <div className="grid lg:grid-cols-2 gap-[76px] lg:gap-[76px] gap-12 items-center min-h-[600px]">
-          <div className="contacts-content min-h-full z-[1] p-5 content-center">
+          <div className="contacts-content min-h-full z-[1] lg:p-5 p-0 content-center">
             <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">Контакты</h2>
             <form className="flex flex-col gap-12">
               <div className="relative group">
@@ -169,7 +169,7 @@ const Contacts = () => {
               
               <button 
                 type="submit" 
-                className="btn bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end text-white py-6 px-[132px] rounded-full text-xl max-w-[521px] w-full min-h-[68px] font-semibold group relative overflow-hidden bg-[length:200%_auto] animate-gradient-shift"
+                className="btn bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end text-white py-6 lg:px-[132px] px-8 rounded-full lg:text-xl text-lg max-w-[521px] w-full min-h-[68px] font-semibold group relative overflow-hidden bg-[length:200%_auto] animate-gradient-shift"
               >
                 <span className="relative z-10">Оставить заявку</span>
               </button>

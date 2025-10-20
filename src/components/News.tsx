@@ -65,7 +65,7 @@ const News = () => {
   };
 
   return (
-    <section id="news" className="py-24 px-[50px] bg-gradient-to-b from-white to-gray-50/50 dark:from-gray-800 dark:to-gray-700/50 relative overflow-hidden">
+    <section id="news" className="py-24 lg:px-[50px] px-4 bg-gradient-to-b from-white to-gray-50/50 dark:from-gray-800 dark:to-gray-700/50 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gradient-start/20 to-transparent" />
       
       <div className="max-w-[1500px] mx-auto">

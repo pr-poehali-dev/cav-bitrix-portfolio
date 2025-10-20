@@ -86,7 +86,7 @@ const Development = () => {
 
   return (
     <section id="blok-dev" className="blok-dev bg-white dark:bg-gray-800">
-      <div className="max-w-[1500px] w-full px-[50px] mx-auto">
+      <div className="max-w-[1500px] w-full lg:px-[50px] px-4 mx-auto">
         <div className="grid lg:grid-cols-2 gap-[76px] lg:gap-[76px] gap-12 items-start min-h-[600px]">
           <div className="blok-dev-left space-y-8">
             <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">Разработка</h2>
