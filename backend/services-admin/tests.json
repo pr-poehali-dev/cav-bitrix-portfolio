@@ -1,0 +1,25 @@
+{
+  "tests": [
+    {
+      "name": "Get all services without auth",
+      "method": "GET",
+      "expectedStatus": 401,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get all services with auth",
+      "method": "GET",
+      "headers": {
+        "X-Admin-Session": "test-session"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "services": "array"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
