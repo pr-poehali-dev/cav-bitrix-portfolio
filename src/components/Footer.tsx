@@ -35,10 +35,10 @@ const Footer = () => {
   }, []);
   
   return (
-    <footer className="footer pt-16 pb-8 relative bg-white dark:bg-gray-950">
+    <footer className="footer pt-8 md:pt-16 pb-4 md:pb-8 relative bg-white dark:bg-gray-950">
       <div className="absolute inset-0 bg-gradient-to-t from-gradient-start/5 via-transparent to-transparent pointer-events-none dark:from-gradient-start/10" />
       
-      <div className="max-w-[1570px] w-full px-[50px] mx-auto relative z-10">
+      <div className="max-w-[1570px] w-full px-4 md:px-[50px] mx-auto relative z-10">
         <div className="hidden md:flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-8 border-b border-gray-200 dark:border-gray-800">
           <div className="logo group">
             <a href="/" className="inline-block transition-transform hover:scale-105">
@@ -94,15 +94,15 @@ const Footer = () => {
           </nav>
         </div>
 
-        <div className="pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="pt-4 md:pt-6 flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
           <p className="text-sm text-gray-500 dark:text-gray-400 dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.5)]">
             © {new Date().getFullYear()} Pixel. Все права защищены.
           </p>
-          <div className="flex flex-wrap gap-6 items-center justify-center">
-            <a href="/terms" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.5)]">
+          <div className="flex flex-wrap gap-3 md:gap-6 items-center justify-center text-xs md:text-sm">
+            <a href="/terms" className="text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.5)]">
               Пользовательское соглашение
             </a>
-            <a href="/privacy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.5)]">
+            <a href="/privacy" className="text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.5)]">
               Политика конфиденциальности
             </a>
             <button
@@ -110,7 +110,7 @@ const Footer = () => {
                 localStorage.removeItem('cookieConsent');
                 window.location.reload();
               }}
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors underline dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.5)]"
+              className="text-gray-500 dark:text-gray-400 hover:text-gradient-start transition-colors underline dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.5)]"
             >
               Настройки cookies
             </button>
