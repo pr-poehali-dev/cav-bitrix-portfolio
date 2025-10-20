@@ -66,7 +66,7 @@ const LogoAdmin = ({ isEmbedded = false }: LogoAdminProps) => {
         try {
           const base64String = reader.result as string;
           
-          const response = await fetch('https://functions.poehali.dev/1103293c-17a5-453c-b290-c1c376ead996', {
+          const response = await fetch('https://functions.poehali.dev/37a07387-34ec-4fe2-b5c7-882c960a3b40', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
