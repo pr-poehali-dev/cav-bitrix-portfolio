@@ -60,8 +60,13 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     
     openai.api_key = api_key
     
-    # Используем альтернативный endpoint для обхода региональных ограничений
-    openai.api_base = os.environ.get('OPENAI_API_BASE', 'https://api.openai.com/v1')
+    # Настраиваем endpoint и модель
+    api_base = os.environ.get('OPENAI_API_BASE', 'https://api.openai.com/v1')
+    openai.api_base = api_base
+    
+    # Определяем модель в зависимости от провайдера
+    is_openrouter = 'openrouter' in api_base.lower()
+    model = 'openai/gpt-4o-mini' if is_openrouter else os.environ.get('OPENAI_MODEL', 'gpt-4o-mini')
     
     prompt = f"""Analyze this webpage content and provide SEO optimization suggestions in Russian.
 
@@ -89,10 +94,6 @@ Respond ONLY with valid JSON in this exact format:
 }}"""
     
     try:
-        # Для OpenRouter используем совместимую модель
-        model = os.environ.get('OPENAI_MODEL', 'gpt-4o-mini')
-        if 'openrouter' in openai.api_base.lower():
-            model = 'openai/gpt-4o-mini'
         
         response = openai.ChatCompletion.create(
             model=model,

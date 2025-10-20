@@ -22,9 +22,10 @@ class PageSeoResult(BaseModel):
     keywords: List[str]
     improvements: List[str]
 
-def analyze_single_page(page: PageData, api_key: str) -> Dict[str, Any]:
+def analyze_single_page(page: PageData, api_key: str, api_base: str, model: str) -> Dict[str, Any]:
     '''Analyze single page with OpenAI'''
     openai.api_key = api_key
+    openai.api_base = api_base
     
     prompt = f"""Analyze this webpage content and provide SEO optimization suggestions in Russian.
 
@@ -53,7 +54,7 @@ Respond ONLY with valid JSON in this exact format:
     
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-4o-mini",
+            model=model,
             messages=[
                 {"role": "system", "content": "You are an expert SEO consultant. Always respond with valid JSON only, no additional text."},
                 {"role": "user", "content": prompt}
@@ -131,9 +132,14 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     body_data = json.loads(event.get('body', '{}'))
     request_data = BatchSeoRequest(**body_data)
     
+    # Настраиваем endpoint и модель
+    api_base = os.environ.get('OPENAI_API_BASE', 'https://api.openai.com/v1')
+    is_openrouter = 'openrouter' in api_base.lower()
+    model = 'openai/gpt-4o-mini' if is_openrouter else os.environ.get('OPENAI_MODEL', 'gpt-4o-mini')
+    
     results = []
     for page in request_data.pages[:10]:
-        result = analyze_single_page(page, api_key)
+        result = analyze_single_page(page, api_key, api_base, model)
         results.append(result)
     
     return {
