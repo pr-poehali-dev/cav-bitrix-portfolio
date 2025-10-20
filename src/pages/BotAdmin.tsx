@@ -30,7 +30,11 @@ interface BotStatsResponse {
   };
 }
 
-const BotAdmin = () => {
+interface BotAdminProps {
+  isEmbedded?: boolean;
+}
+
+const BotAdmin = ({ isEmbedded = false }: BotAdminProps) => {
   const { data, isLoading } = useQuery<BotStatsResponse>({
     queryKey: ['bot-stats'],
     queryFn: async () => {
@@ -58,32 +62,40 @@ const BotAdmin = () => {
     return ua.substring(0, maxLength) + '...';
   };
 
+  const loadingContent = (
+    <div className="animate-pulse space-y-4">
+      <div className="h-12 bg-gray-700 rounded w-1/3"></div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="h-32 bg-gray-700 rounded"></div>
+        ))}
+      </div>
+    </div>
+  );
+
   if (isLoading) {
+    if (isEmbedded) {
+      return loadingContent;
+    }
     return (
       <AdminLayout>
         <div className="max-w-7xl mx-auto">
-          <div className="animate-pulse space-y-4">
-            <div className="h-12 bg-gray-700 rounded w-1/3"></div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="h-32 bg-gray-700 rounded"></div>
-              ))}
-            </div>
-          </div>
+          {loadingContent}
         </div>
       </AdminLayout>
     );
   }
 
-  return (
-    <AdminLayout>
-      <div className="max-w-7xl mx-auto space-y-8">
+  const content = (
+    <div className="space-y-8">
+      {!isEmbedded && (
         <div>
           <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
             Панель управления ботами
           </h1>
           <p className="text-gray-400">Мониторинг и статистика посещений ботов</p>
         </div>
+      )}
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card className="bg-gray-800/50 border-gray-700 backdrop-blur">
@@ -162,6 +174,17 @@ const BotAdmin = () => {
             </div>
           </CardContent>
         </Card>
+    </div>
+  );
+
+  if (isEmbedded) {
+    return content;
+  }
+
+  return (
+    <AdminLayout>
+      <div className="max-w-7xl mx-auto">
+        {content}
       </div>
     </AdminLayout>
   );
