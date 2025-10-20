@@ -74,7 +74,7 @@ export default function WebmasterTab({ settings, webmasterIssues, loadingIssues 
                     <ol className="list-decimal list-inside space-y-1 text-xs opacity-90">
                       <li>Откройте <a href="https://webmaster.yandex.ru" target="_blank" className="text-blue-400 underline">Яндекс.Вебмастер</a></li>
                       <li>Нажмите F12 → Console (Консоль)</li>
-                      <li>Вставьте код: <code className="bg-gray-900 px-1 py-0.5 rounded text-blue-300">document.cookie.split(';').find(c=>c.includes('Session_id')).split('=')[1]</code></li>
+                      <li>Вставьте код: <code className="bg-gray-900 px-1 py-0.5 rounded text-blue-300">{"document.cookie.split(';').find(c=>c.includes('Session_id')).split('=')[1]"}</code></li>
                       <li>Скопируйте результат и нажмите кнопку ниже</li>
                     </ol>
                   </div>
