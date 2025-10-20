@@ -73,11 +73,11 @@ const Hero = () => {
                 Pixel
               </h1>
               <div className="flex flex-wrap gap-6">
-                <a href="#" className="group relative nav-link-custom text-xl font-semibold pb-2 hover:-translate-y-1 transition-all duration-300 [text-shadow:0_2px_8px_rgba(0,0,0,0.3)] dark:[text-shadow:0_3px_10px_rgba(0,0,0,0.6)]">
-                  <span className="relative z-10">разработка сайтов</span>
+                <a href="#blok-dev" className="group relative nav-link-custom text-xl font-semibold pb-2 hover:-translate-y-1 transition-all duration-300 [text-shadow:0_2px_8px_rgba(0,0,0,0.3)] dark:[text-shadow:0_3px_10px_rgba(0,0,0,0.6)]">
+                  <span className="relative z-10">Разработка</span>
                   <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 </a>
-                <a href="#" className="group relative nav-link-custom text-xl font-semibold pb-2 hover:-translate-y-1 transition-all duration-300 [text-shadow:0_2px_8px_rgba(0,0,0,0.3)] dark:[text-shadow:0_3px_10px_rgba(0,0,0,0.6)]">
+                <a href="#services" className="group relative nav-link-custom text-xl font-semibold pb-2 hover:-translate-y-1 transition-all duration-300 [text-shadow:0_2px_8px_rgba(0,0,0,0.3)] dark:[text-shadow:0_3px_10px_rgba(0,0,0,0.6)]">
                   <span className="relative z-10">digital</span>
                   <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-gradient-mid to-gradient-end transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 </a>

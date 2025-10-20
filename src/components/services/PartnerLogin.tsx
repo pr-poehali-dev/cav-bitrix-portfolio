@@ -100,7 +100,7 @@ export default function PartnerLogin() {
   if (showLogin) {
     return (
       <div 
-        className="fixed top-4 right-4 z-[99999999] bg-white rounded-lg shadow-xl p-4 border-2 border-primary/20 w-72 animate-in slide-in-from-right"
+        className="fixed lg:top-4 lg:right-4 bottom-4 left-4 lg:bottom-auto lg:left-auto z-[99999999] bg-white dark:bg-gray-900 rounded-lg shadow-xl p-4 border-2 border-primary/20 w-72 animate-in lg:slide-in-from-right slide-in-from-bottom"
         onMouseLeave={() => {
           if (!isLoading) {
             setShowLogin(false);
@@ -184,7 +184,7 @@ export default function PartnerLogin() {
 
   return (
     <div
-      className="fixed top-4 right-0 z-[99999999] group"
+      className="fixed lg:top-4 lg:right-0 lg:bottom-auto bottom-4 left-0 lg:left-auto z-[99999999] group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -198,9 +198,11 @@ export default function PartnerLogin() {
         }}
         className={`
           ${isPartner ? 'bg-green-600 hover:bg-green-700' : 'bg-primary hover:bg-primary/90'} 
-          text-white shadow-lg rounded-l-full rounded-r-none pr-4 pl-4
+          text-white shadow-lg 
+          lg:rounded-l-full lg:rounded-r-none rounded-r-full rounded-l-none
+          lg:pr-4 lg:pl-4 pr-4 pl-4
           transition-all duration-300 ease-out
-          ${isHovered ? 'translate-x-0' : 'translate-x-[calc(100%-48px)]'}
+          ${isHovered ? 'lg:translate-x-0 translate-x-0' : 'lg:translate-x-[calc(100%-48px)] -translate-x-[calc(100%-48px)]'}
         `}
         size="sm"
       >
