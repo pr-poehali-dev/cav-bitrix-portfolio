@@ -16,10 +16,8 @@ import HostingSelector from '@/components/services/HostingSelector';
 import PartnerLogin from '@/components/services/PartnerLogin';
 import OrderModal from '@/components/services/OrderModal';
 import { usePartner } from '@/contexts/PartnerContext';
+import { Service } from '@/components/services/types';
 import {
-  developmentServices,
-  promotionServices,
-  additionalServices,
   bitrixLicenses,
   hostingOptions,
   begetTariffs,
@@ -38,8 +36,63 @@ const OurServices = () => {
   const [selectedBegetTariff, setSelectedBegetTariff] = useState<string>('');
   const [selectedVPSTariff, setSelectedVPSTariff] = useState<string>('');
   const [hostingPeriod, setHostingPeriod] = useState<6 | 12>(12);
+  const [developmentServices, setDevelopmentServices] = useState<Service[]>([]);
+  const [promotionServices, setPromotionServices] = useState<Service[]>([]);
+  const [additionalServices, setAdditionalServices] = useState<Service[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [openSections, setOpenSections] = useState<string[]>(['development']);
+
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        const response = await fetch('https://functions.poehali.dev/91a16400-6baa-4748-9387-c7cdad64ce9c');
+        const data = await response.json();
+        
+        if (data.services) {
+          const development = data.services
+            .filter((s: any) => s.category === 'development' && s.is_active)
+            .sort((a: any, b: any) => a.display_order - b.display_order)
+            .map((s: any) => ({
+              id: s.service_id,
+              title: s.title,
+              description: s.description,
+              price: s.price
+            }));
+          
+          const promotion = data.services
+            .filter((s: any) => s.category === 'promotion' && s.is_active)
+            .sort((a: any, b: any) => a.display_order - b.display_order)
+            .map((s: any) => ({
+              id: s.service_id,
+              title: s.title,
+              description: s.description,
+              price: s.price
+            }));
+          
+          const additional = data.services
+            .filter((s: any) => s.category === 'additional' && s.is_active)
+            .sort((a: any, b: any) => a.display_order - b.display_order)
+            .map((s: any) => ({
+              id: s.service_id,
+              title: s.title,
+              description: s.description,
+              price: s.price
+            }));
+          
+          setDevelopmentServices(development);
+          setPromotionServices(promotion);
+          setAdditionalServices(additional);
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки услуг:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadServices();
+  }, []);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -239,6 +292,12 @@ const OurServices = () => {
           </p>
         </div>
 
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <Icon name="Loader2" className="animate-spin text-primary" size={48} />
+          </div>
+        ) : (
+        <>
         <Accordion type="multiple" className="space-y-4" value={openSections} onValueChange={setOpenSections}>
           <AccordionItem value="development" id="development" className="border rounded-lg bg-white dark:bg-gray-900">
             <AccordionTrigger className="px-6 hover:no-underline">
@@ -359,6 +418,9 @@ const OurServices = () => {
             </div>
           </Card>
         )}
+        </>
+        )}
+
       </main>
 
       <OrderModal
