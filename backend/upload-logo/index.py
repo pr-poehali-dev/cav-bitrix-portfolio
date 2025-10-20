@@ -1,16 +1,12 @@
 import json
 import base64
-import os
-import uuid
 from typing import Dict, Any
-import boto3
-from botocore.client import Config
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
-    Business: Upload logo image to S3 storage
+    Business: Convert logo image to Data URI for storage
     Args: event with httpMethod, body containing base64 image and filename
-    Returns: JSON with public CDN URL
+    Returns: JSON with Data URI
     '''
     method: str = event.get('httpMethod', 'POST')
     
@@ -53,27 +49,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'isBase64Encoded': False
         }
     
-    # Получаем настройки S3 из переменных окружения
-    s3_bucket = os.environ.get('S3_BUCKET_NAME')
-    s3_endpoint = os.environ.get('S3_ENDPOINT_URL')
-    s3_region = os.environ.get('S3_REGION', 'ru-central1')
-    aws_access_key = os.environ.get('AWS_ACCESS_KEY_ID')
-    aws_secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    
-    if not all([s3_bucket, aws_access_key, aws_secret_key]):
-        return {
-            'statusCode': 500,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            'body': json.dumps({'error': 'S3 configuration is missing'}),
-            'isBase64Encoded': False
-        }
-    
-    # Декодируем base64
-    image_bytes = base64.b64decode(image_data)
-    
     # Определяем тип файла и расширение
     ext = filename.rsplit('.', 1)[-1].lower() if '.' in filename else 'png'
     content_type_map = {
@@ -86,34 +61,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     }
     content_type = content_type_map.get(ext, 'image/png')
     
-    # Генерируем уникальное имя файла
-    file_key = f'logos/{uuid.uuid4()}.{ext}'
-    
-    # Подключаемся к S3
-    s3_client = boto3.client(
-        's3',
-        endpoint_url=s3_endpoint,
-        region_name=s3_region,
-        aws_access_key_id=aws_access_key,
-        aws_secret_access_key=aws_secret_key,
-        config=Config(signature_version='s3v4')
-    )
-    
-    # Загружаем файл в S3
-    s3_client.put_object(
-        Bucket=s3_bucket,
-        Key=file_key,
-        Body=image_bytes,
-        ContentType=content_type,
-        ACL='public-read'
-    )
-    
-    # Формируем публичный URL для Yandex Object Storage
-    if 'yandexcloud' in s3_endpoint or 'storage.yandexcloud' in s3_endpoint:
-        public_url = f'https://{s3_bucket}.storage.yandexcloud.net/{file_key}'
-    else:
-        # Для других S3-совместимых хранилищ
-        public_url = f'{s3_endpoint}/{s3_bucket}/{file_key}'
+    # Формируем Data URI (встроенное изображение)
+    data_uri = f'data:{content_type};base64,{image_data}'
     
     return {
         'statusCode': 200,
@@ -122,8 +71,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'Access-Control-Allow-Origin': '*'
         },
         'body': json.dumps({
-            'url': public_url,
-            'type': 's3'
+            'url': data_uri,
+            'type': 'data_uri'
         }),
         'isBase64Encoded': False
     }
