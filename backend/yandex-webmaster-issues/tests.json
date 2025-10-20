@@ -1,0 +1,27 @@
+{
+  "tests": [
+    {
+      "name": "Missing parameters",
+      "method": "POST",
+      "body": {},
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Valid request with user_id and host_id",
+      "method": "POST",
+      "body": {
+        "user_id": "12345",
+        "host_id": "example.com"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "issues": "array"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
