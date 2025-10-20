@@ -89,8 +89,13 @@ Respond ONLY with valid JSON in this exact format:
 }}"""
     
     try:
+        # Для OpenRouter используем совместимую модель
+        model = os.environ.get('OPENAI_MODEL', 'gpt-4o-mini')
+        if 'openrouter' in openai.api_base.lower():
+            model = 'openai/gpt-4o-mini'
+        
         response = openai.ChatCompletion.create(
-            model="gpt-4o-mini",
+            model=model,
             messages=[
                 {"role": "system", "content": "You are an expert SEO consultant. Always respond with valid JSON only, no additional text."},
                 {"role": "user", "content": prompt}
