@@ -172,11 +172,21 @@ const News = () => {
             </div>
 
             <div className="hidden md:block">
-              <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+              <div 
+                className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4 transition-all duration-1000 ease-in-out overflow-hidden"
+                style={{
+                  maxHeight: showAll ? `${filteredNews.length * 500}px` : '2000px'
+                }}
+              >
                 {(showAll ? filteredNews : filteredNews.slice(0, 4)).map((item, index) => (
               <article
                 key={`${item.link}-${index}`}
-                className={`group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 dark:border-gray-700 hover:border-gradient-start/30 break-inside-avoid mb-4 ${getCardHeight(index)}`}
+                className={`group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-700 cursor-pointer border border-gray-100 dark:border-gray-700 hover:border-gradient-start/30 break-inside-avoid mb-4 ${getCardHeight(index)} ${
+                  index >= 4 && !showAll ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                }`}
+                style={{
+                  transitionDelay: showAll ? `${(index - 4) * 50}ms` : '0ms'
+                }}
                 onClick={() => setSelectedNews(item)}
               >
                 <div className="relative overflow-hidden h-[45%] min-h-[160px] bg-gray-100 dark:bg-gray-700">
