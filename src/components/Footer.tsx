@@ -6,6 +6,7 @@ const Footer = () => {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [calcModalOpen, setCalcModalOpen] = useState(false);
   const [logoUrl, setLogoUrl] = useState('https://cdn.poehali.dev/files/5e53ea79-1c81-4c3f-847b-e8a82a5743c2.png');
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const savedLogo = localStorage.getItem('site_logo');
@@ -17,8 +18,20 @@ const Footer = () => {
       setLogoUrl(event.detail);
     };
 
+    const checkAdminAuth = () => {
+      const adminAuth = localStorage.getItem('admin_auth');
+      setIsAdmin(!!adminAuth);
+    };
+
+    checkAdminAuth();
+
     window.addEventListener('logoUpdated', handleLogoUpdate as EventListener);
-    return () => window.removeEventListener('logoUpdated', handleLogoUpdate as EventListener);
+    window.addEventListener('storage', checkAdminAuth);
+    
+    return () => {
+      window.removeEventListener('logoUpdated', handleLogoUpdate as EventListener);
+      window.removeEventListener('storage', checkAdminAuth);
+    };
   }, []);
   
   return (
@@ -66,10 +79,12 @@ const Footer = () => {
               Контакты
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
             </a>
-            <a href="/admin/consents" className="nav-link-custom relative group text-xs opacity-50 hover:opacity-100 dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
-              Admin
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
-            </a>
+            {isAdmin && (
+              <a href="/admin/consents" className="nav-link-custom relative group text-xs opacity-50 hover:opacity-100 dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
+                Admin
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+              </a>
+            )}
             <button 
               onClick={() => setContactModalOpen(true)}
               className="btn bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-6 py-3 rounded-full text-sm font-semibold hover:shadow-xl transition-all duration-300"
