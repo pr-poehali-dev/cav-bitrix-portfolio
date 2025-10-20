@@ -60,6 +60,9 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     
     openai.api_key = api_key
     
+    # Используем альтернативный endpoint для обхода региональных ограничений
+    openai.api_base = os.environ.get('OPENAI_API_BASE', 'https://api.openai.com/v1')
+    
     prompt = f"""Analyze this webpage content and provide SEO optimization suggestions in Russian.
 
 URL: {request_data.url}
