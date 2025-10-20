@@ -39,17 +39,38 @@ export default function SeoTab({ settings, setSettings }: SeoTabProps) {
   const [currentDescription, setCurrentDescription] = useState('');
 
   useEffect(() => {
-    const currentUrl = window.location.origin;
-    setPageUrl(currentUrl);
+    const loadPublicPageContent = async () => {
+      const currentUrl = window.location.origin;
+      setPageUrl(currentUrl);
 
-    const metaTitle = document.querySelector('title')?.textContent || '';
-    const metaDescription = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
-    setCurrentTitle(metaTitle);
-    setCurrentDescription(metaDescription);
+      try {
+        const response = await fetch(currentUrl);
+        const html = await response.text();
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        const metaTitle = doc.querySelector('title')?.textContent || '';
+        const metaDescription = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+        setCurrentTitle(metaTitle);
+        setCurrentDescription(metaDescription);
 
-    const mainContent = document.querySelector('#root')?.textContent || '';
-    const cleanContent = mainContent.replace(/\s+/g, ' ').trim().substring(0, 3000);
-    setPageContent(cleanContent);
+        const body = doc.querySelector('body');
+        if (body) {
+          const scripts = body.querySelectorAll('script, style, noscript');
+          scripts.forEach(el => el.remove());
+          
+          const mainContent = body.textContent || '';
+          const cleanContent = mainContent.replace(/\s+/g, ' ').trim().substring(0, 3000);
+          setPageContent(cleanContent);
+        }
+      } catch (error) {
+        console.error('Failed to load public page content:', error);
+        setPageContent('');
+      }
+    };
+
+    loadPublicPageContent();
   }, []);
 
   const analyzePage = async () => {
