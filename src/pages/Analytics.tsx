@@ -51,10 +51,8 @@ export default function Analytics() {
   }, [settings.yandex_metrika_id]);
 
   useEffect(() => {
-    if (settings.yandex_webmaster_user_id) {
-      loadWebmasterIssues();
-    }
-  }, [settings.yandex_webmaster_user_id]);
+    loadWebmasterIssues();
+  }, []);
 
   const loadSettings = async () => {
     const savedSettings = localStorage.getItem('analytics_settings');
@@ -93,20 +91,10 @@ export default function Analytics() {
   };
 
   const loadWebmasterIssues = async () => {
-    if (!settings.yandex_webmaster_user_id) {
-      setWebmasterIssues([]);
-      return;
-    }
-
     setLoadingIssues(true);
     try {
       const response = await fetch('https://functions.poehali.dev/f7cef033-563d-43d4-bc11-18ea42d54a00', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          user_id: settings.yandex_webmaster_user_id,
-          host_id: window.location.hostname
-        })
+        method: 'GET'
       });
 
       if (response.ok) {

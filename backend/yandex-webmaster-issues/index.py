@@ -6,7 +6,7 @@ import requests
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
     Business: Получение замечаний от Яндекс.Вебмастера
-    Args: event с user_id и host_id в body
+    Args: event с host_url в query параметрах (опционально)
     Returns: Список проблем и рекомендаций от Яндекса
     '''
     method: str = event.get('httpMethod', 'POST')
@@ -16,7 +16,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'statusCode': 200,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST, OPTIONS',
+                'Access-Control-Allow-Methods': 'GET, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Max-Age': '86400'
             },
@@ -24,7 +24,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'isBase64Encoded': False
         }
     
-    if method != 'POST':
+    if method != 'GET':
         return {
             'statusCode': 405,
             'headers': {
@@ -36,25 +36,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         }
     
     try:
-        body_str = event.get('body', '')
-        if not body_str or body_str.strip() == '':
-            body_data = {}
-        else:
-            body_data = json.loads(body_str)
-        user_id = body_data.get('user_id')
-        host_id = body_data.get('host_id')
-        
-        if not user_id or not host_id:
-            return {
-                'statusCode': 400,
-                'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                'body': json.dumps({'error': 'user_id and host_id are required'}),
-                'isBase64Encoded': False
-            }
-        
         oauth_token = os.environ.get('YANDEX_WEBMASTER_TOKEN')
         
         if not oauth_token:
@@ -74,7 +55,68 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         }
         
         issues: List[Dict[str, Any]] = []
+        user_info: Dict[str, Any] = {}
         
+        # Получаем список всех сайтов пользователя
+        hosts_url = 'https://api.webmaster.yandex.net/v4/user/hosts'
+        
+        try:
+            hosts_response = requests.get(hosts_url, headers=headers, timeout=10)
+            
+            if hosts_response.status_code != 200:
+                return {
+                    'statusCode': hosts_response.status_code,
+                    'headers': {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    'body': json.dumps({
+                        'error': 'Failed to connect to Yandex.Webmaster',
+                        'details': hosts_response.text
+                    }),
+                    'isBase64Encoded': False
+                }
+            
+            hosts_data = hosts_response.json()
+            
+            if 'hosts' not in hosts_data or len(hosts_data['hosts']) == 0:
+                return {
+                    'statusCode': 200,
+                    'headers': {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    'body': json.dumps({
+                        'issues': [],
+                        'message': 'Нет добавленных сайтов в Яндекс.Вебмастере'
+                    }),
+                    'isBase64Encoded': False
+                }
+            
+            # Берем первый сайт
+            first_host = hosts_data['hosts'][0]
+            host_id = first_host['host_id']
+            user_id = first_host['user_id']
+            host_url = first_host.get('unicode_host_url', first_host.get('ascii_host_url', 'unknown'))
+            
+            user_info = {
+                'host_url': host_url,
+                'verified': first_host.get('verified', False),
+                'total_hosts': len(hosts_data['hosts'])
+            }
+            
+        except Exception as e:
+            return {
+                'statusCode': 500,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': json.dumps({'error': f'Failed to get hosts list: {str(e)}'}),
+                'isBase64Encoded': False
+            }
+        
+        # Теперь получаем проблемы для найденного сайта
         indexing_url = f'https://api.webmaster.yandex.net/v4/user/{user_id}/hosts/{host_id}/summary'
         
         try:
@@ -143,7 +185,10 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             },
-            'body': json.dumps({'issues': issues}),
+            'body': json.dumps({
+                'issues': issues,
+                'user_info': user_info
+            }),
             'isBase64Encoded': False
         }
         

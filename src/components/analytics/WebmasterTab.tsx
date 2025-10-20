@@ -54,27 +54,18 @@ export default function WebmasterTab({ settings, webmasterIssues, loadingIssues 
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {!settings.yandex_webmaster_user_id ? (
-            <div className="flex flex-col items-center justify-center py-12 px-4">
-              <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mb-4">
-                <Icon name="FileSearch" size={32} className="text-blue-400" />
+          <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+            <div className="flex items-start gap-3">
+              <Icon name="Info" size={20} className="text-blue-400 flex-shrink-0 mt-0.5" />
+              <div className="text-sm text-gray-300">
+                <p className="font-medium text-white mb-1">Требуется OAuth токен</p>
+                <p className="mb-2">Для получения данных из Яндекс.Вебмастера нужно добавить OAuth токен в Secrets проекта.</p>
+                <p className="text-xs opacity-75">После добавления токена здесь автоматически появятся все проблемы сайта из Яндекс.Вебмастера</p>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Подключите Яндекс.Вебмастер</h3>
-              <p className="text-gray-400 text-center max-w-md mb-6">
-                Добавьте User ID из Яндекс.Вебмастера во вкладке "Метрики", чтобы получать замечания и рекомендации от Яндекса
-              </p>
-              <Button
-                onClick={() => {
-                  const metricsTab = document.querySelector('[value="metrics"]') as HTMLElement;
-                  metricsTab?.click();
-                }}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                <Icon name="Settings" size={16} className="mr-2" />
-                Настроить интеграцию
-              </Button>
             </div>
-          ) : loadingIssues ? (
+          </div>
+
+          {loadingIssues ? (
             <div className="flex flex-col items-center justify-center py-12 px-4">
               <Icon name="Loader2" className="animate-spin text-blue-400 mb-4" size={32} />
               <p className="text-gray-400">Загрузка замечаний из Яндекс.Вебмастера...</p>
