@@ -402,10 +402,10 @@ const CalcModal = ({ open, onOpenChange }: CalcModalProps) => {
       </Dialog>
 
       <OrderModal
-        open={isOrderModalOpen}
-        onOpenChange={setIsOrderModalOpen}
-        selectedServices={getSelectedServices()}
-        totalPrice={totalPrice}
+        isOpen={isOrderModalOpen}
+        onClose={() => setIsOrderModalOpen(false)}
+        services={getSelectedServices()}
+        total={totalPrice}
       />
     </>
   );
