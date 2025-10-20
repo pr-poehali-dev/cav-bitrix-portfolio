@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TabsContent } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import Icon from '@/components/ui/icon';
 
 interface AnalyticsSettings {
@@ -15,73 +19,236 @@ interface SeoTabProps {
   setSettings: (settings: AnalyticsSettings) => void;
 }
 
+interface SeoAnalysisResult {
+  title: string;
+  description: string;
+  h1_suggestions: string[];
+  keywords: string[];
+  improvements: string[];
+}
+
 export default function SeoTab({ settings, setSettings }: SeoTabProps) {
+  const [analyzing, setAnalyzing] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState<SeoAnalysisResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [pageUrl, setPageUrl] = useState('');
+  const [pageContent, setPageContent] = useState('');
+  const [currentTitle, setCurrentTitle] = useState('');
+  const [currentDescription, setCurrentDescription] = useState('');
+
+  const analyzePage = async () => {
+    if (!pageUrl || !pageContent) {
+      setError('Заполните URL и содержимое страницы');
+      return;
+    }
+
+    setAnalyzing(true);
+    setError(null);
+    setAnalysisResult(null);
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/7127ce9f-37a5-4bde-97f7-12edc35f6ab5', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url: pageUrl,
+          content: pageContent,
+          current_title: currentTitle,
+          current_description: currentDescription
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Ошибка анализа');
+      }
+
+      const data = await response.json();
+      setAnalysisResult(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Произошла ошибка');
+    } finally {
+      setAnalyzing(false);
+    }
+  };
+
   return (
     <TabsContent value="seo" className="space-y-6 mt-6">
       <Card className="bg-gray-800/50 border-gray-700">
         <CardHeader>
           <CardTitle className="text-white flex items-center gap-2">
             <Icon name="Sparkles" size={24} />
-            ИИ SEO-оптимизация
+            ИИ SEO-анализатор
           </CardTitle>
           <CardDescription className="text-gray-400">
-            Автоматическая оптимизация контента для поисковых систем
+            Получите рекомендации по оптимизации страниц для поисковых систем
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6">
           <div className="flex items-start gap-3 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
             <Icon name="Lightbulb" size={20} className="text-blue-400 flex-shrink-0 mt-0.5" />
             <div className="text-sm text-gray-300">
-              <p className="font-medium text-white mb-1">Автоматическая SEO-оптимизация</p>
-              <p>ИИ анализирует ваш контент и автоматически оптимизирует meta-теги, заголовки и описания для лучшего ранжирования в поисковых системах.</p>
+              <p className="font-medium text-white mb-1">Как это работает</p>
+              <p>Введите URL страницы и её содержимое. ИИ проанализирует контент и предложит оптимизированные meta-теги, заголовки и ключевые слова для лучшего ранжирования.</p>
             </div>
           </div>
 
-          <div className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg border border-gray-700">
-            <div className="flex items-center gap-3">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${settings.ai_seo_enabled ? 'bg-green-500/20' : 'bg-gray-700'}`}>
-                <Icon name={settings.ai_seo_enabled ? "CheckCircle" : "Circle"} size={24} className={settings.ai_seo_enabled ? 'text-green-400' : 'text-gray-500'} />
-              </div>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="pageUrl" className="text-gray-300 flex items-center gap-2 mb-2">
+                <Icon name="Link" size={16} />
+                URL страницы
+              </Label>
+              <Input
+                id="pageUrl"
+                placeholder="https://example.com/about"
+                value={pageUrl}
+                onChange={(e) => setPageUrl(e.target.value)}
+                className="bg-gray-900/50 border-gray-700 text-white"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="font-medium text-white">ИИ SEO</p>
-                <p className="text-sm text-gray-400">
-                  {settings.ai_seo_enabled ? 'Включено' : 'Выключено'}
-                </p>
+                <Label htmlFor="currentTitle" className="text-gray-300 mb-2 block">
+                  Текущий Title (опционально)
+                </Label>
+                <Input
+                  id="currentTitle"
+                  placeholder="Текущий заголовок страницы"
+                  value={currentTitle}
+                  onChange={(e) => setCurrentTitle(e.target.value)}
+                  className="bg-gray-900/50 border-gray-700 text-white"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="currentDescription" className="text-gray-300 mb-2 block">
+                  Текущее Description (опционально)
+                </Label>
+                <Input
+                  id="currentDescription"
+                  placeholder="Текущее описание"
+                  value={currentDescription}
+                  onChange={(e) => setCurrentDescription(e.target.value)}
+                  className="bg-gray-900/50 border-gray-700 text-white"
+                />
               </div>
             </div>
+
+            <div>
+              <Label htmlFor="pageContent" className="text-gray-300 flex items-center gap-2 mb-2">
+                <Icon name="FileText" size={16} />
+                Содержимое страницы
+              </Label>
+              <Textarea
+                id="pageContent"
+                placeholder="Вставьте текст страницы для анализа..."
+                value={pageContent}
+                onChange={(e) => setPageContent(e.target.value)}
+                className="bg-gray-900/50 border-gray-700 text-white min-h-[150px]"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Скопируйте основной текст страницы для анализа (до 3000 символов)
+              </p>
+            </div>
+
             <Button
-              onClick={() => {
-                setSettings({ ...settings, ai_seo_enabled: !settings.ai_seo_enabled });
-                localStorage.setItem('analytics_settings', JSON.stringify({ ...settings, ai_seo_enabled: !settings.ai_seo_enabled }));
-              }}
-              variant={settings.ai_seo_enabled ? "outline" : "default"}
-              className={settings.ai_seo_enabled ? 'border-gray-600 text-gray-300' : 'bg-blue-600 hover:bg-blue-700 text-white'}
+              onClick={analyzePage}
+              disabled={analyzing || !pageUrl || !pageContent}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
             >
-              {settings.ai_seo_enabled ? 'Выключить' : 'Включить'}
+              {analyzing ? (
+                <>
+                  <Icon name="Loader2" size={16} className="mr-2 animate-spin" />
+                  Анализирую...
+                </>
+              ) : (
+                <>
+                  <Icon name="Sparkles" size={16} className="mr-2" />
+                  Анализировать страницу
+                </>
+              )}
             </Button>
           </div>
 
-          {settings.ai_seo_enabled && (
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium text-white">Что оптимизируется:</h3>
-              <ul className="space-y-2 text-sm text-gray-300">
-                <li className="flex items-start gap-2">
-                  <Icon name="CheckCircle" size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                  <span>Title и meta description для каждой страницы</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CheckCircle" size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                  <span>Структура заголовков H1-H6</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CheckCircle" size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                  <span>Alt-теги для изображений</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon name="CheckCircle" size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                  <span>Внутренние ссылки и структура контента</span>
-                </li>
-              </ul>
+          {error && (
+            <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+              <div className="flex items-start gap-2">
+                <Icon name="AlertCircle" size={20} className="text-red-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-red-400">Ошибка</p>
+                  <p className="text-sm text-gray-300 mt-1">{error}</p>
+                  {error.includes('API key not configured') && (
+                    <p className="text-xs text-gray-400 mt-2">
+                      Добавьте OPENAI_API_KEY в секретах проекта
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {analysisResult && (
+            <div className="space-y-4 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+              <div className="flex items-center gap-2 mb-4">
+                <Icon name="CheckCircle" size={24} className="text-green-400" />
+                <h3 className="text-lg font-semibold text-white">Результаты анализа</h3>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-green-300 text-sm mb-1 block">Оптимизированный Title</Label>
+                  <div className="p-3 bg-gray-900/50 rounded border border-gray-700">
+                    <p className="text-white">{analysisResult.title}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-green-300 text-sm mb-1 block">Оптимизированное Description</Label>
+                  <div className="p-3 bg-gray-900/50 rounded border border-gray-700">
+                    <p className="text-white">{analysisResult.description}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-green-300 text-sm mb-2 block">Рекомендации по заголовкам H1</Label>
+                  <ul className="space-y-2">
+                    {analysisResult.h1_suggestions.map((suggestion, idx) => (
+                      <li key={idx} className="flex items-start gap-2 p-2 bg-gray-900/50 rounded border border-gray-700">
+                        <Icon name="Hash" size={16} className="text-blue-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-white text-sm">{suggestion}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <Label className="text-green-300 text-sm mb-2 block">Ключевые слова</Label>
+                  <div className="flex flex-wrap gap-2">
+                    {analysisResult.keywords.map((keyword, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm border border-blue-500/30"
+                      >
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-green-300 text-sm mb-2 block">Рекомендации по улучшению</Label>
+                  <ul className="space-y-2">
+                    {analysisResult.improvements.map((improvement, idx) => (
+                      <li key={idx} className="flex items-start gap-2 p-3 bg-gray-900/50 rounded border border-gray-700">
+                        <Icon name="Lightbulb" size={16} className="text-yellow-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-white text-sm">{improvement}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
           )}
         </CardContent>
