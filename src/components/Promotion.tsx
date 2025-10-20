@@ -7,10 +7,10 @@ const Promotion = () => {
   return (
     <section className="promotion bg-gray-50 dark:bg-gray-700">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
-        <div className="grid lg:grid-cols-2 gap-[76px] items-start min-h-[600px]">
+        <div className="grid lg:grid-cols-2 gap-[76px] lg:gap-[76px] gap-12 items-start min-h-[600px]">
           <div className="promotion-left space-y-8">
             <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">Продвижение</h2>
-            <div className="w-full h-96 bg-gradient-to-br from-purple-500/30 via-pink-500/20 to-rose-500/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm group hover:scale-[1.02] transition-all duration-500">
+            <div className="w-full h-96 lg:h-96 h-72 bg-gradient-to-br from-purple-500/30 via-pink-500/20 to-rose-500/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm group hover:scale-[1.02] transition-all duration-500">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-32 h-32 border-4 border-white/30 rounded-full animate-pulse" />
                 <div className="absolute w-24 h-24 border-4 border-white/40 rounded-full animate-ping" />
@@ -21,7 +21,7 @@ const Promotion = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-gradient-mid/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           </div>
-          <div className="promotion-right pt-[316px] min-h-full space-y-6">
+          <div className="promotion-right lg:pt-[316px] pt-0 min-h-full space-y-6">
             <a href="/services#promotion" className="icon-badge max-w-[195px] flex items-center gap-2 group/badge cursor-pointer">
               <img 
                 src="https://cdn.poehali.dev/files/9a3097d8-c2ab-4acb-917e-a6fb88252298.png" 

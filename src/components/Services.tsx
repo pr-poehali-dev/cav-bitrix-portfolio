@@ -12,14 +12,14 @@ const Services = () => {
   return (
     <section id="services" className="services bg-white dark:bg-gray-800">
       <div className="max-w-[1500px] w-full px-[50px] mx-auto">
-        <div className="grid lg:grid-cols-2 gap-[76px] items-start min-h-[600px]">
+        <div className="grid lg:grid-cols-2 gap-[76px] lg:gap-[76px] gap-12 items-start min-h-[600px]">
           <div className="services-left">
             <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">Услуги</h2>
-            <ul className="flex gap-[10px] list-none m-0 p-0">
+            <ul className="flex gap-[10px] list-none m-0 p-0 flex-wrap lg:flex-nowrap">
               {services.map((service, index) => (
                 <li 
                   key={index}
-                  className="card-item max-w-[282px] w-full flex flex-col justify-end group cursor-pointer"
+                  className="card-item max-w-[282px] lg:max-w-[282px] w-full lg:min-h-[321px] min-h-[240px] flex flex-col justify-end group cursor-pointer"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className={`mb-4 w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300`}>
@@ -30,7 +30,7 @@ const Services = () => {
               ))}
             </ul>
           </div>
-          <div className="services-right pt-[316px] min-h-full space-y-6">
+          <div className="services-right lg:pt-[316px] pt-0 min-h-full space-y-6">
             <a href="/services#additional" className="icon-badge max-w-[295px] flex items-center gap-2 group/badge cursor-pointer">
               <img 
                 src="https://cdn.poehali.dev/files/9a3097d8-c2ab-4acb-917e-a6fb88252298.png" 
