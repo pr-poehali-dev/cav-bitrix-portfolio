@@ -49,7 +49,7 @@ const HostingSelector = ({
             } ${option.id === 'poehali' ? 'relative overflow-hidden' : ''} ${
               option.id === 'vps' ? 'relative overflow-hidden border-primary border-2 bg-gradient-to-br from-primary/5 to-primary/10' : ''
             } ${
-              option.id === 'beget' ? 'relative overflow-hidden border-amber-400 border-2 bg-gradient-to-br from-amber-50 to-amber-100' : ''
+              option.id === 'beget' ? 'relative overflow-hidden border-amber-500 border-2 bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900/30 dark:to-amber-800/40' : ''
             }`}
             onClick={() => onHostingChange(option.id)}
           >
@@ -69,7 +69,7 @@ const HostingSelector = ({
             )}
             {option.id === 'beget' && (
               <div className="absolute top-2 right-2">
-                <span className="bg-amber-500 text-white text-xs px-3 py-1 rounded-full font-bold flex items-center gap-1">
+                <span className="bg-amber-600 text-white text-xs px-3 py-1 rounded-full font-bold flex items-center gap-1 shadow-md">
                   <Icon name="ShieldCheck" size={12} />
                   Проверенный
                 </span>
@@ -78,8 +78,8 @@ const HostingSelector = ({
             <div className="flex items-center gap-3 mb-3">
               <Checkbox checked={selectedHosting === option.id} />
               <div>
-                <h4 className="font-semibold text-lg">{option.title}</h4>
-                <p className="text-sm text-muted-foreground">{option.description}</p>
+                <h4 className={`font-semibold text-lg ${option.id === 'beget' ? 'text-gray-900 dark:text-white' : ''}`}>{option.title}</h4>
+                <p className={`text-sm ${option.id === 'beget' ? 'text-gray-700 dark:text-gray-200' : 'text-muted-foreground'}`}>{option.description}</p>
               </div>
             </div>
             {option.id === 'own' && (
@@ -110,23 +110,23 @@ const HostingSelector = ({
             )}
             {option.id === 'beget' && (
               <div className="mt-3">
-                <p className="text-primary font-bold text-xl mb-3">от 150 ₽/мес</p>
+                <p className="text-amber-700 dark:text-amber-400 font-bold text-xl mb-3">от 150 ₽/мес</p>
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-green-600">
+                  <div className="flex items-center gap-2 text-sm text-green-700 dark:text-green-400">
                     <Icon name="Check" size={14} />
-                    <span>Панель управления cPanel</span>
+                    <span className="text-gray-900 dark:text-gray-100">Панель управления cPanel</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-green-600">
+                  <div className="flex items-center gap-2 text-sm text-green-700 dark:text-green-400">
                     <Icon name="Check" size={14} />
-                    <span>Бесплатный SSL</span>
+                    <span className="text-gray-900 dark:text-gray-100">Бесплатный SSL</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-green-600">
+                  <div className="flex items-center gap-2 text-sm text-green-700 dark:text-green-400">
                     <Icon name="Check" size={14} />
-                    <span>Почтовые ящики</span>
+                    <span className="text-gray-900 dark:text-gray-100">Почтовые ящики</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-green-600">
+                  <div className="flex items-center gap-2 text-sm text-green-700 dark:text-green-400">
                     <Icon name="Check" size={14} />
-                    <span>Базы данных MySQL</span>
+                    <span className="text-gray-900 dark:text-gray-100">Базы данных MySQL</span>
                   </div>
                 </div>
               </div>
