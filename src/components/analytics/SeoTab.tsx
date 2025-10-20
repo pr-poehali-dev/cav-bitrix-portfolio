@@ -92,13 +92,24 @@ export default function SeoTab({ settings, setSettings }: SeoTabProps) {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Ошибка анализа');
+        const errorMsg = errorData.error || 'Ошибка анализа';
+        
+        if (errorMsg.includes('Country') || errorMsg.includes('not supported')) {
+          throw new Error('Для работы необходим OpenAI API ключ. Добавьте OPENAI_API_KEY в Secrets проекта. Получить ключ можно на https://platform.openai.com/api-keys');
+        }
+        
+        throw new Error(errorMsg);
       }
 
       const data = await response.json();
       setAnalysisResult(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Произошла ошибка');
+      const errorMessage = err instanceof Error ? err.message : 'Произошла ошибка';
+      setError(errorMessage);
+      
+      if (errorMessage.includes('OpenAI API')) {
+        console.log('🔑 Чтобы добавить OpenAI API ключ, откройте: https://editor.poehali.dev/secrets');
+      }
     } finally {
       setAnalyzing(false);
     }
@@ -250,15 +261,20 @@ export default function SeoTab({ settings, setSettings }: SeoTabProps) {
 
           {error && (
             <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-3">
                 <Icon name="AlertCircle" size={20} className="text-red-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-sm font-medium text-red-400">Ошибка</p>
-                  <p className="text-sm text-gray-300 mt-1">{error}</p>
-                  {error.includes('API key not configured') && (
-                    <p className="text-xs text-gray-400 mt-2">
-                      Добавьте OPENAI_API_KEY в секретах проекта
-                    </p>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-red-400 mb-1">Ошибка</p>
+                  <p className="text-sm text-gray-300 mb-3">{error}</p>
+                  {error.includes('OpenAI API') && (
+                    <Button
+                      onClick={() => window.open('https://editor.poehali.dev/secrets', '_blank')}
+                      size="sm"
+                      className="bg-blue-600 hover:bg-blue-700 text-white"
+                    >
+                      <Icon name="Key" size={14} className="mr-2" />
+                      Добавить OpenAI API ключ
+                    </Button>
                   )}
                 </div>
               </div>
