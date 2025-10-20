@@ -1,12 +1,20 @@
 import AdminLayout from "@/components/AdminLayout";
-import PortfolioAdmin from "@/components/admin/PortfolioAdmin";
+import PortfolioAdminComponent from "@/components/admin/PortfolioAdmin";
 
-const PortfolioAdminPage = () => {
+interface PortfolioAdminProps {
+  isEmbedded?: boolean;
+}
+
+const PortfolioAdmin = ({ isEmbedded = false }: PortfolioAdminProps) => {
+  if (isEmbedded) {
+    return <PortfolioAdminComponent />;
+  }
+
   return (
     <AdminLayout>
-      <PortfolioAdmin />
+      <PortfolioAdminComponent />
     </AdminLayout>
   );
 };
 
-export default PortfolioAdminPage;
+export default PortfolioAdmin;

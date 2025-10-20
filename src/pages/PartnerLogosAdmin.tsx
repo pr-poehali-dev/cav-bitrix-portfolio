@@ -1,7 +1,15 @@
 import PartnersAdmin from '@/components/admin/PartnersAdmin';
 import AdminLayout from '@/components/AdminLayout';
 
-export default function PartnerLogosAdmin() {
+interface PartnerLogosAdminProps {
+  isEmbedded?: boolean;
+}
+
+export default function PartnerLogosAdmin({ isEmbedded = false }: PartnerLogosAdminProps) {
+  if (isEmbedded) {
+    return <PartnersAdmin />;
+  }
+
   return (
     <AdminLayout>
       <div className="max-w-7xl mx-auto">
