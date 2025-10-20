@@ -65,9 +65,9 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="relative max-w-[1500px] w-full px-[50px] mx-auto py-8 flex-1 flex flex-col">
+      <div className="relative max-w-[1500px] w-full lg:px-[50px] px-4 mx-auto py-8 flex-1 flex flex-col">
         <div className="grid lg:grid-cols-2 gap-[76px] items-center flex-1">
-          <div className="header-left space-y-12 relative z-10 flex flex-col justify-center">
+          <div className="header-left space-y-12 relative z-10 flex flex-col justify-center lg:mt-0 mt-[130px]">
             <div className="header-bottom space-y-8">
               <h1 className="text-[clamp(60px,12vw,140px)] font-black leading-none m-0 bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent animate-gradient-shift bg-[length:200%_auto] [text-shadow:0_3px_12px_rgba(0,0,0,0.4)] dark:[text-shadow:0_4px_16px_rgba(0,0,0,0.7)]">
                 Pixel

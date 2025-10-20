@@ -100,7 +100,7 @@ export default function PartnerLogin() {
   if (showLogin) {
     return (
       <div 
-        className="fixed lg:top-4 lg:right-4 bottom-4 left-4 lg:bottom-auto lg:left-auto z-[99999999] bg-white dark:bg-gray-900 rounded-lg shadow-xl p-4 border-2 border-primary/20 w-72 animate-in lg:slide-in-from-right slide-in-from-bottom"
+        className="fixed lg:top-4 lg:right-4 bottom-4 left-4 right-4 lg:bottom-auto lg:left-auto z-[99999999] bg-white dark:bg-gray-900 rounded-lg shadow-xl p-4 border-2 border-primary/20 lg:w-72 w-auto animate-in lg:slide-in-from-right slide-in-from-bottom"
         onMouseLeave={() => {
           if (!isLoading) {
             setShowLogin(false);
@@ -200,16 +200,16 @@ export default function PartnerLogin() {
           ${isPartner ? 'bg-green-600 hover:bg-green-700' : 'bg-primary hover:bg-primary/90'} 
           text-white shadow-lg 
           lg:rounded-l-full lg:rounded-r-none rounded-r-full rounded-l-none
-          lg:pr-4 lg:pl-4 pr-4 pl-4
-          transition-all duration-300 ease-out
-          ${isHovered ? 'lg:translate-x-0 translate-x-0' : 'lg:translate-x-[calc(100%-48px)] -translate-x-[calc(100%-48px)]'}
+          lg:pr-4 lg:pl-4 pr-2 pl-2
+          transition-all duration-300 ease-out text-sm
+          ${isHovered ? 'lg:translate-x-0 translate-x-0' : 'lg:translate-x-[calc(100%-48px)] -translate-x-[calc(100%-60px)]'}
         `}
         size="sm"
       >
-        <Icon name={isPartner ? "BadgeCheck" : "Users"} size={20} className="flex-shrink-0" />
-        <span className={`ml-2 whitespace-nowrap overflow-hidden transition-all duration-300 ${isHovered ? 'w-auto opacity-100' : 'w-0 opacity-0'}`}>
+        <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 flex items-center ${isHovered ? 'w-auto opacity-100' : 'lg:w-0 lg:opacity-0 w-auto opacity-100'}`}>
           {isPartner ? `${partnerName} (${discountPercent}%)` : 'Вход для партнеров'}
         </span>
+        <Icon name={isPartner ? "BadgeCheck" : "Users"} size={20} className="flex-shrink-0 ml-2" />
       </Button>
     </div>
   );
