@@ -108,8 +108,12 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         ACL='public-read'
     )
     
-    # Формируем публичный URL
-    public_url = f'https://cdn.poehali.dev/files/{file_key.split("/")[-1]}'
+    # Формируем публичный URL для Yandex Object Storage
+    if 'yandexcloud' in s3_endpoint or 'storage.yandexcloud' in s3_endpoint:
+        public_url = f'https://{s3_bucket}.storage.yandexcloud.net/{file_key}'
+    else:
+        # Для других S3-совместимых хранилищ
+        public_url = f'{s3_endpoint}/{s3_bucket}/{file_key}'
     
     return {
         'statusCode': 200,
