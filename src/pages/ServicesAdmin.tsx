@@ -45,12 +45,7 @@ const ServicesAdmin = ({ isEmbedded = false }: ServicesAdminProps) => {
 
   const loadServices = async () => {
     try {
-      const adminSession = localStorage.getItem('admin_session');
-      const response = await fetch('https://functions.poehali.dev/91a16400-6baa-4748-9387-c7cdad64ce9c', {
-        headers: {
-          'X-Admin-Session': adminSession || ''
-        }
-      });
+      const response = await fetch('https://functions.poehali.dev/91a16400-6baa-4748-9387-c7cdad64ce9c');
 
       if (response.ok) {
         const data = await response.json();
@@ -69,14 +64,12 @@ const ServicesAdmin = ({ isEmbedded = false }: ServicesAdminProps) => {
     if (!editingService) return;
 
     try {
-      const adminSession = localStorage.getItem('admin_session');
       const method = editingService.id ? 'PUT' : 'POST';
       
       const response = await fetch('https://functions.poehali.dev/91a16400-6baa-4748-9387-c7cdad64ce9c', {
         method,
         headers: {
-          'Content-Type': 'application/json',
-          'X-Admin-Session': adminSession || ''
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(editingService)
       });
@@ -97,12 +90,10 @@ const ServicesAdmin = ({ isEmbedded = false }: ServicesAdminProps) => {
     if (!confirm('Вы уверены, что хотите удалить эту услугу?')) return;
 
     try {
-      const adminSession = localStorage.getItem('admin_session');
       const response = await fetch('https://functions.poehali.dev/91a16400-6baa-4748-9387-c7cdad64ce9c', {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
-          'X-Admin-Session': adminSession || ''
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ service_id: serviceId })
       });
@@ -119,12 +110,10 @@ const ServicesAdmin = ({ isEmbedded = false }: ServicesAdminProps) => {
 
   const handleToggleActive = async (service: Service) => {
     try {
-      const adminSession = localStorage.getItem('admin_session');
       const response = await fetch('https://functions.poehali.dev/91a16400-6baa-4748-9387-c7cdad64ce9c', {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
-          'X-Admin-Session': adminSession || ''
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           service_id: service.service_id,

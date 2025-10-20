@@ -1,19 +1,19 @@
 {
   "tests": [
     {
-      "name": "Get all services without auth",
+      "name": "Get all services",
       "method": "GET",
-      "expectedStatus": 401,
+      "expectedStatus": 200,
       "expectedBody": {
-        "error": "string"
+        "services": "array"
       },
       "bodyMatcher": "partial"
     },
     {
-      "name": "Get all services with auth",
+      "name": "Get services by category",
       "method": "GET",
-      "headers": {
-        "X-Admin-Session": "test-session"
+      "queryParams": {
+        "category": "development"
       },
       "expectedStatus": 200,
       "expectedBody": {
