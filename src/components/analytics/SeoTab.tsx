@@ -40,11 +40,11 @@ export default function SeoTab({ settings, setSettings }: SeoTabProps) {
 
   useEffect(() => {
     const loadPublicPageContent = async () => {
-      const publicUrl = window.location.origin + '/';
+      const publicUrl = window.location.origin;
       setPageUrl(publicUrl);
 
       try {
-        const response = await fetch(publicUrl);
+        const response = await fetch('/index.html');
         const html = await response.text();
         
         const parser = new DOMParser();
@@ -55,21 +55,13 @@ export default function SeoTab({ settings, setSettings }: SeoTabProps) {
         setCurrentTitle(metaTitle);
         setCurrentDescription(metaDescription);
 
-        const root = doc.querySelector('#root');
-        if (root) {
-          const clonedRoot = root.cloneNode(true) as HTMLElement;
-          
-          clonedRoot.querySelectorAll('script, style, noscript, nav, header, footer').forEach(el => el.remove());
-          
-          const mainContent = clonedRoot.textContent || '';
-          const cleanContent = mainContent.replace(/\s+/g, ' ').trim();
-          const summary = cleanContent.substring(0, 3000);
-          setPageContent(summary);
-        }
+        const keywords = doc.querySelector('meta[name="keywords"]')?.getAttribute('content') || '';
+        const contentSummary = `${metaDescription} Ключевые слова: ${keywords}`.trim();
+        
+        setPageContent(contentSummary || 'Веб-студия по разработке и продвижению сайтов. Современный дизайн, адаптивная вёрстка, SEO-оптимизация.');
       } catch (error) {
-        console.error('Failed to load public page content:', error);
-        const fallback = 'Не удалось загрузить содержимое публичной страницы. Введите краткое описание вашего сайта вручную.';
-        setPageContent(fallback);
+        console.error('Failed to load index.html:', error);
+        setPageContent('Веб-студия по разработке и продвижению сайтов. Современный дизайн, адаптивная вёрстка, SEO-оптимизация.');
       }
     };
 
