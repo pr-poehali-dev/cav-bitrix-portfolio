@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import ContactModal from './ContactModal';
+import CalcModal from './CalcModal';
 
 const Footer = () => {
   const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [calcModalOpen, setCalcModalOpen] = useState(false);
   const [logoUrl, setLogoUrl] = useState('https://cdn.poehali.dev/files/5e53ea79-1c81-4c3f-847b-e8a82a5743c2.png');
 
   useEffect(() => {
@@ -52,6 +54,10 @@ const Footer = () => {
               Услуги
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
             </a>
+            <button onClick={() => setCalcModalOpen(true)} className="nav-link-custom relative group dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.6)] text-left">
+              Калькулятор
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+            </button>
             <a href="#portfolio" className="nav-link-custom relative group dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
               Портфолио
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
@@ -98,6 +104,7 @@ const Footer = () => {
       </div>
       
       <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
+      <CalcModal open={calcModalOpen} onOpenChange={setCalcModalOpen} />
     </footer>
   );
 };

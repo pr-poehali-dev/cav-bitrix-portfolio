@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import ContactModal from './ContactModal';
+import CalcModal from './CalcModal';
 import { useTheme } from '@/contexts/ThemeContext';
 import Icon from '@/components/ui/icon';
 
@@ -7,6 +8,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [calcModalOpen, setCalcModalOpen] = useState(false);
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const [logoUrl, setLogoUrl] = useState('https://cdn.poehali.dev/files/5e53ea79-1c81-4c3f-847b-e8a82a5743c2.png');
   const { theme, setTheme } = useTheme();
@@ -147,9 +149,13 @@ const Header = () => {
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
           <a href="/#services" className="nav-link-custom relative group" onClick={() => setMenuOpen(false)}>
-            Наши услуги
+            Услуги
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
+          <button onClick={() => { setCalcModalOpen(true); setMenuOpen(false); }} className="nav-link-custom relative group text-left">
+            Калькулятор
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
+          </button>
           <a href="/#portfolio" className="nav-link-custom relative group" onClick={() => setMenuOpen(false)}>
             Портфолио
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
@@ -168,6 +174,7 @@ const Header = () => {
       </nav>
       
       <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
+      <CalcModal open={calcModalOpen} onOpenChange={setCalcModalOpen} />
     </>
   );
 };
