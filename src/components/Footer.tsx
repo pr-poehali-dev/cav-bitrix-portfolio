@@ -39,7 +39,7 @@ const Footer = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-gradient-start/5 via-transparent to-transparent pointer-events-none dark:from-gradient-start/10" />
       
       <div className="max-w-[1570px] w-full px-[50px] mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-8 border-b border-gray-200 dark:border-gray-800">
+        <div className="hidden md:flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-8 border-b border-gray-200 dark:border-gray-800">
           <div className="logo group">
             <a href="/" className="inline-block transition-transform hover:scale-105">
               <img 
