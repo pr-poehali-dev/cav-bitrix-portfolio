@@ -50,7 +50,7 @@ const PartnersCarousel = () => {
           <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white/50 dark:from-gray-800/80 to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white/50 dark:from-gray-800/80 to-transparent z-10 pointer-events-none" />
           
-          <div className="flex animate-carousel hover:[animation-play-state:paused]">
+          <div className="flex animate-carousel md:animate-carousel animate-carousel-fast hover:[animation-play-state:paused]">
             {doubledPartners.map((partner, index) => (
               <a
                 key={`${partner.id}-${index}`}

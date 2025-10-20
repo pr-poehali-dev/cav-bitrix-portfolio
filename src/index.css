@@ -237,6 +237,10 @@
   animation: carousel 30s linear infinite;
 }
 
+.animate-carousel-fast {
+  animation: carousel 15s linear infinite;
+}
+
 .animate-float-horizontal {
   animation: float-horizontal 30s ease-in-out infinite;
 }
