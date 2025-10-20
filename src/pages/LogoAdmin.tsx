@@ -59,21 +59,38 @@ const LogoAdmin = ({ isEmbedded = false }: LogoAdminProps) => {
   };
 
   const uploadToS3 = async (file: File): Promise<string> => {
-    const formData = new FormData();
-    formData.append('file', file);
+    // Конвертируем файл в base64
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        try {
+          const base64String = reader.result as string;
+          
+          const response = await fetch('https://functions.poehali.dev/1103293c-17a5-453c-b290-c1c376ead996', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              image: base64String.split(',')[1], // Убираем префикс data:image/...;base64,
+              filename: file.name
+            }),
+          });
 
-    const response = await fetch('https://functions.poehali.dev/1103293c-17a5-453c-b290-c1c376ead996', {
-      method: 'POST',
-      body: formData,
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Ошибка загрузки: ${errorText}`);
+          }
+
+          const data = await response.json();
+          resolve(data.url);
+        } catch (error) {
+          reject(error);
+        }
+      };
+      reader.onerror = () => reject(new Error('Ошибка чтения файла'));
+      reader.readAsDataURL(file);
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Ошибка загрузки файла: ${errorText}`);
-    }
-
-    const data = await response.json();
-    return data.url;
   };
 
   const handleUpload = async () => {
