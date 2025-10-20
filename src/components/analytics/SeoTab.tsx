@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TabsContent } from '@/components/ui/tabs';
@@ -37,6 +37,20 @@ export default function SeoTab({ settings, setSettings }: SeoTabProps) {
   const [pageContent, setPageContent] = useState('');
   const [currentTitle, setCurrentTitle] = useState('');
   const [currentDescription, setCurrentDescription] = useState('');
+
+  useEffect(() => {
+    const currentUrl = window.location.origin;
+    setPageUrl(currentUrl);
+
+    const metaTitle = document.querySelector('title')?.textContent || '';
+    const metaDescription = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+    setCurrentTitle(metaTitle);
+    setCurrentDescription(metaDescription);
+
+    const mainContent = document.querySelector('#root')?.textContent || '';
+    const cleanContent = mainContent.replace(/\s+/g, ' ').trim().substring(0, 3000);
+    setPageContent(cleanContent);
+  }, []);
 
   const analyzePage = async () => {
     if (!pageUrl || !pageContent) {
@@ -134,8 +148,8 @@ export default function SeoTab({ settings, setSettings }: SeoTabProps) {
           <div className="flex items-start gap-3 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
             <Icon name="Lightbulb" size={20} className="text-blue-400 flex-shrink-0 mt-0.5" />
             <div className="text-sm text-gray-300">
-              <p className="font-medium text-white mb-1">Как это работает</p>
-              <p>Введите URL страницы и её содержимое. ИИ проанализирует контент и предложит оптимизированные meta-теги, заголовки и ключевые слова для лучшего ранжирования.</p>
+              <p className="font-medium text-white mb-1">Автозаполнение</p>
+              <p>Поля заполнились автоматически данными текущей страницы. Отредактируйте их при необходимости и нажмите "Анализировать".</p>
             </div>
           </div>
 

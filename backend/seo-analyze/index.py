@@ -86,7 +86,7 @@ Respond ONLY with valid JSON in this exact format:
 }}"""
     
     try:
-        response = openai.chat.completions.create(
+        response = openai.ChatCompletion.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are an expert SEO consultant. Always respond with valid JSON only, no additional text."},
@@ -96,7 +96,7 @@ Respond ONLY with valid JSON in this exact format:
             max_tokens=1000
         )
         
-        ai_response = response.choices[0].message.content.strip()
+        ai_response = response['choices'][0]['message']['content'].strip()
         
         if ai_response.startswith('```json'):
             ai_response = ai_response[7:]
