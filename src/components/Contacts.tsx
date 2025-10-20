@@ -74,8 +74,6 @@ const ContactInfo = () => {
                   <div className="flex-1">
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Режим работы</h3>
                     <p className="text-gray-700 dark:text-gray-300">Пн-Пт: 9:00-18:00</p>
-                    <p className="text-gray-700 dark:text-gray-300 mt-1">Поддержка: 24/7</p>
-                    <p className="text-lg font-semibold text-gray-900 dark:text-white mt-2">8 (800) 333-72-27</p>
                   </div>
                 </div>
               </div>
