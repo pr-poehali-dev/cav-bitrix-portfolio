@@ -39,9 +39,19 @@ const OurServices = () => {
   const [selectedVPSTariff, setSelectedVPSTariff] = useState<string>('');
   const [hostingPeriod, setHostingPeriod] = useState<6 | 12>(12);
 
+  const [openSections, setOpenSections] = useState<string[]>(['development']);
+
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {
+      if (hash === '#development') {
+        setOpenSections(['development']);
+      } else if (hash === '#promotion') {
+        setOpenSections(['promotion']);
+      } else if (hash === '#additional') {
+        setOpenSections(['additional']);
+      }
+      
       setTimeout(() => {
         const element = document.querySelector(hash);
         if (element) {
@@ -229,15 +239,15 @@ const OurServices = () => {
           </p>
         </div>
 
-        <Accordion type="multiple" className="space-y-4" defaultValue={['development']}>
-          <AccordionItem value="development" className="border rounded-lg bg-white">
+        <Accordion type="multiple" className="space-y-4" value={openSections} onValueChange={setOpenSections}>
+          <AccordionItem value="development" id="development" className="border rounded-lg bg-white dark:bg-gray-900">
             <AccordionTrigger className="px-6 hover:no-underline">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
                   <Icon name="Code" className="text-primary" size={24} />
                 </div>
                 <div className="text-left">
-                  <h2 className="text-2xl font-bold">Разработка</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Разработка</h2>
                   <p className="text-sm text-muted-foreground font-normal">Создание сайтов под ключ</p>
                 </div>
               </div>
@@ -278,14 +288,14 @@ const OurServices = () => {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="promotion" className="border rounded-lg bg-white">
+          <AccordionItem value="promotion" id="promotion" className="border rounded-lg bg-white dark:bg-gray-900">
             <AccordionTrigger className="px-6 hover:no-underline">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
                   <Icon name="TrendingUp" className="text-primary" size={24} />
                 </div>
                 <div className="text-left">
-                  <h2 className="text-2xl font-bold">Продвижение</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Продвижение</h2>
                   <p className="text-sm text-muted-foreground font-normal">Привлечение клиентов и рост продаж</p>
                 </div>
               </div>
@@ -304,14 +314,14 @@ const OurServices = () => {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="additional" className="border rounded-lg bg-white">
+          <AccordionItem value="additional" id="additional" className="border rounded-lg bg-white dark:bg-gray-900">
             <AccordionTrigger className="px-6 hover:no-underline">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
                   <Icon name="Plus" className="text-primary" size={24} />
                 </div>
                 <div className="text-left">
-                  <h2 className="text-2xl font-bold">Дополнительные услуги</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Дополнительные услуги</h2>
                   <p className="text-sm text-muted-foreground font-normal">Поддержка и развитие проекта</p>
                 </div>
               </div>

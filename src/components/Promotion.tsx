@@ -5,7 +5,7 @@ const Promotion = () => {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   
   return (
-    <section className="promotion bg-gray-50 dark:bg-gray-700">
+    <section id="promotion" className="promotion bg-gray-50 dark:bg-gray-700">
       <div className="max-w-[1500px] w-full lg:px-[50px] px-4 mx-auto">
         <div className="grid lg:grid-cols-2 gap-[76px] lg:gap-[76px] gap-12 items-start min-h-[600px]">
           <div className="promotion-left space-y-8">

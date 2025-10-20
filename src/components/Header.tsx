@@ -123,7 +123,7 @@ const Header = () => {
             Разработка
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
-          <a href="/#blok-prom" className="nav-link-custom relative group" onClick={() => setMenuOpen(false)}>
+          <a href="/#promotion" className="nav-link-custom relative group" onClick={() => setMenuOpen(false)}>
             Продвижение
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
@@ -131,7 +131,7 @@ const Header = () => {
             Новости
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
-          <a href="/services" className="nav-link-custom relative group" onClick={() => setMenuOpen(false)}>
+          <a href="/#services" className="nav-link-custom relative group" onClick={() => setMenuOpen(false)}>
             Наши услуги
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-gradient-start to-gradient-mid transition-all duration-300 group-hover:w-full" />
           </a>
