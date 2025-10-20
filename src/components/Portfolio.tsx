@@ -82,7 +82,7 @@ const Portfolio = () => {
           <div className="w-[95%]">
             <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">Портфолио</h2>
             
-            <div className="mb-8 overflow-hidden">
+            <div className="mb-8 overflow-hidden hidden md:block">
               <div className="flex gap-6 animate-marquee whitespace-nowrap">
                 {doubledFirstHalf.map((project, i) => (
                   <button 
@@ -116,9 +116,43 @@ const Portfolio = () => {
               </div>
             </div>
 
+            <div className="mb-8 overflow-hidden md:hidden">
+              <div className="flex gap-6 animate-marquee whitespace-nowrap">
+                {doubledProjects.map((project, i) => (
+                  <button 
+                    key={`${project.id}-${i}`}
+                    onClick={() => setSelectedProject(project)}
+                    className="inline-block flex-shrink-0 group"
+                  >
+                    <div className="w-80 h-64 rounded-2xl relative overflow-hidden border border-gray-200 dark:border-gray-700 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl">
+                      <img 
+                        src={project.preview_image_url || project.image_url} 
+                        alt={project.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
+                        <div className="text-white text-xl font-bold mb-2 dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.8)]">
+                          {project.title}
+                        </div>
+                        {project.description && (
+                          <p className="text-white/90 text-sm text-center mb-3 dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.6)] line-clamp-2">
+                            {project.description}
+                          </p>
+                        )}
+                        <div className="bg-gradient-to-r from-gradient-start to-gradient-mid text-white px-4 py-2 rounded-full text-sm font-semibold">
+                          Смотреть проект
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {secondHalf.length > 0 && (
               <>
-                <div className="py-8 border-y border-gradient-start/20 overflow-hidden my-12 relative">
+                <div className="py-8 border-y border-gradient-start/20 overflow-hidden my-12 relative hidden md:block">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gradient-start/5 to-transparent" />
                   <div className="flex gap-16 animate-marquee-slow whitespace-nowrap text-2xl font-semibold">
                     {['Разработка', 'Оптимизация', 'Веб-дизайн', 'Разработка', 'Оптимизация', 'Веб-дизайн', 'Разработка', 'Оптимизация'].map((text, i) => (
@@ -129,7 +163,7 @@ const Portfolio = () => {
                   </div>
                 </div>
 
-                <div className="overflow-hidden">
+                <div className="overflow-hidden hidden md:block">
                   <div className="flex gap-6 animate-marquee-reverse whitespace-nowrap">
                     {doubledSecondHalf.map((project, i) => (
                       <button 
