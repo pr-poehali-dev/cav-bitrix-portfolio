@@ -116,22 +116,22 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <div className="mb-8 overflow-hidden md:hidden">
-              <div className="flex gap-6 animate-marquee whitespace-nowrap">
-                {doubledProjects.map((project, i) => (
+            <div className="mb-8 overflow-x-auto md:hidden scroll-smooth snap-x snap-mandatory scrollbar-hide">
+              <div className="flex gap-6 px-4">
+                {projects.map((project) => (
                   <button 
-                    key={`${project.id}-${i}`}
+                    key={project.id}
                     onClick={() => setSelectedProject(project)}
-                    className="inline-block flex-shrink-0 group"
+                    className="inline-block flex-shrink-0 group snap-center"
                   >
-                    <div className="w-80 h-64 rounded-2xl relative overflow-hidden border border-gray-200 dark:border-gray-700 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl">
+                    <div className="w-80 h-64 rounded-2xl relative overflow-hidden border border-gray-200 dark:border-gray-700 backdrop-blur-sm transition-all duration-500 active:scale-95">
                       <img 
                         src={project.preview_image_url || project.image_url} 
                         alt={project.title}
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
                         <div className="text-white text-xl font-bold mb-2 dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.8)]">
                           {project.title}
                         </div>
