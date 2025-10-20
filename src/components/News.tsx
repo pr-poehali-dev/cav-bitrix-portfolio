@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Icon from '@/components/ui/icon';
 
 interface NewsItem {
@@ -20,6 +20,8 @@ const News = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Все');
   const [categories, setCategories] = useState<string[]>(['Все']);
   const [showAll, setShowAll] = useState(false);
+  const newsGridRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -62,6 +64,34 @@ const News = () => {
       'h-[330px]', 'h-[370px]', 'h-[400px]'
     ];
     return patterns[index % patterns.length];
+  };
+
+  const handleShowAllToggle = () => {
+    if (!showAll) {
+      setShowAll(true);
+      setTimeout(() => {
+        if (newsGridRef.current) {
+          const firstNewCard = newsGridRef.current.children[4] as HTMLElement;
+          if (firstNewCard) {
+            const offset = 100;
+            const elementPosition = firstNewCard.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - offset;
+            
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        }
+      }, 100);
+    } else {
+      if (buttonRef.current) {
+        buttonRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      setTimeout(() => {
+        setShowAll(false);
+      }, 300);
+    }
   };
 
   return (
@@ -173,6 +203,7 @@ const News = () => {
 
             <div className="hidden md:block">
               <div 
+                ref={newsGridRef}
                 className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4 transition-all duration-1000 ease-in-out overflow-hidden"
                 style={{
                   maxHeight: showAll ? `${filteredNews.length * 500}px` : '2000px'
@@ -246,7 +277,8 @@ const News = () => {
               {filteredNews.length > 4 && (
                 <div className="flex justify-center mt-12">
                   <button
-                    onClick={() => setShowAll(!showAll)}
+                    ref={buttonRef}
+                    onClick={handleShowAllToggle}
                     className="px-8 py-4 bg-gradient-to-r from-gradient-start to-gradient-mid text-white rounded-full font-semibold text-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
                   >
                     {showAll ? (
