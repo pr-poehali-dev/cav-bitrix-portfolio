@@ -12,6 +12,7 @@ import ConsentAdmin from "./pages/ConsentAdmin";
 import AdminLogin from "./pages/AdminLogin";
 import LoginHistory from "./pages/LoginHistory";
 import ChangePassword from "./pages/ChangePassword";
+import SecurityAdmin from "./pages/SecurityAdmin";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import TermsOfUse from "./pages/TermsOfUse";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -46,6 +47,7 @@ const App = () => (
             <Route path="/admin/partner-logos" element={<AdminProtectedRoute><PartnerLogosAdmin /></AdminProtectedRoute>} />
             <Route path="/admin/portfolio" element={<AdminProtectedRoute><PortfolioAdmin /></AdminProtectedRoute>} />
             <Route path="/admin/analytics" element={<AdminProtectedRoute><Analytics /></AdminProtectedRoute>} />
+            <Route path="/admin/security" element={<AdminProtectedRoute><SecurityAdmin /></AdminProtectedRoute>} />
             <Route path="/admin/login-history" element={<AdminProtectedRoute><LoginHistory /></AdminProtectedRoute>} />
             <Route path="/admin/change-password" element={<AdminProtectedRoute><ChangePassword /></AdminProtectedRoute>} />
             <Route path="/test-s3" element={<TestS3Upload />} />

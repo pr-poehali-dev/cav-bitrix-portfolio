@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, Shield, FileCheck, LayoutDashboard, LogOut, Key, History, Users, BarChart3, FolderKanban } from 'lucide-react';
+import { Home, Shield, FileCheck, LayoutDashboard, LogOut, Users, BarChart3, FolderKanban, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface AdminLayoutProps {
@@ -17,8 +17,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     { path: '/admin/partners', label: 'Партнёры', icon: Users },
     { path: '/admin/content', label: 'Контент', icon: FolderKanban },
     { path: '/admin/analytics', label: 'Аналитика и SEO', icon: BarChart3 },
-    { path: '/admin/login-history', label: 'История входов', icon: History },
-    { path: '/admin/change-password', label: 'Сменить пароль', icon: Key },
+    { path: '/admin/security', label: 'Безопасность', icon: ShieldCheck },
   ];
 
   const isActive = (path: string) => location.pathname === path;

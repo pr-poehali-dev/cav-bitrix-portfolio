@@ -29,7 +29,11 @@ interface LoginLogsResponse {
   };
 }
 
-const LoginHistory = () => {
+interface LoginHistoryProps {
+  isEmbedded?: boolean;
+}
+
+const LoginHistory = ({ isEmbedded = false }: LoginHistoryProps) => {
   const { data, isLoading } = useQuery<LoginLogsResponse>({
     queryKey: ['admin-login-logs'],
     queryFn: async () => {
@@ -57,32 +61,40 @@ const LoginHistory = () => {
     return ua.substring(0, maxLength) + '...';
   };
 
+  const loadingContent = (
+    <div className="animate-pulse space-y-4">
+      <div className="h-12 bg-gray-700 rounded w-1/3"></div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="h-32 bg-gray-700 rounded"></div>
+        ))}
+      </div>
+    </div>
+  );
+
   if (isLoading) {
+    if (isEmbedded) {
+      return loadingContent;
+    }
     return (
       <AdminLayout>
         <div className="max-w-7xl mx-auto">
-          <div className="animate-pulse space-y-4">
-            <div className="h-12 bg-gray-700 rounded w-1/3"></div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-32 bg-gray-700 rounded"></div>
-              ))}
-            </div>
-          </div>
+          {loadingContent}
         </div>
       </AdminLayout>
     );
   }
 
-  return (
-    <AdminLayout>
-      <div className="max-w-7xl mx-auto space-y-8">
+  const content = (
+    <div className="space-y-8">
+      {!isEmbedded && (
         <div>
           <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
             История входов
           </h1>
           <p className="text-gray-400">Мониторинг попыток входа в админ-панель</p>
         </div>
+      )}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card className="bg-gray-800/50 border-gray-700 backdrop-blur">
@@ -169,6 +181,17 @@ const LoginHistory = () => {
             </div>
           </CardContent>
         </Card>
+    </div>
+  );
+
+  if (isEmbedded) {
+    return content;
+  }
+
+  return (
+    <AdminLayout>
+      <div className="max-w-7xl mx-auto">
+        {content}
       </div>
     </AdminLayout>
   );

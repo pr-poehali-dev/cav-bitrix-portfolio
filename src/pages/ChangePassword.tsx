@@ -7,7 +7,11 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Key, CheckCircle, AlertCircle, Copy, Check } from 'lucide-react';
 import AdminLayout from '@/components/AdminLayout';
 
-const ChangePassword = () => {
+interface ChangePasswordProps {
+  isEmbedded?: boolean;
+}
+
+const ChangePassword = ({ isEmbedded = false }: ChangePasswordProps) => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -75,15 +79,16 @@ const ChangePassword = () => {
     }
   };
 
-  return (
-    <AdminLayout>
-      <div className="max-w-2xl mx-auto space-y-6">
+  const content = (
+    <div className="space-y-6">
+      {!isEmbedded && (
         <div>
           <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
             Смена пароля
           </h1>
           <p className="text-gray-400">Измените пароль администратора</p>
         </div>
+      )}
 
         <Card className="bg-gray-800/50 border-gray-700 backdrop-blur">
           <CardHeader>
@@ -228,6 +233,17 @@ const ChangePassword = () => {
             </CardContent>
           </Card>
         )}
+    </div>
+  );
+
+  if (isEmbedded) {
+    return content;
+  }
+
+  return (
+    <AdminLayout>
+      <div className="max-w-2xl mx-auto">
+        {content}
       </div>
     </AdminLayout>
   );
