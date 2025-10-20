@@ -1,8 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ContactModal from './ContactModal';
 
 const Footer = () => {
   const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [logoUrl, setLogoUrl] = useState('https://cdn.poehali.dev/files/5e53ea79-1c81-4c3f-847b-e8a82a5743c2.png');
+
+  useEffect(() => {
+    const savedLogo = localStorage.getItem('site_logo');
+    if (savedLogo) {
+      setLogoUrl(savedLogo);
+    }
+
+    const handleLogoUpdate = (event: CustomEvent) => {
+      setLogoUrl(event.detail);
+    };
+
+    window.addEventListener('logoUpdated', handleLogoUpdate as EventListener);
+    return () => window.removeEventListener('logoUpdated', handleLogoUpdate as EventListener);
+  }, []);
   
   return (
     <footer className="footer pt-16 pb-8 relative">
@@ -13,7 +28,7 @@ const Footer = () => {
           <div className="logo group">
             <a href="/" className="inline-block transition-transform hover:scale-105">
               <img 
-                src="https://cdn.poehali.dev/files/5e53ea79-1c81-4c3f-847b-e8a82a5743c2.png" 
+                src={logoUrl} 
                 alt="Logo" 
                 className="w-20 h-20 object-contain drop-shadow-lg group-hover:drop-shadow-[0_0_15px_rgba(99,102,241,0.5)] transition-all duration-300"
               />
