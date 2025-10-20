@@ -207,10 +207,10 @@ const ServicesAdmin = ({ isEmbedded = false }: ServicesAdminProps) => {
                       <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                         <SelectValue placeholder="Выберите категорию" />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-800 border-gray-700 text-white">
-                        <SelectItem value="development" className="text-white hover:bg-gray-700">Разработка</SelectItem>
-                        <SelectItem value="promotion" className="text-white hover:bg-gray-700">Продвижение</SelectItem>
-                        <SelectItem value="additional" className="text-white hover:bg-gray-700">Дополнительные услуги</SelectItem>
+                      <SelectContent className="bg-gray-800 border-gray-700 text-white z-[100]">
+                        <SelectItem value="development" className="text-white hover:bg-gray-700 cursor-pointer">Разработка</SelectItem>
+                        <SelectItem value="promotion" className="text-white hover:bg-gray-700 cursor-pointer">Продвижение</SelectItem>
+                        <SelectItem value="additional" className="text-white hover:bg-gray-700 cursor-pointer">Дополнительные услуги</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
