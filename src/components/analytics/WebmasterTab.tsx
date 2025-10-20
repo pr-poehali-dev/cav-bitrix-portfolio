@@ -57,10 +57,26 @@ export default function WebmasterTab({ settings, webmasterIssues, loadingIssues 
           <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
             <div className="flex items-start gap-3">
               <Icon name="Info" size={20} className="text-blue-400 flex-shrink-0 mt-0.5" />
-              <div className="text-sm text-gray-300">
-                <p className="font-medium text-white mb-1">Требуется OAuth токен</p>
-                <p className="mb-2">Для получения данных из Яндекс.Вебмастера нужно добавить OAuth токен в Secrets проекта.</p>
-                <p className="text-xs opacity-75">После добавления токена здесь автоматически появятся все проблемы сайта из Яндекс.Вебмастера</p>
+              <div className="text-sm text-gray-300 flex-1">
+                <p className="font-medium text-white mb-2">Как получить OAuth токен:</p>
+                <ol className="list-decimal list-inside space-y-1 mb-3 text-xs">
+                  <li>Откройте <a href="https://webmaster.yandex.ru" target="_blank" className="text-blue-400 underline">Яндекс.Вебмастер</a> и войдите в аккаунт</li>
+                  <li>Нажмите F12 → вкладка Network (Сеть)</li>
+                  <li>Обновите страницу и найдите любой запрос к api.webmaster.yandex.net</li>
+                  <li>Скопируйте значение заголовка Authorization (после слова "OAuth")</li>
+                  <li>Нажмите кнопку ниже и вставьте скопированный токен</li>
+                </ol>
+                <Button
+                  onClick={() => {
+                    window.open('https://editor.poehali.dev/secrets', '_blank');
+                  }}
+                  size="sm"
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <Icon name="Key" size={14} className="mr-2" />
+                  Добавить токен в Secrets
+                </Button>
+                <p className="text-xs opacity-75 mt-2">После добавления токена обновите страницу - все проблемы сайта появятся автоматически</p>
               </div>
             </div>
           </div>
