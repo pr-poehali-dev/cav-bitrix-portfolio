@@ -29,8 +29,10 @@ interface SeoAnalysisResult {
 
 export default function SeoTab({ settings, setSettings }: SeoTabProps) {
   const [analyzing, setAnalyzing] = useState(false);
+  const [applying, setApplying] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<SeoAnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [pageUrl, setPageUrl] = useState('');
   const [pageContent, setPageContent] = useState('');
   const [currentTitle, setCurrentTitle] = useState('');
@@ -69,6 +71,50 @@ export default function SeoTab({ settings, setSettings }: SeoTabProps) {
       setError(err instanceof Error ? err.message : 'Произошла ошибка');
     } finally {
       setAnalyzing(false);
+    }
+  };
+
+  const applySeoToPage = async () => {
+    if (!analysisResult) return;
+
+    setApplying(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/23efbca4-f3c3-48b8-afb7-a2e528bf68f9', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          page_path: pageUrl,
+          title: analysisResult.title,
+          description: analysisResult.description,
+          keywords: analysisResult.keywords
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Ошибка применения');
+      }
+
+      const data = await response.json();
+      
+      const blob = new Blob([data.html_content], { type: 'text/html' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      setSuccess('SEO применено! Файл index.html скачан. Замените им текущий файл в корне проекта.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Произошла ошибка');
+    } finally {
+      setApplying(false);
     }
   };
 
@@ -247,6 +293,36 @@ export default function SeoTab({ settings, setSettings }: SeoTabProps) {
                       </li>
                     ))}
                   </ul>
+                </div>
+
+                <Button
+                  onClick={applySeoToPage}
+                  disabled={applying}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white mt-4"
+                >
+                  {applying ? (
+                    <>
+                      <Icon name="Loader2" size={16} className="mr-2 animate-spin" />
+                      Применяю...
+                    </>
+                  ) : (
+                    <>
+                      <Icon name="Download" size={16} className="mr-2" />
+                      Применить SEO и скачать index.html
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {success && (
+            <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+              <div className="flex items-start gap-2">
+                <Icon name="CheckCircle" size={20} className="text-green-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-green-400">Успешно!</p>
+                  <p className="text-sm text-gray-300 mt-1">{success}</p>
                 </div>
               </div>
             </div>
