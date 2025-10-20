@@ -19,6 +19,7 @@ const News = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('Все');
   const [categories, setCategories] = useState<string[]>(['Все']);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -106,8 +107,73 @@ const News = () => {
             <p className="text-xl text-gray-600 dark:text-gray-400">Новостей не найдено</p>
           </div>
         ) : (
-          <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
-            {filteredNews.map((item, index) => (
+          <>
+            <div className="md:hidden overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide -mx-[50px] px-[50px]">
+              <div className="flex gap-4 pb-4">
+                {filteredNews.map((item, index) => (
+                  <article
+                    key={`${item.link}-${index}`}
+                    className="group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 dark:border-gray-700 hover:border-gradient-start/30 flex-shrink-0 w-[85vw] snap-center h-[480px]"
+                    onClick={() => setSelectedNews(item)}
+                  >
+                    <div className="relative overflow-hidden h-[45%] min-h-[160px] bg-gray-100 dark:bg-gray-700">
+                      <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/60 to-gradient-mid/40 z-10 opacity-30 group-hover:opacity-10 transition-opacity duration-300" />
+                      <img 
+                        src={item.image} 
+                        alt={item.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800';
+                        }}
+                      />
+                      
+                      <div className="absolute top-3 left-3 z-20">
+                        <span className="inline-block px-3 py-1.5 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-full text-xs font-bold text-gradient-start shadow-sm">
+                          {item.category}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-5 space-y-3 flex flex-col justify-between h-[55%]">
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                          <a 
+                            href={item.sourceUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1.5 hover:text-gradient-start dark:hover:text-gradient-mid transition-colors font-semibold"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Icon name="ExternalLink" size={11} />
+                            <span>{item.source}</span>
+                          </a>
+                          <span className="text-gray-300 dark:text-gray-600">•</span>
+                          <span className="text-[11px]">{item.date}</span>
+                        </div>
+
+                        <h3 className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-gradient-start transition-colors line-clamp-3 text-base leading-snug dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">
+                          {item.title}
+                        </h3>
+
+                        <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 leading-relaxed dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
+                          {cleanHtml(item.excerpt)}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 text-gradient-start font-semibold text-sm pt-2 group-hover:gap-2 transition-all dark:[text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
+                        Читать
+                        <Icon name="ArrowRight" size={14} className="group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="hidden md:block">
+              <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+                {(showAll ? filteredNews : filteredNews.slice(0, 4)).map((item, index) => (
               <article
                 key={`${item.link}-${index}`}
                 className={`group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 dark:border-gray-700 hover:border-gradient-start/30 break-inside-avoid mb-4 ${getCardHeight(index)}`}
@@ -165,7 +231,30 @@ const News = () => {
                 </div>
               </article>
             ))}
-          </div>
+              </div>
+
+              {filteredNews.length > 4 && (
+                <div className="flex justify-center mt-12">
+                  <button
+                    onClick={() => setShowAll(!showAll)}
+                    className="px-8 py-4 bg-gradient-to-r from-gradient-start to-gradient-mid text-white rounded-full font-semibold text-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
+                  >
+                    {showAll ? (
+                      <>
+                        Свернуть
+                        <Icon name="ChevronUp" size={20} />
+                      </>
+                    ) : (
+                      <>
+                        Показать все
+                        <Icon name="ChevronDown" size={20} />
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
+            </div>
+          </>
         )}
       </div>
 
