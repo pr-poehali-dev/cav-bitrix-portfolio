@@ -119,9 +119,11 @@ const AboutUs = () => {
                             };
                           } else {
                             const bottomIndex = count - numRightBlocks;
+                            const leftPositions = [0, 19.33, 38.67, 58];
+                            const leftGaps = [0, 8, 16, 24];
                             return {
-                              bottom: '0',
-                              left: `calc(${bottomIndex * bottomBlockWidth}% + ${bottomIndex * 8}px)`,
+                              bottom: '-9px',
+                              left: `calc(${leftPositions[bottomIndex]}% + ${leftGaps[bottomIndex]}px)`,
                               width: `calc(${bottomBlockWidth}% - 4px)`,
                               height: `calc(${bottomBlockHeight}% - 6px)`
                             };
