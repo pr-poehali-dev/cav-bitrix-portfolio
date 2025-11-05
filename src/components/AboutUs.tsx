@@ -99,8 +99,8 @@ const AboutUs = () => {
                     const getSmallBlockPosition = (index: number) => {
                       let count = 0;
                       const numBottomBlocks = 6;
-                      const rightGap = 15;
-                      const availableWidth = 100 - rightGap;
+                      const sideGap = 15;
+                      const availableWidth = 100 - (sideGap * 2);
                       const bottomBlockWidth = availableWidth / numBottomBlocks;
                       
                       for (let j = 0; j < 9; j++) {
@@ -117,7 +117,7 @@ const AboutUs = () => {
                             const bottomIndex = count - 2;
                             return {
                               bottom: '0',
-                              left: `calc(${bottomIndex * bottomBlockWidth}% + ${bottomIndex * 8}px)`,
+                              left: `calc(${sideGap}% + ${bottomIndex * bottomBlockWidth}% + ${bottomIndex * 8}px)`,
                               width: `calc(${bottomBlockWidth}% - ${(numBottomBlocks - 1) * 8 / numBottomBlocks}px)`,
                               height: 'calc(25% - 6px)'
                             };
