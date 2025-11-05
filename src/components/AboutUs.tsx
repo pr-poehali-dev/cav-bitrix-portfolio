@@ -100,9 +100,9 @@ const AboutUs = () => {
                       let count = 0;
                       const numRightBlocks = 3;
                       const numBottomBlocks = 5;
-                      const rightBlockWidth = 30;
-                      const rightBlockHeight = 100 / numRightBlocks;
-                      const availableBottomWidth = 70;
+                      const rightBlockWidth = 20;
+                      const rightBlockHeight = 75 / numRightBlocks;
+                      const availableBottomWidth = 80;
                       const bottomBlockWidth = availableBottomWidth / numBottomBlocks;
                       
                       for (let j = 0; j < 9; j++) {
@@ -137,7 +137,7 @@ const AboutUs = () => {
                       finalStyle = { 
                         top: '0', 
                         left: '0', 
-                        width: 'calc(70% - 4px)', 
+                        width: 'calc(80% - 4px)', 
                         height: 'calc(75% - 4px)'
                       };
                     } else {
