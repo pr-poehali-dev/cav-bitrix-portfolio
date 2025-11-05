@@ -78,23 +78,21 @@ const AboutUs = () => {
                     let smallPositionStyle = {};
                     if (hasHover && !isHovered) {
                       const smallBlockIndex = i > hoveredIndex ? i - 1 : i;
-                      const isBottomRow = smallBlockIndex >= 6;
-                      const columnInRow = smallBlockIndex % 3;
                       
-                      if (isBottomRow) {
-                        const bottomColIndex = smallBlockIndex - 6;
-                        smallPositionStyle = {
-                          bottom: '0',
-                          left: `calc(${bottomColIndex * 33.333}% + ${bottomColIndex * 8}px)`,
-                          width: 'calc(25% - 8px)',
-                          height: 'calc(25% - 8px)'
-                        };
-                      } else {
+                      if (smallBlockIndex < 4) {
                         smallPositionStyle = {
                           right: '0',
-                          top: `calc(${smallBlockIndex * 12.5}% + ${smallBlockIndex * 8}px)`,
-                          width: 'calc(25% - 8px)',
-                          height: 'calc(25% - 8px)'
+                          top: `calc(${smallBlockIndex * 25}% + ${smallBlockIndex * 8}px)`,
+                          width: 'calc(16.666% - 8px)',
+                          height: 'calc(16.666% - 8px)'
+                        };
+                      } else {
+                        const bottomIndex = smallBlockIndex - 4;
+                        smallPositionStyle = {
+                          bottom: '0',
+                          left: `calc(${bottomIndex * 25}% + ${bottomIndex * 8}px)`,
+                          width: 'calc(16.666% - 8px)',
+                          height: 'calc(16.666% - 8px)'
                         };
                       }
                     }
@@ -115,7 +113,7 @@ const AboutUs = () => {
                     if (!hasHover) {
                       finalStyle = gridPositions[i];
                     } else if (isHovered) {
-                      finalStyle = { top: '0', left: '0', width: 'calc(75% - 8px)', height: '100%' };
+                      finalStyle = { top: '0', left: '0', width: 'calc(66.666% - 5.33px)', height: 'calc(66.666% - 5.33px)' };
                     } else {
                       finalStyle = smallPositionStyle;
                     }
@@ -145,8 +143,8 @@ const AboutUs = () => {
                         ) : (
                           <Icon 
                             name={block.icon} 
-                            size={hasHover ? 20 : 32} 
-                            className={`${hasHover ? 'w-5 h-5' : 'lg:w-8 lg:h-8 w-6 h-6'} text-gradient-start dark:text-white drop-shadow-lg transition-all duration-500`} 
+                            size={hasHover ? 16 : 32} 
+                            className={`${hasHover ? 'w-4 h-4' : 'lg:w-8 lg:h-8 w-6 h-6'} text-gradient-start dark:text-white drop-shadow-lg transition-all duration-500`} 
                           />
                         )}
                       </div>
