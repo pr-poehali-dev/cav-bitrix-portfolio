@@ -99,8 +99,9 @@ const AboutUs = () => {
                     const getSmallBlockPosition = (index: number) => {
                       let count = 0;
                       const numBottomBlocks = 6;
-                      const totalBottomWidth = 100;
-                      const bottomBlockWidth = totalBottomWidth / numBottomBlocks;
+                      const rightGap = 15;
+                      const availableWidth = 100 - rightGap;
+                      const bottomBlockWidth = availableWidth / numBottomBlocks;
                       
                       for (let j = 0; j < 9; j++) {
                         if (j === hoveredIndex) continue;
@@ -109,7 +110,7 @@ const AboutUs = () => {
                             return {
                               right: '0',
                               top: `calc(${count * 25}% + ${count * 8}px)`,
-                              width: 'calc(14.286% - 5.71px)',
+                              width: 'calc(15% - 4px)',
                               height: 'calc(25% - 6px)'
                             };
                           } else {
