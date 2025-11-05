@@ -101,8 +101,8 @@ const AboutUs = () => {
                       const numRightBlocks = 4;
                       const numBottomBlocks = 4;
                       const rightBlockWidth = 20;
-                      const rightBlockHeight = 100 / numRightBlocks;
-                      const bottomBlockHeight = 25;
+                      const rightBlockHeight = 22;
+                      const bottomBlockHeight = 22;
                       const bottomBlockWidth = 80 / numBottomBlocks;
                       
                       for (let j = 0; j < 9; j++) {
@@ -113,7 +113,7 @@ const AboutUs = () => {
                               right: '0',
                               top: `calc(${count * rightBlockHeight}% + ${count * 8}px)`,
                               width: `calc(${rightBlockWidth}% - 4px)`,
-                              height: `calc(${rightBlockHeight}% - ${(numRightBlocks - 1) * 8 / numRightBlocks}px)`
+                              height: `calc(${rightBlockHeight}% - 6px)`
                             };
                           } else {
                             const bottomIndex = count - numRightBlocks;
@@ -138,7 +138,7 @@ const AboutUs = () => {
                         top: '0', 
                         left: '0', 
                         width: 'calc(80% - 4px)', 
-                        height: 'calc(85% - 4px)'
+                        height: 'calc(80% - 4px)'
                       };
                     } else {
                       finalStyle = getSmallBlockPosition(i);
