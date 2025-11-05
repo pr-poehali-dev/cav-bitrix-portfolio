@@ -78,7 +78,7 @@ const AboutUs = () => {
                 }
               }}
             >
-              <div className="absolute inset-0 p-8 lg:p-8 p-4 grid-container">
+              <div className="absolute inset-0 p-8 lg:p-8 p-4 grid-container px-[30px]">
                 <div className="relative w-full h-full">
                   {gridBlocks.map((block, i) => {
                     const isHovered = hoveredIndex === i;
