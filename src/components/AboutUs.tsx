@@ -101,22 +101,19 @@ const AboutUs = () => {
                       for (let j = 0; j < 9; j++) {
                         if (j === hoveredIndex) continue;
                         if (j === index) {
-                          if (count < 4) {
-                            const rightRow = Math.floor(count / 2);
-                            const rightCol = count % 2;
+                          if (count < 2) {
                             return {
                               right: '0',
-                              top: `calc(${rightRow * 33.333}% + ${rightRow * 8}px)`,
-                              left: rightCol === 0 ? 'calc(66.666% + 5.33px)' : 'auto',
-                              width: 'calc(16.667% - 4px)',
+                              top: `calc(${count * 33.333}% + ${count * 8}px)`,
+                              width: 'calc(33.333% - 5.33px)',
                               height: 'calc(33.333% - 5.33px)'
                             };
                           } else {
-                            const bottomIndex = count - 4;
+                            const bottomIndex = count - 2;
                             return {
                               bottom: '0',
-                              left: `calc(${bottomIndex * 16.667}% + ${bottomIndex * 8}px)`,
-                              width: 'calc(16.667% - 5.33px)',
+                              left: `calc(${bottomIndex * 14.286}% + ${bottomIndex * 8}px)`,
+                              width: 'calc(14.286% - 5.71px)',
                               height: 'calc(33.333% - 5.33px)'
                             };
                           }
