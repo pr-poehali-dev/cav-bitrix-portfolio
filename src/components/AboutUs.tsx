@@ -75,36 +75,6 @@ const AboutUs = () => {
                     const isHovered = hoveredIndex === i;
                     const hasHover = hoveredIndex !== null;
                     
-                    let smallPositionStyle = {};
-                    if (hasHover && !isHovered) {
-                      const smallBlockIndex = i > hoveredIndex ? i - 1 : i;
-                      
-                      if (smallBlockIndex < 2) {
-                        smallPositionStyle = {
-                          right: '0',
-                          top: `calc(${smallBlockIndex * 50}% + ${smallBlockIndex * 8}px)`,
-                          width: 'calc(33.333% - 5.33px)',
-                          height: 'calc(33.333% - 10.67px)'
-                        };
-                      } else if (smallBlockIndex < 4) {
-                        const rightRowIndex = smallBlockIndex - 2;
-                        smallPositionStyle = {
-                          right: '0',
-                          top: `calc(66.666% + ${rightRowIndex === 0 ? '5.33px' : '13.33px + 33.333%'})`,
-                          width: 'calc(33.333% - 5.33px)',
-                          height: 'calc(16.666% - 6.67px)'
-                        };
-                      } else {
-                        const bottomIndex = smallBlockIndex - 4;
-                        smallPositionStyle = {
-                          bottom: '0',
-                          left: `calc(${bottomIndex * 25}% + ${bottomIndex * 8}px)`,
-                          width: 'calc(16.666% - 6px)',
-                          height: 'calc(33.333% - 5.33px)'
-                        };
-                      }
-                    }
-                    
                     const gridPositions = [
                       { top: '0', left: '0', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' },
                       { top: '0', left: 'calc(33.333% + 5.33px)', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' },
@@ -117,13 +87,53 @@ const AboutUs = () => {
                       { top: 'calc(66.666% + 10.67px)', left: 'calc(66.666% + 10.67px)', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' }
                     ];
                     
+                    const getSmallBlockPosition = (index: number) => {
+                      let count = 0;
+                      for (let j = 0; j < 9; j++) {
+                        if (j === hoveredIndex) continue;
+                        if (j === index) {
+                          if (count < 2) {
+                            return {
+                              right: '0',
+                              top: `calc(${count * 33.333}% + ${count * 8}px)`,
+                              width: 'calc(33.333% - 5.33px)',
+                              height: 'calc(33.333% - 10.67px)'
+                            };
+                          } else if (count < 4) {
+                            const rightIndex = count - 2;
+                            return {
+                              right: '0',
+                              top: `calc(${66.666 + rightIndex * 16.666}% + ${8 + rightIndex * 8}px)`,
+                              width: 'calc(33.333% - 5.33px)',
+                              height: 'calc(16.666% - 10.67px)'
+                            };
+                          } else {
+                            const bottomIndex = count - 4;
+                            return {
+                              bottom: '0',
+                              left: `calc(${bottomIndex * 16.666}% + ${bottomIndex * 8}px)`,
+                              width: 'calc(16.666% - 6px)',
+                              height: 'calc(33.333% - 5.33px)'
+                            };
+                          }
+                        }
+                        count++;
+                      }
+                      return {};
+                    };
+                    
                     let finalStyle = {};
                     if (!hasHover) {
                       finalStyle = gridPositions[i];
                     } else if (isHovered) {
-                      finalStyle = { top: '0', left: '0', width: 'calc(66.666% - 5.33px)', height: 'calc(66.666% - 5.33px)', pointerEvents: 'auto' };
+                      finalStyle = { 
+                        top: '0', 
+                        left: '0', 
+                        width: 'calc(66.666% - 5.33px)', 
+                        height: 'calc(66.666% - 5.33px)'
+                      };
                     } else {
-                      finalStyle = { ...smallPositionStyle, pointerEvents: 'auto' };
+                      finalStyle = getSmallBlockPosition(i);
                     }
                     
                     return (
