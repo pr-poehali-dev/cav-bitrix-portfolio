@@ -99,9 +99,9 @@ const AboutUs = () => {
                     const getSmallBlockPosition = (index: number) => {
                       let count = 0;
                       const numBottomBlocks = 6;
-                      const sideGap = 15;
-                      const availableWidth = 100 - (sideGap * 2);
-                      const bottomBlockWidth = availableWidth / numBottomBlocks;
+                      const rightBlockWidth = 30;
+                      const availableBottomWidth = 100;
+                      const bottomBlockWidth = availableBottomWidth / numBottomBlocks;
                       
                       for (let j = 0; j < 9; j++) {
                         if (j === hoveredIndex) continue;
@@ -110,14 +110,14 @@ const AboutUs = () => {
                             return {
                               right: '0',
                               top: `calc(${count * 25}% + ${count * 8}px)`,
-                              width: 'calc(15% - 4px)',
+                              width: `calc(${rightBlockWidth}% - 4px)`,
                               height: 'calc(25% - 6px)'
                             };
                           } else {
                             const bottomIndex = count - 2;
                             return {
                               bottom: '0',
-                              left: `calc(${sideGap}% + ${bottomIndex * bottomBlockWidth}% + ${bottomIndex * 8}px)`,
+                              left: `calc(${bottomIndex * bottomBlockWidth}% + ${bottomIndex * 8}px)`,
                               width: `calc(${bottomBlockWidth}% - ${(numBottomBlocks - 1) * 8 / numBottomBlocks}px)`,
                               height: 'calc(25% - 6px)'
                             };
@@ -135,7 +135,7 @@ const AboutUs = () => {
                       finalStyle = { 
                         top: '0', 
                         left: '0', 
-                        width: 'calc(85% - 4px)', 
+                        width: 'calc(70% - 4px)', 
                         height: 'calc(75% - 4px)'
                       };
                     } else {
