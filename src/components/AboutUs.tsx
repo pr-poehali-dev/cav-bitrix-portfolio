@@ -69,8 +69,16 @@ const AboutUs = () => {
         <div className="grid lg:grid-cols-2 gap-[76px] lg:gap-[76px] gap-12 items-start min-h-[600px]">
           <div className="about-us-left space-y-8">
             <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">О Нас</h2>
-            <div className="w-full h-96 lg:h-96 h-72 bg-gradient-to-br from-gradient-start/30 via-gradient-mid/20 to-gradient-end/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm">
-              <div className="absolute inset-0 p-8 lg:p-8 p-4">
+            <div 
+              className="w-full h-96 lg:h-96 h-72 bg-gradient-to-br from-gradient-start/30 via-gradient-mid/20 to-gradient-end/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm"
+              onClick={(e) => {
+                if (e.target === e.currentTarget || (e.target as HTMLElement).closest('.grid-container')) {
+                  setHoveredIndex(null);
+                  setIsLocked(false);
+                }
+              }}
+            >
+              <div className="absolute inset-0 p-8 lg:p-8 p-4 grid-container">
                 <div className="relative w-full h-full">
                   {gridBlocks.map((block, i) => {
                     const isHovered = hoveredIndex === i;
@@ -98,22 +106,22 @@ const AboutUs = () => {
                               right: '0',
                               top: `calc(${count * 33.333}% + ${count * 8}px)`,
                               width: 'calc(33.333% - 5.33px)',
-                              height: 'calc(33.333% - 10.67px)'
+                              height: 'calc(33.333% - 5.33px)'
                             };
                           } else if (count < 4) {
                             const rightIndex = count - 2;
                             return {
                               right: '0',
-                              top: `calc(${66.666 + rightIndex * 16.666}% + ${8 + rightIndex * 8}px)`,
+                              top: `calc(${66.666 + rightIndex * 16.667}% + ${8 + rightIndex * 8}px)`,
                               width: 'calc(33.333% - 5.33px)',
-                              height: 'calc(16.666% - 10.67px)'
+                              height: 'calc(16.667% - 5.33px)'
                             };
                           } else {
                             const bottomIndex = count - 4;
                             return {
                               bottom: '0',
-                              left: `calc(${bottomIndex * 16.666}% + ${bottomIndex * 8}px)`,
-                              width: 'calc(16.666% - 6px)',
+                              left: `calc(${bottomIndex * 16.667}% + ${bottomIndex * 8}px)`,
+                              width: 'calc(16.667% - 5.33px)',
                               height: 'calc(33.333% - 5.33px)'
                             };
                           }
@@ -154,7 +162,8 @@ const AboutUs = () => {
                             setIsLocked(true);
                           }
                         }}
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           if (isHovered) {
                             setHoveredIndex(null);
                             setIsLocked(false);
