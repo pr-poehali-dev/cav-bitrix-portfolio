@@ -98,10 +98,10 @@ const AboutUs = () => {
                     
                     const getSmallBlockPosition = (index: number) => {
                       let count = 0;
-                      const numRightBlocks = 3;
-                      const numBottomBlocks = 5;
+                      const numRightBlocks = 4;
+                      const numBottomBlocks = 4;
                       const rightBlockWidth = 20;
-                      const rightBlockHeight = 75 / numRightBlocks;
+                      const rightBlockHeight = 100 / numRightBlocks;
                       const availableBottomWidth = 80;
                       const bottomBlockWidth = availableBottomWidth / numBottomBlocks;
                       
