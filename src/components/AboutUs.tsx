@@ -110,9 +110,12 @@ const AboutUs = () => {
                             };
                           } else {
                             const bottomIndex = count - 2;
+                            const totalWidth = 85;
+                            const blockWidth = 14.286;
+                            const gapWidth = (100 - totalWidth) / 2;
                             return {
                               bottom: '0',
-                              left: `calc(${bottomIndex * 14.286}% + ${bottomIndex * 8}px)`,
+                              left: `calc(${gapWidth}% + ${bottomIndex * blockWidth}% + ${bottomIndex * 8}px)`,
                               width: 'calc(14.286% - 5.71px)',
                               height: 'calc(25% - 6px)'
                             };
