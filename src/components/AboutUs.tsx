@@ -75,16 +75,49 @@ const AboutUs = () => {
                     const isHovered = hoveredIndex === i;
                     const hasHover = hoveredIndex !== null;
                     
-                    let positionClass = '';
+                    let smallPositionStyle = {};
                     if (hasHover && !isHovered) {
-                      const rowIndex = Math.floor(i / 3);
-                      const colIndex = i % 3;
+                      const smallBlockIndex = i > hoveredIndex ? i - 1 : i;
+                      const isBottomRow = smallBlockIndex >= 6;
+                      const columnInRow = smallBlockIndex % 3;
                       
-                      if (rowIndex === 2) {
-                        positionClass = `bottom-0 ${colIndex === 0 ? 'left-0' : colIndex === 1 ? 'left-[calc(25%+8px)]' : 'left-[calc(50%+16px)]'}`;
+                      if (isBottomRow) {
+                        const bottomColIndex = smallBlockIndex - 6;
+                        smallPositionStyle = {
+                          bottom: '0',
+                          left: `calc(${bottomColIndex * 33.333}% + ${bottomColIndex * 8}px)`,
+                          width: 'calc(25% - 8px)',
+                          height: 'calc(25% - 8px)'
+                        };
                       } else {
-                        positionClass = `right-0 ${i === 0 ? 'top-0' : i === 1 ? 'top-[calc(25%+8px)]' : i === 2 ? 'top-[calc(50%+16px)]' : i === 3 ? 'top-[calc(25%+8px)]' : i === 4 ? 'top-[calc(50%+16px)]' : i === 5 ? 'top-[calc(75%+24px)]' : 'bottom-0'}`;
+                        smallPositionStyle = {
+                          right: '0',
+                          top: `calc(${smallBlockIndex * 12.5}% + ${smallBlockIndex * 8}px)`,
+                          width: 'calc(25% - 8px)',
+                          height: 'calc(25% - 8px)'
+                        };
                       }
+                    }
+                    
+                    const gridPositions = [
+                      { top: '0', left: '0', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' },
+                      { top: '0', left: 'calc(33.333% + 5.33px)', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' },
+                      { top: '0', left: 'calc(66.666% + 10.67px)', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' },
+                      { top: 'calc(33.333% + 5.33px)', left: '0', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' },
+                      { top: 'calc(33.333% + 5.33px)', left: 'calc(33.333% + 5.33px)', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' },
+                      { top: 'calc(33.333% + 5.33px)', left: 'calc(66.666% + 10.67px)', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' },
+                      { top: 'calc(66.666% + 10.67px)', left: '0', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' },
+                      { top: 'calc(66.666% + 10.67px)', left: 'calc(33.333% + 5.33px)', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' },
+                      { top: 'calc(66.666% + 10.67px)', left: 'calc(66.666% + 10.67px)', width: 'calc(33.333% - 10.67px)', height: 'calc(33.333% - 10.67px)' }
+                    ];
+                    
+                    let finalStyle = {};
+                    if (!hasHover) {
+                      finalStyle = gridPositions[i];
+                    } else if (isHovered) {
+                      finalStyle = { top: '0', left: '0', width: 'calc(75% - 8px)', height: '100%' };
+                    } else {
+                      finalStyle = smallPositionStyle;
                     }
                     
                     return (
@@ -92,22 +125,12 @@ const AboutUs = () => {
                         key={i}
                         className={`absolute rounded-2xl lg:rounded-2xl rounded-xl bg-gradient-to-br backdrop-blur-sm border animate-fade-in transition-all duration-500 flex items-center justify-center cursor-pointer overflow-hidden ${
                           !hasHover
-                            ? `from-white/50 to-white/20 dark:from-white/30 dark:to-white/10 border-white/40 dark:border-white/20 ${
-                                i === 0 ? 'top-0 left-0 w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
-                                i === 1 ? 'top-0 left-[calc(33.333%+5.33px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
-                                i === 2 ? 'top-0 left-[calc(66.666%+10.67px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
-                                i === 3 ? 'top-[calc(33.333%+5.33px)] left-0 w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
-                                i === 4 ? 'top-[calc(33.333%+5.33px)] left-[calc(33.333%+5.33px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
-                                i === 5 ? 'top-[calc(33.333%+5.33px)] left-[calc(66.666%+10.67px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
-                                i === 6 ? 'top-[calc(66.666%+10.67px)] left-0 w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
-                                i === 7 ? 'top-[calc(66.666%+10.67px)] left-[calc(33.333%+5.33px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
-                                'top-[calc(66.666%+10.67px)] left-[calc(66.666%+10.67px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]'
-                              }`
+                            ? 'from-white/50 to-white/20 dark:from-white/30 dark:to-white/10 border-white/40 dark:border-white/20'
                             : isHovered
-                              ? 'from-white/70 to-white/30 dark:from-white/40 dark:to-white/20 border-white/60 dark:border-white/30 z-20 top-0 left-0 w-[calc(75%-8px)] h-full'
-                              : `from-white/40 to-white/10 dark:from-white/25 dark:to-white/5 border-white/30 dark:border-white/15 w-[calc(25%-8px)] h-[calc(25%-8px)] z-10 ${positionClass}`
+                              ? 'from-white/70 to-white/30 dark:from-white/40 dark:to-white/20 border-white/60 dark:border-white/30 z-20'
+                              : 'from-white/40 to-white/10 dark:from-white/25 dark:to-white/5 border-white/30 dark:border-white/15 z-10'
                         }`}
-                        style={{ animationDelay: `${i * 0.1}s` }}
+                        style={{ ...finalStyle, animationDelay: `${i * 0.1}s` }}
                         onMouseEnter={() => setHoveredIndex(i)}
                         onMouseLeave={() => setHoveredIndex(null)}
                       >
