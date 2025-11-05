@@ -130,7 +130,7 @@ const AboutUs = () => {
                       finalStyle = { 
                         top: '0', 
                         left: '0', 
-                        width: 'calc(75% - 4px)', 
+                        width: 'calc(85% - 4px)', 
                         height: 'calc(75% - 4px)'
                       };
                     } else {
