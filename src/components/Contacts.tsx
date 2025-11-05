@@ -16,7 +16,7 @@ const ContactInfo = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-white/80 dark:from-gray-950/80 to-transparent" />
       
       <div className="relative z-10 h-full flex flex-col p-8">
-        <div className="flex gap-4 mb-6">
+        <div className="flex gap-4 mb-6 justify-end">
           <button
             onClick={() => setActiveTab('contacts')}
             className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
