@@ -69,35 +69,66 @@ const AboutUs = () => {
           <div className="about-us-left space-y-8">
             <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">О Нас</h2>
             <div className="w-full h-96 lg:h-96 h-72 bg-gradient-to-br from-gradient-start/30 via-gradient-mid/20 to-gradient-end/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm">
-              <div className="absolute inset-0 flex items-center justify-center p-8 lg:p-8 p-4">
-                <div className="grid grid-cols-3 gap-4 lg:gap-4 gap-2 w-full h-full">
-                  {gridBlocks.map((block, i) => (
-                    <div 
-                      key={i}
-                      className={`rounded-2xl lg:rounded-2xl rounded-xl bg-gradient-to-br backdrop-blur-sm border animate-fade-in transition-all duration-500 flex items-center justify-center cursor-pointer relative overflow-hidden ${
-                        hoveredIndex === null 
-                          ? 'from-white/50 to-white/20 dark:from-white/30 dark:to-white/10 border-white/40 dark:border-white/20' 
-                          : hoveredIndex === i 
-                            ? 'col-span-3 row-span-3 from-white/70 to-white/30 dark:from-white/40 dark:to-white/20 border-white/60 dark:border-white/30 scale-105 z-10' 
-                            : 'opacity-0 scale-75'
-                      }`}
-                      style={{ animationDelay: `${i * 0.1}s` }}
-                      onMouseEnter={() => setHoveredIndex(i)}
-                      onMouseLeave={() => setHoveredIndex(null)}
-                    >
-                      {hoveredIndex === i ? (
-                        <div className="p-6 text-center space-y-4">
-                          <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-gradient-start to-gradient-mid flex items-center justify-center shadow-lg">
-                            <Icon name={block.icon} size={32} className="text-white" />
+              <div className="absolute inset-0 p-8 lg:p-8 p-4">
+                <div className="relative w-full h-full">
+                  {gridBlocks.map((block, i) => {
+                    const isHovered = hoveredIndex === i;
+                    const hasHover = hoveredIndex !== null;
+                    
+                    let positionClass = '';
+                    if (hasHover && !isHovered) {
+                      const rowIndex = Math.floor(i / 3);
+                      const colIndex = i % 3;
+                      
+                      if (rowIndex === 2) {
+                        positionClass = `bottom-0 ${colIndex === 0 ? 'left-0' : colIndex === 1 ? 'left-[calc(25%+8px)]' : 'left-[calc(50%+16px)]'}`;
+                      } else {
+                        positionClass = `right-0 ${i === 0 ? 'top-0' : i === 1 ? 'top-[calc(25%+8px)]' : i === 2 ? 'top-[calc(50%+16px)]' : i === 3 ? 'top-[calc(25%+8px)]' : i === 4 ? 'top-[calc(50%+16px)]' : i === 5 ? 'top-[calc(75%+24px)]' : 'bottom-0'}`;
+                      }
+                    }
+                    
+                    return (
+                      <div 
+                        key={i}
+                        className={`absolute rounded-2xl lg:rounded-2xl rounded-xl bg-gradient-to-br backdrop-blur-sm border animate-fade-in transition-all duration-500 flex items-center justify-center cursor-pointer overflow-hidden ${
+                          !hasHover
+                            ? `from-white/50 to-white/20 dark:from-white/30 dark:to-white/10 border-white/40 dark:border-white/20 ${
+                                i === 0 ? 'top-0 left-0 w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
+                                i === 1 ? 'top-0 left-[calc(33.333%+5.33px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
+                                i === 2 ? 'top-0 left-[calc(66.666%+10.67px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
+                                i === 3 ? 'top-[calc(33.333%+5.33px)] left-0 w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
+                                i === 4 ? 'top-[calc(33.333%+5.33px)] left-[calc(33.333%+5.33px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
+                                i === 5 ? 'top-[calc(33.333%+5.33px)] left-[calc(66.666%+10.67px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
+                                i === 6 ? 'top-[calc(66.666%+10.67px)] left-0 w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
+                                i === 7 ? 'top-[calc(66.666%+10.67px)] left-[calc(33.333%+5.33px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]' :
+                                'top-[calc(66.666%+10.67px)] left-[calc(66.666%+10.67px)] w-[calc(33.333%-10.67px)] h-[calc(33.333%-10.67px)]'
+                              }`
+                            : isHovered
+                              ? 'from-white/70 to-white/30 dark:from-white/40 dark:to-white/20 border-white/60 dark:border-white/30 z-20 top-0 left-0 w-[calc(75%-8px)] h-full'
+                              : `from-white/40 to-white/10 dark:from-white/25 dark:to-white/5 border-white/30 dark:border-white/15 w-[calc(25%-8px)] h-[calc(25%-8px)] z-10 ${positionClass}`
+                        }`}
+                        style={{ animationDelay: `${i * 0.1}s` }}
+                        onMouseEnter={() => setHoveredIndex(i)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                      >
+                        {isHovered ? (
+                          <div className="p-6 text-center space-y-4">
+                            <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-gradient-start to-gradient-mid flex items-center justify-center shadow-lg">
+                              <Icon name={block.icon} size={32} className="text-white" />
+                            </div>
+                            <h4 className="text-xl font-bold text-gray-900 dark:text-white">{block.title}</h4>
+                            <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed">{block.description}</p>
                           </div>
-                          <h4 className="text-xl font-bold text-gray-900 dark:text-white">{block.title}</h4>
-                          <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed">{block.description}</p>
-                        </div>
-                      ) : hoveredIndex === null ? (
-                        <Icon name={block.icon} size={32} className="lg:w-8 lg:h-8 w-6 h-6 text-gradient-start dark:text-white drop-shadow-lg" />
-                      ) : null}
-                    </div>
-                  ))}
+                        ) : (
+                          <Icon 
+                            name={block.icon} 
+                            size={hasHover ? 20 : 32} 
+                            className={`${hasHover ? 'w-5 h-5' : 'lg:w-8 lg:h-8 w-6 h-6'} text-gradient-start dark:text-white drop-shadow-lg transition-all duration-500`} 
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
