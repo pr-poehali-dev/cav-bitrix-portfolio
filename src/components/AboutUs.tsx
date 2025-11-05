@@ -77,6 +77,10 @@ const AboutUs = () => {
                   setIsLocked(false);
                 }
               }}
+              onMouseLeave={() => {
+                setHoveredIndex(null);
+                setIsLocked(false);
+              }}
             >
               <div className="absolute inset-0 p-8 lg:p-8 p-4 grid-container px-[30px]">
                 <div className="relative w-full h-full">
