@@ -106,7 +106,10 @@ const Hero = () => {
                           }}
                         >
                           <div
-                            className="w-full h-full rounded-[2px] shadow-lg"
+                            className={isColored 
+                              ? "w-full h-full rounded-[2px] shadow-lg dark:shadow-none" 
+                              : "w-full h-full rounded-[2px] dark:opacity-[0.08]"
+                            }
                             style={{
                               background: isColored 
                                 ? `linear-gradient(135deg, hsl(${hue}, 90%, 65%) 0%, hsl(${hue + 20}, 85%, 55%) 100%)`
