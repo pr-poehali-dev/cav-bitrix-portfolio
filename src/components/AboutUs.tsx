@@ -181,12 +181,14 @@ const AboutUs = () => {
                         }}
                       >
                         {isHovered ? (
-                          <div className="p-6 text-center space-y-4">
-                            <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-gradient-start to-gradient-mid flex items-center justify-center shadow-lg">
-                              <Icon name={block.icon} size={32} className="text-white" />
+                          <div className="p-6 lg:p-8 p-4 text-left space-y-4 w-full h-full flex flex-col">
+                            <div className="flex items-start gap-4">
+                              <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-gradient-to-br from-gradient-start to-gradient-mid flex items-center justify-center shadow-lg flex-shrink-0">
+                                <Icon name={block.icon} size={32} className="text-white" />
+                              </div>
+                              <h4 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white pt-2">{block.title}</h4>
                             </div>
-                            <h4 className="text-xl font-bold text-gray-900 dark:text-white">{block.title}</h4>
-                            <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed">{block.description}</p>
+                            <p className="text-base lg:text-lg text-gray-700 dark:text-gray-200 leading-relaxed flex-1">{block.description}</p>
                           </div>
                         ) : (
                           <Icon 
