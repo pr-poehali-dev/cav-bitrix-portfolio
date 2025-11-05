@@ -104,9 +104,9 @@ const AboutUs = () => {
                           if (count < 2) {
                             return {
                               right: '0',
-                              top: `calc(${count * 33.333}% + ${count * 8}px)`,
-                              width: 'calc(25% - 6px)',
-                              height: 'calc(33.333% - 5.33px)'
+                              top: `calc(${count * 25}% + ${count * 8}px)`,
+                              width: 'calc(14.286% - 5.71px)',
+                              height: 'calc(25% - 6px)'
                             };
                           } else {
                             const bottomIndex = count - 2;
