@@ -107,8 +107,8 @@ const Hero = () => {
                         >
                           <div
                             className={isColored 
-                              ? "w-full h-full rounded-[2px] shadow-lg dark:shadow-none" 
-                              : "w-full h-full rounded-[2px] dark:opacity-[0.08]"
+                              ? "w-full h-full rounded-[2px] shadow-lg dark:shadow-none transition-all duration-500" 
+                              : "w-full h-full rounded-[2px] dark:opacity-[0.08] transition-all duration-500"
                             }
                             style={{
                               background: isColored 
