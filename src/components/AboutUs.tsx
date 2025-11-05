@@ -103,6 +103,7 @@ const AboutUs = () => {
                       const rightBlockWidth = 20;
                       const rightBlockHeight = 100 / numRightBlocks;
                       const bottomBlockHeight = 25;
+                      const bottomBlockWidth = 80 / numBottomBlocks;
                       
                       for (let j = 0; j < 9; j++) {
                         if (j === hoveredIndex) continue;
@@ -118,8 +119,8 @@ const AboutUs = () => {
                             const bottomIndex = count - numRightBlocks;
                             return {
                               bottom: '0',
-                              left: `calc(${bottomIndex * rightBlockWidth}% + ${bottomIndex * 8}px)`,
-                              width: `calc(${rightBlockWidth}% - 4px)`,
+                              left: `calc(${bottomIndex * bottomBlockWidth}% + ${bottomIndex * 8}px)`,
+                              width: `calc(${bottomBlockWidth}% - ${(numBottomBlocks - 1) * 8 / numBottomBlocks}px)`,
                               height: `calc(${bottomBlockHeight}% - 6px)`
                             };
                           }
