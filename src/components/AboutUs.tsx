@@ -123,7 +123,7 @@ const AboutUs = () => {
                             };
                           } else {
                             const bottomIndex = count - numRightBlocks;
-                            const leftPositions = [0, 19.33, 38.67, 58];
+                            const leftPositions = [0, 18.33, 36.67, 55];
                             const leftGaps = [0, 8, 16, 24];
                             return {
                               bottom: '-9px',
