@@ -105,7 +105,7 @@ const AboutUs = () => {
                             return {
                               right: '0',
                               top: `calc(${count * 33.333}% + ${count * 8}px)`,
-                              width: 'calc(33.333% - 5.33px)',
+                              width: 'calc(25% - 6px)',
                               height: 'calc(33.333% - 5.33px)'
                             };
                           } else {
@@ -114,7 +114,7 @@ const AboutUs = () => {
                               bottom: '0',
                               left: `calc(${bottomIndex * 14.286}% + ${bottomIndex * 8}px)`,
                               width: 'calc(14.286% - 5.71px)',
-                              height: 'calc(33.333% - 5.33px)'
+                              height: 'calc(25% - 6px)'
                             };
                           }
                         }
@@ -130,8 +130,8 @@ const AboutUs = () => {
                       finalStyle = { 
                         top: '0', 
                         left: '0', 
-                        width: 'calc(66.666% - 5.33px)', 
-                        height: 'calc(66.666% - 5.33px)'
+                        width: 'calc(75% - 4px)', 
+                        height: 'calc(75% - 4px)'
                       };
                     } else {
                       finalStyle = getSmallBlockPosition(i);
