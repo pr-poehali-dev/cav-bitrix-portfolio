@@ -4,11 +4,54 @@ import Icon from './ui/icon';
 
 const AboutUs = () => {
   const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   
-  const gridIcons = [
-    'Code2', 'Palette', 'Rocket', 
-    'Target', 'Users', 'TrendingUp',
-    'Lightbulb', 'Award', 'Zap'
+  const gridBlocks = [
+    { 
+      icon: 'Code2', 
+      title: 'Код высшего качества',
+      description: 'Мы пишем чистый, масштабируемый и поддерживаемый код, следуя лучшим практикам индустрии. Наши разработчики создают надежные решения, которые работают быстро и стабильно на протяжении многих лет.'
+    },
+    { 
+      icon: 'Palette', 
+      title: 'Уникальный дизайн',
+      description: 'Создаем современные и запоминающиеся интерфейсы, которые отражают индивидуальность вашего бренда. Каждый проект — это баланс эстетики, удобства и функциональности, адаптированный под ваши цели.'
+    },
+    { 
+      icon: 'Rocket', 
+      title: 'Быстрый запуск',
+      description: 'Оптимизированные процессы разработки позволяют нам запускать проекты в сжатые сроки без потери качества. Мы ценим ваше время и делаем всё, чтобы вы увидели результат максимально быстро.'
+    },
+    { 
+      icon: 'Target', 
+      title: 'Точное попадание в цель',
+      description: 'Глубоко изучаем вашу нишу и целевую аудиторию, чтобы создать решение, которое решает конкретные бизнес-задачи. Каждая функция и элемент работают на достижение ваших целей.'
+    },
+    { 
+      icon: 'Users', 
+      title: 'Клиентоориентированность',
+      description: 'Ваш успех — наш приоритет. Мы работаем как единая команда с вашим бизнесом, учитываем каждое пожелание и остаемся на связи на всех этапах проекта. Ваше мнение для нас важнее всего.'
+    },
+    { 
+      icon: 'TrendingUp', 
+      title: 'Рост и масштабирование',
+      description: 'Создаем проекты, которые растут вместе с вашим бизнесом. Наши решения легко расширяются новыми функциями и выдерживают увеличение нагрузки без потери производительности.'
+    },
+    { 
+      icon: 'Lightbulb', 
+      title: 'Инновационные решения',
+      description: 'Используем передовые технологии и нестандартный подход к каждой задаче. Наша команда всегда в курсе последних трендов и внедряет инновации, которые дают вам конкурентное преимущество.'
+    },
+    { 
+      icon: 'Award', 
+      title: 'Проверенная экспертиза',
+      description: 'За плечами — десятки успешных проектов различной сложности. Наш опыт позволяет предвидеть возможные проблемы и предлагать оптимальные решения на каждом этапе разработки.'
+    },
+    { 
+      icon: 'Zap', 
+      title: 'Высокая производительность',
+      description: 'Оптимизируем каждый байт кода для максимальной скорости работы. Ваш сайт будет загружаться молниеносно, что улучшает пользовательский опыт и позиции в поисковых системах.'
+    }
   ];
 
   const services = [
@@ -25,21 +68,38 @@ const AboutUs = () => {
         <div className="grid lg:grid-cols-2 gap-[76px] lg:gap-[76px] gap-12 items-start min-h-[600px]">
           <div className="about-us-left space-y-8">
             <h2 className="section-title dark:[text-shadow:0_3px_12px_rgba(0,0,0,0.5)]">О Нас</h2>
-            <div className="w-full h-96 lg:h-96 h-72 bg-gradient-to-br from-gradient-start/30 via-gradient-mid/20 to-gradient-end/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm group hover:scale-[1.02] transition-all duration-500">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="grid grid-cols-3 gap-4 lg:gap-4 gap-2 p-8 lg:p-8 p-4 w-full h-full">
-                  {gridIcons.map((iconName, i) => (
+            <div className="w-full h-96 lg:h-96 h-72 bg-gradient-to-br from-gradient-start/30 via-gradient-mid/20 to-gradient-end/30 rounded-3xl relative overflow-hidden border border-gradient-start/20 backdrop-blur-sm">
+              <div className="absolute inset-0 flex items-center justify-center p-8 lg:p-8 p-4">
+                <div className="grid grid-cols-3 gap-4 lg:gap-4 gap-2 w-full h-full">
+                  {gridBlocks.map((block, i) => (
                     <div 
                       key={i}
-                      className="rounded-2xl lg:rounded-2xl rounded-xl bg-gradient-to-br from-white/40 to-white/10 backdrop-blur-sm border border-white/30 animate-fade-in hover:scale-110 transition-transform duration-300 flex items-center justify-center"
+                      className={`rounded-2xl lg:rounded-2xl rounded-xl bg-gradient-to-br backdrop-blur-sm border animate-fade-in transition-all duration-500 flex items-center justify-center cursor-pointer relative overflow-hidden ${
+                        hoveredIndex === null 
+                          ? 'from-white/50 to-white/20 dark:from-white/30 dark:to-white/10 border-white/40 dark:border-white/20' 
+                          : hoveredIndex === i 
+                            ? 'col-span-3 row-span-3 from-white/70 to-white/30 dark:from-white/40 dark:to-white/20 border-white/60 dark:border-white/30 scale-105 z-10' 
+                            : 'opacity-0 scale-75'
+                      }`}
                       style={{ animationDelay: `${i * 0.1}s` }}
+                      onMouseEnter={() => setHoveredIndex(i)}
+                      onMouseLeave={() => setHoveredIndex(null)}
                     >
-                      <Icon name={iconName} size={32} className="lg:w-8 lg:h-8 w-6 h-6 text-gradient-start dark:text-gradient-mid opacity-70" />
+                      {hoveredIndex === i ? (
+                        <div className="p-6 text-center space-y-4">
+                          <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-gradient-start to-gradient-mid flex items-center justify-center shadow-lg">
+                            <Icon name={block.icon} size={32} className="text-white" />
+                          </div>
+                          <h4 className="text-xl font-bold text-gray-900 dark:text-white">{block.title}</h4>
+                          <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed">{block.description}</p>
+                        </div>
+                      ) : hoveredIndex === null ? (
+                        <Icon name={block.icon} size={32} className="lg:w-8 lg:h-8 w-6 h-6 text-gradient-start dark:text-white drop-shadow-lg" />
+                      ) : null}
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-gradient-start/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           </div>
           <div className="about-us-right lg:pt-[316px] pt-0 min-h-full space-y-6">
