@@ -119,9 +119,9 @@ const AboutUs = () => {
                             const bottomIndex = count - numRightBlocks;
                             return {
                               bottom: '0',
-                              left: `calc(${bottomIndex * bottomBlockWidth}% + ${bottomIndex * 8}px)`,
-                              width: `calc(${bottomBlockWidth}% - ${(numBottomBlocks - 1) * 8 / numBottomBlocks}px)`,
-                              height: 'calc(25% - 6px)'
+                              left: `calc(${bottomIndex * rightBlockWidth}% + ${bottomIndex * 8}px)`,
+                              width: `calc(${rightBlockWidth}% - 4px)`,
+                              height: `calc(${rightBlockHeight}% - ${(numRightBlocks - 1) * 8 / numRightBlocks}px)`
                             };
                           }
                         }
