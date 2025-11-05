@@ -79,20 +79,28 @@ const AboutUs = () => {
                     if (hasHover && !isHovered) {
                       const smallBlockIndex = i > hoveredIndex ? i - 1 : i;
                       
-                      if (smallBlockIndex < 4) {
+                      if (smallBlockIndex < 2) {
                         smallPositionStyle = {
                           right: '0',
-                          top: `calc(${smallBlockIndex * 25}% + ${smallBlockIndex * 8}px)`,
-                          width: 'calc(16.666% - 8px)',
-                          height: 'calc(16.666% - 8px)'
+                          top: `calc(${smallBlockIndex * 50}% + ${smallBlockIndex * 8}px)`,
+                          width: 'calc(33.333% - 5.33px)',
+                          height: 'calc(33.333% - 10.67px)'
+                        };
+                      } else if (smallBlockIndex < 4) {
+                        const rightRowIndex = smallBlockIndex - 2;
+                        smallPositionStyle = {
+                          right: '0',
+                          top: `calc(66.666% + ${rightRowIndex === 0 ? '5.33px' : '13.33px + 33.333%'})`,
+                          width: 'calc(33.333% - 5.33px)',
+                          height: 'calc(16.666% - 6.67px)'
                         };
                       } else {
                         const bottomIndex = smallBlockIndex - 4;
                         smallPositionStyle = {
                           bottom: '0',
                           left: `calc(${bottomIndex * 25}% + ${bottomIndex * 8}px)`,
-                          width: 'calc(16.666% - 8px)',
-                          height: 'calc(16.666% - 8px)'
+                          width: 'calc(16.666% - 6px)',
+                          height: 'calc(33.333% - 5.33px)'
                         };
                       }
                     }
@@ -113,9 +121,9 @@ const AboutUs = () => {
                     if (!hasHover) {
                       finalStyle = gridPositions[i];
                     } else if (isHovered) {
-                      finalStyle = { top: '0', left: '0', width: 'calc(66.666% - 5.33px)', height: 'calc(66.666% - 5.33px)' };
+                      finalStyle = { top: '0', left: '0', width: 'calc(66.666% - 5.33px)', height: 'calc(66.666% - 5.33px)', pointerEvents: 'auto' };
                     } else {
-                      finalStyle = smallPositionStyle;
+                      finalStyle = { ...smallPositionStyle, pointerEvents: 'auto' };
                     }
                     
                     return (
