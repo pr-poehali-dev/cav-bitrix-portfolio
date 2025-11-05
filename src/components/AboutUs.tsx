@@ -138,7 +138,7 @@ const AboutUs = () => {
                         top: '0', 
                         left: '0', 
                         width: 'calc(80% - 4px)', 
-                        height: 'calc(75% - 4px)'
+                        height: 'calc(85% - 4px)'
                       };
                     } else {
                       finalStyle = getSmallBlockPosition(i);
