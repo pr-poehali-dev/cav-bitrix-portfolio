@@ -5,6 +5,7 @@ import Icon from './ui/icon';
 const AboutUs = () => {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isLocked, setIsLocked] = useState(false);
   
   const gridBlocks = [
     { 
@@ -147,8 +148,21 @@ const AboutUs = () => {
                               : 'from-white/40 to-white/10 dark:from-white/25 dark:to-white/5 border-white/30 dark:border-white/15 z-10'
                         }`}
                         style={{ ...finalStyle, animationDelay: `${i * 0.1}s` }}
-                        onMouseEnter={() => setHoveredIndex(i)}
-                        onMouseLeave={() => setHoveredIndex(null)}
+                        onMouseEnter={() => {
+                          if (!isLocked) {
+                            setHoveredIndex(i);
+                            setIsLocked(true);
+                          }
+                        }}
+                        onClick={() => {
+                          if (isHovered) {
+                            setHoveredIndex(null);
+                            setIsLocked(false);
+                          } else {
+                            setHoveredIndex(i);
+                            setIsLocked(true);
+                          }
+                        }}
                       >
                         {isHovered ? (
                           <div className="p-6 text-center space-y-4">
