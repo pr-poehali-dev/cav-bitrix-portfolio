@@ -109,9 +109,11 @@ const AboutUs = () => {
                         if (j === hoveredIndex) continue;
                         if (j === index) {
                           if (count < numRightBlocks) {
+                            const topPositions = [0, 25, 50, 75];
+                            const gaps = [0, 8, 16, 24];
                             return {
                               right: '0',
-                              top: `calc(${count * rightBlockHeight}% + ${count * 8}px)`,
+                              top: `calc(${topPositions[count]}% + ${gaps[count]}px)`,
                               width: `calc(${rightBlockWidth}% - 4px)`,
                               height: `calc(${rightBlockHeight}% - 6px)`
                             };
